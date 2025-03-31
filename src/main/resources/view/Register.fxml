@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- 导入JavaFX相关组件 -->
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
@@ -13,17 +14,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<!-- 主容器：设置背景色为浅蓝色 -->
 <AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.RegisterController">
    <children>
+      <!-- 水平布局：将页面分为左右两部分 -->
       <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <!-- 左侧部分：展示logo和欢迎文字 -->
             <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="10.0">
                <children>
+                  <!-- Logo图片 -->
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/coinue_logo.png" />
                      </image>
                   </ImageView>
+                  <!-- 欢迎文字 -->
                   <Label text="Here is your" textFill="#333333">
                      <font>
                         <Font name="System Bold" size="24.0" />
@@ -39,15 +45,19 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </VBox>
+            <!-- 右侧部分：登录表单 -->
             <VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white; -fx-background-radius: 20;">
                <children>
+                  <!-- 登录表单容器 -->
                   <VBox alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="300.0" prefWidth="300.0" spacing="15.0">
                      <children>
+                        <!-- 登录标题 -->
                         <Label text="Sign in to Coinue" textFill="#333333">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
+                        <!-- 用户名/邮箱输入框 -->
                         <VBox spacing="5.0">
                            <children>
                               <Label text="Username or Email" textFill="#333333">
@@ -58,6 +68,7 @@
                               <TextField fx:id="usernameField" prefHeight="40.0" promptText="Enter your username or email" style="-fx-background-radius: 5;" />
                            </children>
                         </VBox>
+                        <!-- 密码输入框 -->
                         <VBox spacing="5.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="5.0">
@@ -67,6 +78,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </Label>
+                                    <!-- 忘记密码链接 -->
                                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPassword" text="Forgot?" />
@@ -77,11 +89,13 @@
                               <PasswordField fx:id="passwordField" prefHeight="40.0" promptText="Enter your password" style="-fx-background-radius: 5;" />
                            </children>
                         </VBox>
+                        <!-- 登录按钮 -->
                         <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="40.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" text="Sign in" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
+                        <!-- 注册链接 -->
                         <HBox alignment="CENTER" spacing="5.0">
                            <children>
                               <Label text="Don't have an account?" textFill="#333333" />
