@@ -1,0 +1,115 @@
+.tab-pane {
+    -fx-background-color: #f0f8ff;
+    -fx-tab-min-width: 120px;
+}
+
+.tab {
+    -fx-background-color: #e6f3ff;
+    -fx-padding: 12px 24px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-width: 0 0 3px 0;
+    -fx-border-color: transparent;
+}
+
+.tab:selected {
+    -fx-background-color: #b3d9ff;
+    -fx-border-color: #4a90e2;
+    -fx-text-fill: #2c3e50;
+}
+
+.content-container {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+}
+
+.category-panel {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+    -fx-background-radius: 10px;
+    -fx-spacing: 15px;
+}
+
+.currency-icon {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.panel-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 0;
+}
+
+.category-chart {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+
+.table-panel {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+    -fx-background-radius: 10px;
+}
+
+.filter-controls {
+    -fx-padding: 0 0 10px 0;
+}
+
+.combo-box {
+    -fx-background-color: #f0f8ff;
+    -fx-border-color: #b3d9ff;
+    -fx-border-radius: 4px;
+    -fx-padding: 5px;
+}
+
+.combo-box:hover {
+    -fx-background-color: #e6f3ff;
+}
+
+.combo-box .list-cell {
+    -fx-padding: 3px 10px;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #e6f3ff;
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #f0f0f0 transparent;
+    -fx-padding: 5px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafafa;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #f0f8ff;
+}
+
+.close-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #666;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 50%;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-cursor: hand;
+    -fx-margin: 10px;
+}
+
+.close-button:hover {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+}

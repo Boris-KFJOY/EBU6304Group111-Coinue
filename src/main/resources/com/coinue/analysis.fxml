@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.coinue.controller.AnalysisController" stylesheets="@styles/analysis.css" prefWidth="1200" prefHeight="800" spacing="10">
+    <!-- Top Navigation Bar -->
+    <StackPane>
+        <TabPane fx:id="tabPane" styleClass="tab-pane" prefWidth="Infinity" maxWidth="Infinity">
+            <tabs>
+                <Tab text="Homepage" />
+                <Tab text="Analysis" />
+                <Tab text="Dashboard" />
+            </tabs>
+        </TabPane>
+        <Button fx:id="closeButton" text="×" styleClass="close-button" StackPane.alignment="TOP_RIGHT" onAction="#handleClose" />
+    </StackPane>
+    
+    <!-- Main Content Container -->
+    <HBox spacing="20" styleClass="content-container" prefHeight="700">
+        <!-- Left Panel: Category Analysis -->
+        <VBox styleClass="category-panel" minWidth="450" prefWidth="450" HBox.hgrow="ALWAYS" spacing="20">
+            <ImageView fx:id="currencyIcon" fitHeight="180" fitWidth="180" styleClass="currency-icon">
+                <image>
+                    <Image url="@images/currency_icon.svg"/>
+                </image>
+            </ImageView>
+            
+            <Label text="Analysis of the Category" styleClass="panel-title"/>
+            
+            <PieChart fx:id="categoryChart" title="" legendVisible="true" 
+                      labelsVisible="true" styleClass="category-chart" prefHeight="400"/>
+        </VBox>
+        
+        <!-- Right Panel: Expenditure Table -->
+        <VBox styleClass="table-panel" HBox.hgrow="ALWAYS" minWidth="450" prefWidth="450" spacing="15">
+            <!-- Filter Controls -->
+            <HBox spacing="10" styleClass="filter-controls">
+                <ComboBox fx:id="categoryFilter" promptText="Filter by Category" />
+                <ComboBox fx:id="companyFilter" promptText="Filter by Company" />
+            </HBox>
+            
+            <TableView fx:id="expenditureTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="itemColumn" text="Item" sortable="false" prefWidth="120" />
+                    <TableColumn fx:id="moneyColumn" text="Money" sortable="false" prefWidth="100" />
+                    <TableColumn fx:id="categoryColumn" text="Category" sortable="false" prefWidth="100" />
+                    <TableColumn fx:id="companyColumn" text="Company" sortable="false" prefWidth="120" />
+                    <TableColumn fx:id="timeColumn" text="Time" sortable="false" prefWidth="120" />
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
+</VBox>

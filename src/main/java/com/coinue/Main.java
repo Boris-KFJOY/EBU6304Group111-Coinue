@@ -21,16 +21,17 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // 加载注册界面的FXML文件
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
+        // 加载财务分析界面的FXML文件
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/coinue/analysis.fxml"));
         // 加载FXML文件内容作为根节点
         Parent root = loader.load();
         // 设置窗口标题
-        primaryStage.setTitle("Coinue - Register");
-        // 创建场景并设置根节点
-        primaryStage.setScene(new Scene(root));
-        // 禁止调整窗口大小
-        primaryStage.setResizable(false);
+        primaryStage.setTitle("Coinue - Financial Analysis");
+        // 创建场景并设置根节点和大小
+        Scene scene = new Scene(root, 1200, 800);
+        primaryStage.setScene(scene);
+        // 允许调整窗口大小
+        primaryStage.setResizable(true);
         // 显示窗口
         primaryStage.show();
     }
