@@ -26,7 +26,7 @@
                   <!-- Logo图片 -->
                   <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/coinue_logo.png" />
+                        <Image url="@/images/coinue_logo.png" />
                      </image>
                   </ImageView>
                   <!-- 欢迎文字 -->
