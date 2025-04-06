@@ -5,8 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+<?import java.lang.String?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.AnalysisPageController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.AnalysisPageController" stylesheets="@../styles/main.css">
     <children>
         <!-- 顶部导航栏 -->
         <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
@@ -51,8 +52,4 @@
             </VBox>
         </VBox>
     </children>
-
-    <stylesheets>
-        <String fx:value="@../styles/main.css"/>
-    </stylesheets>
 </AnchorPane>

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.image.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.UserPageController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.UserPageController" stylesheets="@../styles/main.css">
     <children>
         <!-- 顶部导航栏 -->
         <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
@@ -69,7 +69,10 @@
         </VBox>
     </children>
 
+    <!-- 删除这部分 -->
+    <!-- 
     <stylesheets>
         <String fx:value="@../styles/main.css"/>
     </stylesheets>
+    -->
 </AnchorPane>
