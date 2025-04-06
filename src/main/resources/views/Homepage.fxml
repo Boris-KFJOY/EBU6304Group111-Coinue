@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.coinue.controller.HomepageController"
+            prefHeight="800.0" prefWidth="1200.0">
+    
+    <!-- 顶部导航栏 -->
+    <top>
+        <HBox style="-fx-background-color: #87CEEB; -fx-padding: 10;">
+            <Button text="Homepage" onAction="#switchToHomepage" style="-fx-min-width: 400;"/>
+            <Button text="Analysis" onAction="#switchToAnalysis" style="-fx-min-width: 400;"/>
+            <Button text="Dashboard" onAction="#switchToDashboard" style="-fx-min-width: 400;"/>
+        </HBox>
+    </top>
+    
+    <!-- 主要内容区域 -->
+    <center>
+        <HBox spacing="20" style="-fx-padding: 20;">
+            <!-- 左侧区域：Logo和预算列表 -->
+            <VBox spacing="20" prefWidth="500">
+                <ImageView fx:id="logoImage" fitWidth="300" fitHeight="300" />
+                <Label text="Start to add data" style="-fx-font-size: 24;"/>
+                <VBox fx:id="budgetList" spacing="10" />
+            </VBox>
+            
+            <!-- 右侧区域：还款提醒 -->
+            <VBox spacing="20" style="-fx-background-color: #F0F8FF; -fx-padding: 20; -fx-background-radius: 10;">
+                <Label text="Repayment reminder" style="-fx-font-size: 20;"/>
+                <VBox fx:id="reminderList" spacing="15" />
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>
