@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.UserPageController" stylesheets="@../styles/main.css">
+    <children>
+        <!-- 顶部导航栏 -->
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+            <children>
+                <Label text="个人中心" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Button fx:id="homeButton" text="主页" styleClass="nav-button" onAction="#handleHomeNav"/>
+                    <Button fx:id="analysisButton" text="分析" styleClass="nav-button" onAction="#handleAnalysisNav"/>
+                    <Button fx:id="userButton" text="用户" styleClass="nav-button" onAction="#handleUserNav"/>
+                </HBox>
+            </children>
+        </HBox>
+
+        <!-- 主要内容区域 -->
+        <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+            <!-- 用户信息卡片 -->
+            <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 20px;">
+                <HBox spacing="20.0" alignment="CENTER_LEFT">
+                    <ImageView fitHeight="80.0" fitWidth="80.0">
+                        <image>
+                            <Image url="@../images/coinue_logo.png"/>
+                        </image>
+                    </ImageView>
+                    <VBox spacing="5.0">
+                        <Label fx:id="usernameLabel" text="用户名" style="-fx-font-weight: bold;">
+                            <font>
+                                <Font size="18.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="emailLabel" text="邮箱地址" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- 用户设置区域 -->
+            <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 20px;">
+                <Label text="账户设置" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                
+                <!-- 设置选项 -->
+                <VBox spacing="10.0">
+                    <Button text="修改密码" onAction="#handleChangePassword" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="消费类别管理" onAction="#handleCategoryManagement" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="导出数据" onAction="#handleExportData" styleClass="setting-button" maxWidth="200.0" />
+                </VBox>
+            </VBox>
+
+            <!-- 退出登录按钮 -->
+            <Button text="退出登录" onAction="#handleLogout" styleClass="logout-button" maxWidth="200.0" />
+        </VBox>
+    </children>
+
+    <!-- 删除这部分 -->
+    <!-- 
+    <stylesheets>
+        <String fx:value="@../styles/main.css"/>
+    </stylesheets>
+    -->
+</AnchorPane>

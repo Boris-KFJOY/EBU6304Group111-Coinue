@@ -4,9 +4,15 @@ package com.coinue.controller;
 import com.coinue.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * 注册控制器类
@@ -53,6 +59,25 @@ public class RegisterController {
         
         // 这里应该添加登录逻辑
         System.out.println("用户尝试登录: " + usernameOrEmail);
+        
+        // 登录成功后跳转到主页
+        try {
+            // 加载主页面FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
+            Parent mainPage = loader.load();
+            
+            // 获取当前窗口
+            Stage stage = (Stage) usernameField.getScene().getWindow();
+            
+            // 创建新场景并设置
+            Scene scene = new Scene(mainPage);
+            stage.setTitle("Coinue - 主页");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("无法加载主页面: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -71,7 +96,21 @@ public class RegisterController {
      */
     @FXML
     private void handleSignUp(ActionEvent event) {
-        System.out.println("用户点击了注册链接");
-        // 这里应该添加跳转到注册页面的逻辑
+        try {
+            // 加载主页面FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
+            Parent mainPage = loader.load();
+            
+            // 获取当前窗口
+            Stage stage = (Stage) signUpLink.getScene().getWindow();
+            
+            // 创建新场景并设置
+            Scene scene = new Scene(mainPage);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("无法加载主页面: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
