@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.AnalysisPageController">
+    <children>
+        <!-- 顶部导航栏 -->
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+            <children>
+                <Label text="消费分析" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Button fx:id="homeButton" text="主页" styleClass="nav-button" onAction="#handleHomeNav"/>
+                    <Button fx:id="analysisButton" text="分析" styleClass="nav-button" onAction="#handleAnalysisNav"/>
+                    <Button fx:id="userButton" text="用户" styleClass="nav-button" onAction="#handleUserNav"/>
+                </HBox>
+            </children>
+        </HBox>
+
+        <!-- 主要内容区域 -->
+        <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+            <!-- 操作按钮区域 -->
+            <HBox spacing="20.0" alignment="CENTER_LEFT">
+                <Button text="导入分析文件" onAction="#handleImportAnalysisFile" styleClass="action-button"/>
+                <Label fx:id="fileNameLabel" text="未选择文件" />
+            </HBox>
+
+            <!-- 图表展示区域 -->
+            <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
+                <PieChart fx:id="expensePieChart" title="消费类型占比" legendVisible="true" />
+            </StackPane>
+
+            <!-- 图表说明区域 -->
+            <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 15px;">
+                <Label text="统计说明" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="statisticsLabel" text="请导入数据文件以查看统计信息" wrapText="true" />
+            </VBox>
+        </VBox>
+    </children>
+
+    <stylesheets>
+        <String fx:value="@../styles/main.css"/>
+    </stylesheets>
+</AnchorPane>
