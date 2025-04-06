@@ -1,5 +1,6 @@
 package com.coinue.controller;
 
+import com.coinue.model.User;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
@@ -31,6 +33,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 /**
@@ -148,7 +151,7 @@ public class SignUpController implements Initializable {
             HBox mainContainer = (HBox) signUpForm.getParent();
             
             // 加载登录页面FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Register.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
             Parent loginPage = loader.load();
             
             // 从新加载的FXML中提取右侧表单部分
@@ -221,7 +224,62 @@ public class SignUpController implements Initializable {
     @FXML
     private void handleCreateAccount(ActionEvent event) {
         System.out.println("用户点击了创建账户按钮");
-        // 这里应该添加创建账户的逻辑，暂不实现
+        
+        // 获取用户输入
+        String username = signUpUsernameField.getText();
+        String email = emailField.getText();
+        String password = signUpPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+        LocalDate birthday = birthdayPicker.getValue();
+        String securityQuestion = securityQuestionComboBox.getValue();
+        String securityAnswer = securityAnswerField.getText();
+        
+        // 验证用户输入
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
+            birthday == null || securityQuestion == null || securityQuestion.isEmpty() || securityAnswer.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "输入错误", "所有字段都必须填写");
+            return;
+        }
+        
+        // 验证密码匹配
+        if (!password.equals(confirmPassword)) {
+            showAlert(Alert.AlertType.ERROR, "密码错误", "两次输入的密码不匹配");
+            return;
+        }
+        
+        // 验证服务条款是否同意
+        if (!termsCheckBox.isSelected()) {
+            showAlert(Alert.AlertType.ERROR, "条款未接受", "请阅读并同意服务条款、隐私政策和行为准则");
+            return;
+        }
+        
+        // 创建用户对象
+        User user = new User(username, email, password, securityQuestion, securityAnswer, birthday);
+        
+        // 保存用户数据
+        boolean success = com.coinue.util.UserDataManager.getInstance().createUser(user);
+        
+        if (success) {
+            showAlert(Alert.AlertType.INFORMATION, "注册成功", "账户创建成功，请登录");
+            // 注册成功后返回登录页面
+            handleBackToSignIn(new ActionEvent());
+        } else {
+            showAlert(Alert.AlertType.ERROR, "注册失败", "用户名或邮箱可能已存在，请更换后重试");
+        }
+    }
+    
+    /**
+     * 显示提示对话框
+     * @param alertType 对话框类型
+     * @param title 标题
+     * @param content 内容
+     */
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
    

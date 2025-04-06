@@ -22,7 +22,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         // 加载财务分析界面的FXML文件
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Register.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
         // 加载FXML文件内容作为根节点
         Parent root = loader.load();
         // 设置窗口标题
