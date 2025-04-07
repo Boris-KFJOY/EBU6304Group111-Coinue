@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
@@ -33,13 +36,36 @@
             <!-- 操作按钮区域 -->
             <HBox spacing="20.0" alignment="CENTER_LEFT">
                 <Button text="导入分析文件" onAction="#handleImportAnalysisFile" styleClass="action-button"/>
+                <Button text="导出PDF" onAction="#handleExportPdf" styleClass="action-button"/>
                 <Label fx:id="fileNameLabel" text="未选择文件" />
             </HBox>
 
+            <!-- 预算进度条区域 -->
+            <VBox spacing="5.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 10px;">
+                <Label text="预算使用情况" style="-fx-font-weight: bold;"/>
+                <ProgressBar fx:id="budgetProgressBar" progress="0.0" prefWidth="Infinity" style="-fx-pref-height: 20px;"/>
+                <Label fx:id="budgetLabel" text="当前支出：¥0 / 预算：¥0"/>
+            </VBox>
+
             <!-- 图表展示区域 -->
-            <StackPane VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
-                <PieChart fx:id="expensePieChart" title="消费类型占比" legendVisible="true" />
-            </StackPane>
+            <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                <!-- 饼图 -->
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
+                    <PieChart fx:id="expensePieChart" title="消费类型占比" legendVisible="true" />
+                </StackPane>
+                
+                <!-- 条形图 -->
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px;">
+                    <BarChart fx:id="expenseBarChart" title="消费类别统计" legendVisible="true">
+                        <xAxis>
+                            <CategoryAxis label="消费类别" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis label="金额 (元)" />
+                        </yAxis>
+                    </BarChart>
+                </StackPane>
+            </HBox>
 
             <!-- 图表说明区域 -->
             <VBox spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 15px;">
