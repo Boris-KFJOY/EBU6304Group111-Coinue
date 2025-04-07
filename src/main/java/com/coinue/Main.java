@@ -21,6 +21,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         // 加载条形图展示界面的FXML文件
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
         // 加载FXML文件内容作为根节点
