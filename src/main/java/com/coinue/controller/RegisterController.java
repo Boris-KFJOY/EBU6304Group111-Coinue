@@ -107,64 +107,81 @@ public class RegisterController {
     @FXML
     private void handleForgotPassword(ActionEvent event) {
         System.out.println("用户点击了忘记密码");
-        
-        // 创建对话框
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("找回密码");
-        dialog.setHeaderText("请输入您的邮箱和安全问题答案");
-        
-        // 设置对话框按钮
-        ButtonType resetButtonType = new ButtonType("重置密码", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(resetButtonType, ButtonType.CANCEL);
-        
-        // 创建表单内容
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-        
-        TextField emailField = new TextField();
-        emailField.setPromptText("邮箱");
-        
-        TextField securityAnswerField = new TextField();
-        securityAnswerField.setPromptText("安全问题答案");
-        
-        PasswordField newPasswordField = new PasswordField();
-        newPasswordField.setPromptText("新密码");
-        
-        grid.add(new Label("邮箱:"), 0, 0);
-        grid.add(emailField, 1, 0);
-        grid.add(new Label("安全问题答案:"), 0, 1);
-        grid.add(securityAnswerField, 1, 1);
-        grid.add(new Label("新密码:"), 0, 2);
-        grid.add(newPasswordField, 1, 2);
-        
-        dialog.getDialogPane().setContent(grid);
-        
-        // 设置焦点到邮箱字段
-        Platform.runLater(emailField::requestFocus);
-        
-        // 显示对话框并处理结果
-        Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == resetButtonType) {
-            String email = emailField.getText();
-            String securityAnswer = securityAnswerField.getText();
-            String newPassword = newPasswordField.getText();
+        try {
+            // 获取当前窗口和场景
+            Stage stage = (Stage) forgotPasswordLink.getScene().getWindow();
+            Scene currentScene = stage.getScene();
             
-            // 验证输入
-            if (email.isEmpty() || securityAnswer.isEmpty() || newPassword.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "输入错误", "所有字段都必须填写");
-                return;
-            }
+            // 获取当前右侧面板（登录表单）
+            VBox loginForm = (VBox)forgotPasswordLink.getParent().getParent().getParent().getParent().getParent();
             
-            // 重置密码
-            boolean success = com.coinue.util.UserDataManager.getInstance().resetPassword(email, securityAnswer, newPassword);
+            // 获取父级HBox容器（包含左侧和右侧部分）
+            HBox MainContainer = (HBox) loginForm.getParent();
             
-            if (success) {
-                showAlert(Alert.AlertType.INFORMATION, "密码重置成功", "您的密码已重置，请使用新密码登录");
-            } else {
-                showAlert(Alert.AlertType.ERROR, "密码重置失败", "邮箱或安全问题答案不正确");
-            }
+            // 加载忘记密码页面FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Forget.fxml"));
+            Parent forgetPage = loader.load();
+            
+            // 从新加载的FXML中提取右侧表单部分
+            HBox forgetHBox = (HBox) ((AnchorPane) forgetPage).getChildren().get(0);
+            VBox forgetForm = (VBox) forgetHBox.getChildren().get(1);
+            
+            // 设置翻转动画
+            // 1. 创建Y轴旋转
+            RotateTransition rotateOut = new RotateTransition(Duration.millis(500), loginForm);
+            rotateOut.setAxis(Rotate.Y_AXIS);
+            rotateOut.setFromAngle(0);
+            rotateOut.setToAngle(90);
+            rotateOut.setInterpolator(Interpolator.EASE_IN);
+            
+            // 2. 创建淡出效果
+            Timeline fadeOut = new Timeline(
+                new KeyFrame(Duration.millis(500),
+                    new KeyValue(loginForm.opacityProperty(), 0.3, Interpolator.EASE_IN)
+                )
+            );
+            
+            // 3. 组合动画
+            ParallelTransition parallelOut = new ParallelTransition(rotateOut, fadeOut);
+            
+            // 4. 设置动画完成后的操作
+            parallelOut.setOnFinished(e -> {
+                // 更新窗口标题
+                stage.setTitle("Coinue - 找回密码");
+                
+                // 从父容器中移除当前登录表单
+                MainContainer.getChildren().remove(loginForm);
+                
+                // 将新的忘记密码表单添加到父容器中
+                MainContainer.getChildren().add(forgetForm);
+                
+                // 设置初始状态
+                forgetForm.setRotate(90);
+                forgetForm.setOpacity(0.3);
+                
+                // 创建进入动画
+                RotateTransition rotateIn = new RotateTransition(Duration.millis(500), forgetForm);
+                rotateIn.setAxis(Rotate.Y_AXIS);
+                rotateIn.setFromAngle(90);
+                rotateIn.setToAngle(0);
+                rotateIn.setInterpolator(Interpolator.EASE_OUT);
+                
+                Timeline fadeIn = new Timeline(
+                    new KeyFrame(Duration.millis(500),
+                        new KeyValue(forgetForm.opacityProperty(), 1, Interpolator.EASE_OUT)
+                    )
+                );
+                
+                ParallelTransition parallelIn = new ParallelTransition(rotateIn, fadeIn);
+                parallelIn.play();
+            });
+            
+            // 开始动画
+            parallelOut.play();
+            
+        } catch (IOException e) {
+            System.err.println("无法加载忘记密码页面: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

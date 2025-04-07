@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 导入JavaFX相关组件 -->
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!-- 主容器：设置背景色为浅蓝色 -->
+<AnchorPane prefHeight="550.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, rgb(255, 255, 255), rgb(145, 163, 199) 75%, rgb(255, 255, 255));" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.ForgetController">
+   <children>
+      <!-- 水平布局：将页面分为左右两部分 -->
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="550.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <!-- 左侧部分：展示logo和欢迎文字 -->
+            <VBox alignment="CENTER" prefHeight="550.0" prefWidth="400.0" spacing="10.0">
+               <children>
+                  <!-- Logo图片 -->
+                  <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Coinue.png" />
+                     </image>
+                  </ImageView>
+                  <!-- 欢迎文字 -->
+                  <Label text="Here is your" textFill="#000000">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label text="financial assistant!" textFill="#000000">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </VBox>
+            <!-- 右侧部分：忘记密码表单 -->
+            <VBox alignment="CENTER" prefHeight="550.0" prefWidth="400.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0); -fx-opacity: 0.9;">
+               <children>
+                  <!-- 忘记密码表单容器 -->
+                  <VBox alignment="CENTER_LEFT" maxWidth="300.0" prefHeight="450.0" prefWidth="300.0" spacing="12.0">
+                     <children>
+                        <!-- 忘记密码标题 -->
+                        <Label text="Reset your password" textFill="#000000">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <!-- 用户名/邮箱输入框 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Username or Email" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="usernameOrEmailField" prefHeight="35.0" promptText="Enter your username or email" style="-fx-background-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <!-- 生日选择 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Birthday" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="birthdayPicker" prefHeight="35.0" prefWidth="300.0" promptText="Select your birthday" style="-fx-background-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <!-- 安全问题显示 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Security Question" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="securityQuestionLabel" text="[Security question will be displayed here]" textFill="#555555">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <!-- 安全问题答案输入框 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Security Answer" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="securityAnswerField" prefHeight="35.0" promptText="Enter your answer" style="-fx-background-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <!-- 新密码输入框 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="New Password" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <PasswordField fx:id="newPasswordField" prefHeight="35.0" promptText="Enter new password" style="-fx-background-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <!-- 确认新密码输入框 -->
+                        <VBox spacing="5.0">
+                           <children>
+                              <Label text="Confirm New Password" textFill="#000000">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <PasswordField fx:id="confirmPasswordField" prefHeight="35.0" promptText="Confirm new password" style="-fx-background-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <!-- 重置密码按钮 -->
+                        <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleResetPassword" prefHeight="40.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" text="Reset Password" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <!-- 返回登录链接 -->
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Label text="Remember your password?" textFill="#333333" />
+                              <Hyperlink fx:id="backToLoginLink" onAction="#handleBackToLogin" text="Back to login" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="20.0" right="20.0" top="20.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

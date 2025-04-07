@@ -273,17 +273,33 @@ public class UserDataManager {
     }
 
     /**
+     * 根据用户名或邮箱查找用户
+     * @param usernameOrEmail 用户名或邮箱
+     * @return 用户对象，如果不存在则返回null
+     */
+    public User findUserByUsernameOrEmail(String usernameOrEmail) {
+        // 判断输入是邮箱还是用户名
+        if (usernameOrEmail.contains("@")) {
+            // 使用邮箱查询
+            return getUserByEmail(usernameOrEmail);
+        } else {
+            // 使用用户名查询
+            return getUserByUsername(usernameOrEmail);
+        }
+    }
+    
+    /**
      * 重置用户密码
-     * @param email 邮箱
+     * @param usernameOrEmail 用户名或邮箱
      * @param securityAnswer 安全问题答案
      * @param newPassword 新密码
      * @return 是否成功重置
      */
-    public boolean resetPassword(String email, String securityAnswer, String newPassword) {
+    public boolean resetPassword(String usernameOrEmail, String securityAnswer, String newPassword) {
         // 查找用户
-        User user = getUserByEmail(email);
+        User user = findUserByUsernameOrEmail(usernameOrEmail);
         if (user == null) {
-            System.out.println("用户不存在: " + email);
+            System.out.println("用户不存在: " + usernameOrEmail);
             return false;
         }
         
