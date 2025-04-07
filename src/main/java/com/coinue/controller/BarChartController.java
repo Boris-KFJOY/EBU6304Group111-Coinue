@@ -42,7 +42,7 @@ public class BarChartController {
         Map<String, Double> categoryAmounts = new HashMap<>();
         try {
             // 读取CSV文件
-            Files.lines(Paths.get("src/main/test_expense_records.csv"))
+            Files.lines(Paths.get("src/test/resources/test_expense_records.csv"))
                     .skip(1) // 跳过标题行
                     .forEach(line -> {
                         String[] parts = line.split(",");
