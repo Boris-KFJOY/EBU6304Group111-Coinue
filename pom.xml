@@ -71,6 +71,12 @@
                         <option>--add-modules</option>
                         <option>javafx.controls,javafx.fxml,javafx.swing</option>
                     </options>
+                    <jlinkImageName>Coinue</jlinkImageName>
+                    <launcher>launcher</launcher>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
                 </configuration>
             </plugin>
         </plugins>

@@ -23,6 +23,8 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import javafx.scene.layout.GridPane;
 import java.util.Optional;
+import javafx.scene.control.Dialog;
+import java.io.IOException;
 
 public class HomepageController {
     @FXML
