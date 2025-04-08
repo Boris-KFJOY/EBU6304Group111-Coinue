@@ -9,11 +9,17 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/homepage.fxml"));
-        Parent root = loader.load();
-        primaryStage.setTitle("Coinue");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        try {
+            Parent root = FXMLLoader.load(Main.class.getResource("/view/BillPaymentPage.fxml"));
+            primaryStage.setTitle("Coinue");
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(Main.class.getResource("/styles/main.css").toExternalForm());
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public static void main(String[] args) {

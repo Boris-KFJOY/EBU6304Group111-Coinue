@@ -36,11 +36,18 @@ public class UserPageController {
     }
 
     /**
-     * 处理消费类别管理按钮点击事件
+     * 处理还款账单按钮点击事件
      */
     @FXML
-    private void handleCategoryManagement() {
-        showInfo("功能提示", "消费类别管理功能正在开发中");
+    private void handleBillPayment() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
+            Parent root = loader.load();
+            Scene scene = usernameLabel.getScene();
+            scene.setRoot(root);
+        } catch (IOException e) {
+            showError("导航失败", "无法加载还款账单页面：" + e.getMessage());
+        }
     }
 
     /**

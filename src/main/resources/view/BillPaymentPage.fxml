@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.BillPaymentPageController" prefHeight="800.0" prefWidth="1200.0">
+    <!-- 顶部导航栏 -->
+    <top>
+        <HBox style="-fx-background-color: #87CEEB; -fx-padding: 10;">
+            <Button text="Homepage" onAction="#switchToHomepage" style="-fx-min-width: 400;"/>
+            <Button text="Analysis" onAction="#switchToAnalysis" style="-fx-min-width: 400;"/>
+            <Button text="Dashboard" onAction="#switchToDashboard" style="-fx-min-width: 400;"/>
+        </HBox>
+    </top>
+    
+    <!-- 主要内容区域 -->
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <Label fx:id="titleLabel" text="还款账单分析" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+            <HBox spacing="20">
+                <!-- 左侧区域：环形图 -->
+                <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="还款比例" style="-fx-font-size: 18;"/>
+                    <PieChart fx:id="repaymentChart" VBox.vgrow="ALWAYS" />
+                    <Label fx:id="creditLimitLabel" text="信用额度：" style="-fx-font-size: 14;"/>
+                    <Label fx:id="repaymentAmountLabel" text="还款金额：" style="-fx-font-size: 14;"/>
+                </VBox>
+                
+                <!-- 右侧区域：账单表格 -->
+                <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="账单详情" style="-fx-font-size: 18;"/>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="导入CSV" onAction="#handleImportCSV" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                    </HBox>
+                    <TableView fx:id="billTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="dateColumn" text="日期" />
+                            <TableColumn fx:id="descriptionColumn" text="描述" />
+                            <TableColumn fx:id="amountColumn" text="金额" />
+                            <TableColumn fx:id="statusColumn" text="状态" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
