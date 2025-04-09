@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.coinue.controller.HomepageController"
+      prefHeight="600.0" prefWidth="800.0">
+    
+    <ImageView fx:id="logoImage" fitHeight="100.0" fitWidth="100.0"/>
+    
+    <VBox fx:id="budgetList" spacing="10" style="-fx-padding: 20;">
+    </VBox>
+    
+    <VBox fx:id="reminderList" spacing="10" style="-fx-padding: 20;">
+    </VBox>
+    
+</VBox>
