@@ -59,7 +59,7 @@
                 <!-- 设置选项 -->
                 <VBox spacing="10.0">
                     <Button text="修改密码" onAction="#handleChangePassword" styleClass="setting-button" maxWidth="200.0" />
-                    <Button text="消费类别管理" onAction="#handleCategoryManagement" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="还款账单" onAction="#handleBillPayment" styleClass="setting-button" maxWidth="200.0" />
                     <Button text="导出数据" onAction="#handleExportData" styleClass="setting-button" maxWidth="200.0" />
                 </VBox>
             </VBox>

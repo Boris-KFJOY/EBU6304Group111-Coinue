@@ -5,54 +5,81 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<?import java.net.URL?>
-
-<AnchorPane prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.ManualEntryDialogController">
-
+<AnchorPane prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #e6f0fa;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.ManualEntryDialogController">
     <children>
         <VBox spacing="20.0" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
             <children>
-                <!-- 标题 -->
-                <Label text="记录消费" style="-fx-font-weight: bold;">
-                    <font>
-                        <Font size="24.0"/>
-                    </font>
-                </Label>
+                <!-- 标题栏 -->
+                <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="10" right="15" bottom="10" left="15" />
+                    </padding>
+                    <children>
+                        <Button text="&lt;" style="-fx-background-color: transparent; -fx-font-size: 16px;" onAction="#handleCancel"/>
+                        <Label text="Homepage" style="-fx-font-size: 16px; -fx-font-weight: bold;" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets left="10" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
 
-                <!-- 表单区域 -->
-                <GridPane vgap="15.0" hgap="10.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="100.0"/>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0"/>
-                    </columnConstraints>
-
-                    <!-- 消费名称 -->
-                    <Label text="消费名称：" GridPane.rowIndex="0"/>
-                    <TextField fx:id="nameField" promptText="请输入消费名称" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-
-                    <!-- 消费金额 -->
-                    <Label text="金额：" GridPane.rowIndex="1"/>
-                    <TextField fx:id="amountField" promptText="请输入消费金额" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-
-                    <!-- 消费类别 -->
-                    <Label text="类别：" GridPane.rowIndex="2"/>
-                    <ComboBox fx:id="categoryComboBox" prefWidth="150.0" promptText="选择消费类别" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-                    <!-- 消费日期 -->
-                    <Label text="日期：" GridPane.rowIndex="3"/>
-                    <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                </GridPane>
-
-                <!-- 按钮区域 -->
-                <HBox spacing="10.0" alignment="CENTER_RIGHT">
-                    <Button text="取消" onAction="#handleCancel" styleClass="cancel-button"/>
-                    <Button text="保存" onAction="#handleSave" styleClass="action-button" defaultButton="true"/>
+                <!-- 主内容区域 -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15" />
+                    </padding>
+                    <children>
+                        <!-- 类别选择 - 修改为包含Expenses和Income的选项 -->
+                        <HBox spacing="10.0">
+                            <RadioButton fx:id="expensesRadio" text="Expenses" selected="true">
+                                <toggleGroup>
+                                    <ToggleGroup fx:id="recordTypeGroup"/>
+                                </toggleGroup>
+                            </RadioButton>
+                            <RadioButton fx:id="incomeRadio" text="Income" toggleGroup="$recordTypeGroup"/>
+                        </HBox>
+                        
+                        <!-- 类别选择 -->
+                        <ComboBox fx:id="categoryComboBox" promptText="选择类别" prefWidth="150.0" style="-fx-font-size: 14px;"/>
+                        
+                        <!-- 子类别列表 -->
+                        <ListView fx:id="subCategoryListView" prefHeight="150.0" style="-fx-background-color: #f8f8f8; -fx-background-radius: 5;"/>
+                        
+                        <!-- 名称输入 -->
+                        <TextField fx:id="nameField" promptText="Name" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
+                        
+                        <!-- 金额输入和币种选择 -->
+                        <HBox spacing="10.0">
+                            <TextField fx:id="amountField" promptText="Enter Amount" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;" HBox.hgrow="ALWAYS"/>
+                            <ComboBox fx:id="currencyComboBox" prefWidth="100.0" promptText="CNY" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
+                        </HBox>
+                        
+                        <!-- 备注输入 -->
+                        <TextArea fx:id="noteField" promptText="Click to write notes" prefHeight="100.0" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
+                        
+                        <!-- 日期选择 -->
+                        <DatePicker fx:id="datePicker" prefWidth="300.0" style="-fx-background-color: #f0f7ff;"/>
+                        
+                        <!-- 快速选项 - 保留UI位置但不实现功能 -->
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <Label text="Quick Entry" />
+                            <Button fx:id="quickEntryButton" style="-fx-background-color: #3498db; -fx-background-radius: 10; -fx-min-width: 20; -fx-min-height: 20; -fx-max-width: 20; -fx-max-height: 20;" disable="true"/>
+                        </HBox>
+                        
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <Label text="Family Member Sharing" />
+                            <Button fx:id="familySharingButton" style="-fx-background-color: #3498db; -fx-background-radius: 10; -fx-min-width: 20; -fx-min-height: 20; -fx-max-width: 20; -fx-max-height: 20;" disable="true"/>
+                        </HBox>
+                    </children>
+                </VBox>
+                
+                <!-- 底部按钮区域 -->
+                <HBox spacing="15.0" alignment="CENTER">
+                    <Button text="Import (.csv)" style="-fx-background-color: white; -fx-border-color: #3498db; -fx-border-radius: 5; -fx-background-radius: 5;" prefWidth="120.0" onAction="#handleImport"/>
+                    <Button text="Save" style="-fx-background-color: white; -fx-border-color: #3498db; -fx-border-radius: 5; -fx-background-radius: 5;" prefWidth="120.0" onAction="#handleSave"/>
                 </HBox>
             </children>
         </VBox>
     </children>
-
-    <stylesheets>
-        <URL value="@../styles/main.css"/>
-    </stylesheets>
 </AnchorPane>
