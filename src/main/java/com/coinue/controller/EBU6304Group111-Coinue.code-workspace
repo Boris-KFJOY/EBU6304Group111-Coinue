@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../../.."
+		},
+		{
+			"name": "EBU6304Group111-Coinue-1",
+			"path": "../../../../../../EBU6304Group111-Coinue-1"
+		}
+	],
+	"settings": {
+		"java.debug.settings.onBuildFailureProceed": true
+	}
+}
