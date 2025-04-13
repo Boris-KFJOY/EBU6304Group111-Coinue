@@ -1,9 +1,7 @@
 package com.coinue.controller;
 
+import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
@@ -41,10 +39,8 @@ public class UserPageController {
     @FXML
     private void handleBillPayment() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = usernameLabel.getScene();
-            scene.setRoot(root);
+            // 使用页面管理器切换到还款账单页面
+            PageManager.getInstance().switchToPage("/view/BillPaymentPage.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法加载还款账单页面：" + e.getMessage());
         }
@@ -64,10 +60,8 @@ public class UserPageController {
     @FXML
     private void handleLogout() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Register.fxml"));
-            Parent root = loader.load();
-            Scene scene = usernameLabel.getScene();
-            scene.setRoot(root);
+            // 使用页面管理器切换到登录页面
+            PageManager.getInstance().switchToPage("/view/Register.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法返回登录页面：" + e.getMessage());
         }
@@ -79,10 +73,8 @@ public class UserPageController {
     @FXML
     private void handleHomeNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = usernameLabel.getScene();
-            scene.setRoot(root);
+            // 使用页面管理器切换到主页面
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法加载主页面：" + e.getMessage());
         }
@@ -91,10 +83,8 @@ public class UserPageController {
     @FXML
     private void handleAnalysisNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AnalysisPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = usernameLabel.getScene();
-            scene.setRoot(root);
+            // 使用页面管理器切换到分析页面
+            PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法加载分析页面：" + e.getMessage());
         }

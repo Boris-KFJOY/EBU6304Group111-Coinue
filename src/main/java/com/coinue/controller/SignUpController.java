@@ -14,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -142,7 +141,6 @@ public class SignUpController implements Initializable {
         try {
             // 获取当前窗口和场景
             Stage stage = (Stage) signInLink.getScene().getWindow();
-            Scene currentScene = stage.getScene();
             
             // 获取当前右侧面板（注册表单）
             VBox signUpForm = (VBox) signInLink.getParent().getParent().getParent();

@@ -2,36 +2,33 @@ package com.coinue.controller;
 
 // 导入必要的类
 import com.coinue.model.User;
+import com.coinue.util.PageManager;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
+
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.util.Optional;
+import javafx.stage.Stage;
+
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -82,18 +79,13 @@ public class RegisterController {
         
         // 登录成功后跳转到主页
         try {
-            // 加载主页面FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
-            Parent mainPage = loader.load();
-            
             // 获取当前窗口
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            
-            // 创建新场景并设置
-            Scene scene = new Scene(mainPage);
             stage.setTitle("Coinue - 主页");
-            stage.setScene(scene);
-            stage.show();
+            
+            // 使用页面管理器切换到主页
+            PageManager.getInstance().initStage(stage);
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             System.err.println("无法加载主页面: " + e.getMessage());
             e.printStackTrace();
@@ -110,7 +102,7 @@ public class RegisterController {
         try {
             // 获取当前窗口和场景
             Stage stage = (Stage) forgotPasswordLink.getScene().getWindow();
-            Scene currentScene = stage.getScene();
+ 
             
             // 获取当前右侧面板（登录表单）
             VBox loginForm = (VBox)forgotPasswordLink.getParent().getParent().getParent().getParent().getParent();
@@ -195,7 +187,6 @@ public class RegisterController {
         try {
             // 获取当前窗口和场景
             Stage stage = (Stage) signUpLink.getScene().getWindow();
-            Scene currentScene = stage.getScene();
             
             // 获取当前右侧面板（登录表单）
             VBox loginForm = (VBox) signUpLink.getParent().getParent().getParent();
@@ -277,17 +268,12 @@ public class RegisterController {
     @FXML
     private void nextPage(ActionEvent event) {
         try {
-            // 加载主页面FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
-            Parent mainPage = loader.load();
-            
             // 获取当前窗口
             Stage stage = (Stage) signUpLink.getScene().getWindow();
             
-            // 创建新场景并设置
-            Scene scene = new Scene(mainPage);
-            stage.setScene(scene);
-            stage.show();
+            // 使用页面管理器切换到主页
+            PageManager.getInstance().initStage(stage);
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             System.err.println("无法加载主页面: " + e.getMessage());
             e.printStackTrace();
