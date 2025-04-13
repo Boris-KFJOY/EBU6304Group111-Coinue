@@ -31,6 +31,12 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 //     <artifactId>javafx-swing</artifactId>
 //     <version>19</version>
 // </dependency>
+// 需要在pom.xml中添加以下依赖:
+// <dependency>
+//     <groupId>org.openjfx</groupId>
+//     <artifactId>javafx-swing</artifactId>
+//     <version>19</version>
+// </dependency>
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;

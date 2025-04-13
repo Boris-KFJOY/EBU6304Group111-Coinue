@@ -3,6 +3,12 @@ package com.coinue.util;
 import com.coinue.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+// 需要在pom.xml中添加以下依赖:
+// <dependency>
+//     <groupId>com.fasterxml.jackson.datatype</groupId>
+//     <artifactId>jackson-datatype-jsr310</artifactId>
+//     <version>2.15.2</version>
+// </dependency>
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;

@@ -1,6 +1,7 @@
 package com.coinue.controller;
 
 import com.coinue.util.ChartGenerator;
+// 使用JavaFX 8及以上版本的SwingFXUtils
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
