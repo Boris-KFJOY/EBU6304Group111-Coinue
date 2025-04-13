@@ -13,30 +13,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.FileChooser;
-// 需要在pom.xml中添加以下依赖:
-// <dependency>
-//     <groupId>org.apache.pdfbox</groupId>
-//     <artifactId>pdfbox</artifactId>
-//     <version>2.0.27</version>
-// </dependency>
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;    
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-// 需要在pom.xml中添加以下依赖:
-// <dependency>
-//     <groupId>org.openjfx</groupId>
-//     <artifactId>javafx-swing</artifactId>
-//     <version>19</version>
-// </dependency>
-// 需要在pom.xml中添加以下依赖:
-// <dependency>
-//     <groupId>org.openjfx</groupId>
-//     <artifactId>javafx-swing</artifactId>
-//     <version>19</version>
-// </dependency>
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;

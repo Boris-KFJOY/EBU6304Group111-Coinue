@@ -33,6 +33,11 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.15.2</version>
@@ -63,12 +68,10 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.coinue.Main</mainClass>
-                    <executable>${java.home}/bin/java</executable>
+                    <!-- <executable>${java.home}/bin/java</executable> -->
                     <options>
-                        <option>--module-path</option>
-                        <option>${javafx.sdk}</option>
                         <option>--add-modules</option>
-                        <option>javafx.controls,javafx.fxml</option>
+                        <option>javafx.controls,javafx.fxml,javafx.swing</option>
                     </options>
                     <jlinkImageName>Coinue</jlinkImageName>
                     <launcher>launcher</launcher>
