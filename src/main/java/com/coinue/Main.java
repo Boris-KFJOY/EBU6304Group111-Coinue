@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            Parent root = FXMLLoader.load(Main.class.getResource("/view/Register.fxml"));
+            Parent root = FXMLLoader.load(Main.class.getResource("/view/MainPage.fxml"));
             primaryStage.setTitle("Coinue");
             Scene scene = new Scene(root);
             scene.getStylesheets().add(Main.class.getResource("/styles/main.css").toExternalForm());

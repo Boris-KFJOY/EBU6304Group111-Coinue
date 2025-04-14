@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.coinue.controller.BudgetDialogController"
+      spacing="10" style="-fx-padding: 10;">
+
+    <GridPane vgap="10" hgap="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+
+        <Label text="类别：" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="categoryComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="金额：" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="amountField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="货币：" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="currencyComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="确定" onAction="#handleOk"/>
+        <Button text="取消" onAction="#handleCancel"/>
+    </HBox>
+</VBox>
