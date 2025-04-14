@@ -9,7 +9,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
 
-            Parent root = FXMLLoader.load(Main.class.getResource("/view/MainPage.fxml"));
             // 初始化页面管理器
             PageManager pageManager = PageManager.getInstance();
             pageManager.initStage(primaryStage);
