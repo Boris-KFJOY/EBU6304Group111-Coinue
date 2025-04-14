@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="TOP_CENTER" style="-fx-background-color: #f0f5ff;"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.coinue.controller.ExpenseRecordPageController">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Button onAction="#handleBackToHome" text="返回主页"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button onAction="#handleAddRecord" text="添加记录"/>
+    </HBox>
+
+    <ListView fx:id="expenseListView" VBox.vgrow="ALWAYS"/>
+</VBox>

@@ -139,6 +139,15 @@ public class ManualEntryDialogController {
         }
     }
     
+    // 将 MainPageController 改为 ExpenseRecordPageController
+    private ExpenseRecordPageController expenseRecordPageController;
+    
+    // 修改设置控制器的方法
+    public void setExpenseRecordPageController(ExpenseRecordPageController controller) {
+        this.expenseRecordPageController = controller;
+    }
+    
+    // 修改保存方法中的调用
     @FXML
     private void handleSave() {
         if (isInputValid()) {
@@ -173,7 +182,7 @@ public class ManualEntryDialogController {
             record.setRecordType(recordType);
             record.setCurrency(currency);
             
-            mainPageController.addExpenseRecord(record);
+            expenseRecordPageController.addExpenseRecord(record);
             isConfirmed = true;
             dialogStage.close();
         }
