@@ -1,11 +1,10 @@
 package com.coinue.controller;
 
+import com.coinue.util.PageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -152,8 +151,8 @@ public class BillPaymentPageController {
     @FXML
     private void switchToHomepage() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
-            titleLabel.getScene().setRoot(root);
+            // 使用页面管理器切换到主页
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             showError("导航错误", "无法加载主页面");
         }
@@ -162,8 +161,8 @@ public class BillPaymentPageController {
     @FXML
     private void switchToAnalysis() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/AnalysisPage.fxml"));
-            titleLabel.getScene().setRoot(root);
+            // 使用页面管理器切换到分析页面
+            PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
             showError("导航错误", "无法加载分析页面");
         }
@@ -172,8 +171,8 @@ public class BillPaymentPageController {
     @FXML
     private void switchToDashboard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/UserPage.fxml"));
-            titleLabel.getScene().setRoot(root);
+            // 使用页面管理器切换到用户页面
+            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
             showError("导航错误", "无法加载仪表盘页面");
         }
