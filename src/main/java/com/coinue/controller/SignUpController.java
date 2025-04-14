@@ -97,6 +97,22 @@ public class SignUpController implements Initializable {
         
         // 设置超链接点击事件
         setupHyperlinks();
+        
+        // 设置DatePicker的提示文本颜色和样式
+        birthdayPicker.setPromptText("Select your birthday");
+        
+        // 为ComboBox添加自定义样式
+        securityQuestionComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                securityAnswerField.requestFocus();
+            }
+        });
+        
+        // 添加输入字段的焦点转移逻辑，提升用户体验
+        emailField.setOnAction(e -> signUpUsernameField.requestFocus());
+        signUpUsernameField.setOnAction(e -> signUpPasswordField.requestFocus());
+        signUpPasswordField.setOnAction(e -> confirmPasswordField.requestFocus());
+        confirmPasswordField.setOnAction(e -> birthdayPicker.requestFocus());
     }
     
     /**

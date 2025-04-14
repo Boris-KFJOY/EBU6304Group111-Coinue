@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 
 <!-- 主容器：设置背景色为浅蓝色 -->
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, rgb(255, 255, 255), rgb(145, 163, 199) 75%, rgb(255, 255, 255));" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.SignUpController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, rgb(255, 255, 255), rgb(145, 163, 199) 75%, rgb(255, 255, 255));" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.SignUpController" stylesheets="@../styles/modern-controls.css">
    <children>
       <!-- 水平布局：将页面分为左右两部分 -->
       <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -112,7 +112,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <DatePicker fx:id="birthdayPicker" prefHeight="35.0" prefWidth="300.0" promptText="Select your birthday" style="-fx-background-radius: 5;" />
+                              <DatePicker fx:id="birthdayPicker" prefHeight="35.0" prefWidth="300.0" promptText="Select your birthday" styleClass="modern-date-picker" />
                            </children>
                         </VBox>
                         <!-- 安全问题选择 -->
@@ -123,7 +123,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="securityQuestionComboBox" prefHeight="35.0" prefWidth="300.0" promptText="Select a security question" />
+                              <ComboBox fx:id="securityQuestionComboBox" prefHeight="35.0" prefWidth="300.0" promptText="Select a security question" styleClass="modern-combo-box" />
                               <TextField fx:id="securityAnswerField" prefHeight="35.0" promptText="Your answer" style="-fx-background-radius: 5;" />
                            </children>
                         </VBox>
