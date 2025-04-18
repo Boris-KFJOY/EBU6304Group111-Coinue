@@ -58,7 +58,7 @@ public class AnalysisPageController {
      * 处理导入分析文件按钮点击事件
      */
     @FXML
-    private void handleImportAnalysisFile() {
+    public void handleImportAnalysisFile() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("选择CSV文件");
         fileChooser.getExtensionFilters().add(
@@ -66,39 +66,48 @@ public class AnalysisPageController {
 
         File file = fileChooser.showOpenDialog(expensePieChart.getScene().getWindow());
         if (file != null) {
-            try {
-                // 读取CSV文件并生成统计数据
-                Map<String, Double> categoryStatistics = CSVHandler.readCategoryStatistics(file.getPath());
-                
-                // 更新文件名标签
-                fileNameLabel.setText("当前文件：" + file.getName());
-
-                // 生成并显示饼图
-                expensePieChart.setData(ChartGenerator.generateExpensePieChartData(categoryStatistics));
-                
-                // 生成并显示条形图
-                XYChart.Series<String, Number> series = new XYChart.Series<>();
-                series.setName("消费金额");
-                categoryStatistics.forEach((category, amount) ->
-                    series.getData().add(new XYChart.Data<>(category, amount)));
-                expenseBarChart.getData().clear();
-                expenseBarChart.getData().add(series);
-                
-                // 生成并显示统计摘要
-                statisticsLabel.setText(ChartGenerator.generateStatisticsSummary(categoryStatistics));
-
-                // 计算总支出并更新进度条
-                totalExpense = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
-                updateBudgetProgress();
-
-                showInfo("导入成功", "成功导入并分析数据");
-            } catch (IOException e) {
-                showError("导入失败", "无法读取CSV文件：" + e.getMessage());
-            } catch (Exception e) {
-                showError("分析失败", "数据分析错误：" + e.getMessage());
-            }
+            handleImportAnalysisFile(file);
         }
     }
+    
+    /**
+     * 处理导入分析文件
+     * @param file 要分析的CSV文件
+     */
+    public void handleImportAnalysisFile(File file) throws IOException {
+        try {
+            // 读取CSV文件并生成统计数据
+            Map<String, Double> categoryStatistics = CSVHandler.readCategoryStatistics(file.getPath());
+            
+            // 更新文件名标签
+            fileNameLabel.setText("当前文件：" + file.getName());
+
+            // 生成并显示饼图
+            expensePieChart.setData(ChartGenerator.generateExpensePieChartData(categoryStatistics));
+            
+            // 生成并显示条形图
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("消费金额");
+            categoryStatistics.forEach((category, amount) ->
+                series.getData().add(new XYChart.Data<>(category, amount)));
+            expenseBarChart.getData().clear();
+            expenseBarChart.getData().add(series);
+            
+            // 生成并显示统计摘要
+            statisticsLabel.setText(ChartGenerator.generateStatisticsSummary(categoryStatistics));
+
+            // 计算总支出并更新进度条
+            totalExpense = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
+            updateBudgetProgress();
+
+            // 已移除导入成功提示窗口
+        } catch (IOException e) {
+            showError("导入失败", "无法读取CSV文件：" + e.getMessage());
+        } catch (Exception e) {
+            showError("分析失败", "数据分析错误：" + e.getMessage());
+        }
+        }
+    
 
     /**
      * 处理导航到主页
