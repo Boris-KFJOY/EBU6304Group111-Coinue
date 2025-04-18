@@ -18,29 +18,29 @@
     <!-- 主要内容区域 -->
     <center>
         <VBox spacing="20" style="-fx-padding: 20;">
-            <Label fx:id="titleLabel" text="还款账单分析" style="-fx-font-size: 24; -fx-font-weight: bold;" />
+            <Label fx:id="titleLabel" text="Bill Payment Analysis" style="-fx-font-size: 24; -fx-font-weight: bold;" />
             <HBox spacing="20">
                 <!-- 左侧区域：环形图 -->
                 <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
-                    <Label text="还款比例" style="-fx-font-size: 18;"/>
+                    <Label text="Repayment Ratio" style="-fx-font-size: 18;"/>
                     <PieChart fx:id="repaymentChart" VBox.vgrow="ALWAYS" />
-                    <Label fx:id="creditLimitLabel" text="信用额度：" style="-fx-font-size: 14;"/>
-                    <Label fx:id="repaymentAmountLabel" text="还款金额：" style="-fx-font-size: 14;"/>
+                    <Label fx:id="creditLimitLabel" text="Credit Limit:" style="-fx-font-size: 14;"/>
+                    <Label fx:id="repaymentAmountLabel" text="Repayment Amount:" style="-fx-font-size: 14;"/>
                 </VBox>
                 
                 <!-- 右侧区域：账单表格 -->
                 <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
                     <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="账单详情" style="-fx-font-size: 18;"/>
+                        <Label text="Bill Details" style="-fx-font-size: 18;"/>
                         <Region HBox.hgrow="ALWAYS" />
-                        <Button text="导入CSV" onAction="#handleImportCSV" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                        <Button text="Import CSV" onAction="#handleImportCSV" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
                     </HBox>
                     <TableView fx:id="billTable" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="dateColumn" text="日期" />
-                            <TableColumn fx:id="descriptionColumn" text="描述" />
-                            <TableColumn fx:id="amountColumn" text="金额" />
-                            <TableColumn fx:id="statusColumn" text="状态" />
+                            <TableColumn fx:id="dateColumn" text="Date" />
+                            <TableColumn fx:id="descriptionColumn" text="Description" />
+                            <TableColumn fx:id="amountColumn" text="Amount" />
+                            <TableColumn fx:id="statusColumn" text="Status" />
                         </columns>
                     </TableView>
                 </VBox>

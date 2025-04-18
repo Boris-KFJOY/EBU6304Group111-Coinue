@@ -28,9 +28,8 @@ public class UserPageController {
     /**
      * 处理修改密码按钮点击事件
      */
-    @FXML
-    private void handleChangePassword() {
-        showInfo("功能提示", "密码修改功能正在开发中");
+    @FXML    private void handleChangePassword() {
+        showInfo("Feature Notice", "Password change feature is under development.");
     }
 
     /**
@@ -42,7 +41,7 @@ public class UserPageController {
             // 使用页面管理器切换到还款账单页面
             PageManager.getInstance().switchToPage("/view/BillPaymentPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载还款账单页面：" + e.getMessage());
+            showError("Navigation Failed", "Failed to load bill payment page: " + e.getMessage());
         }
     }
 
@@ -51,7 +50,7 @@ public class UserPageController {
      */
     @FXML
     private void handleExportData() {
-        showInfo("功能提示", "数据导出功能正在开发中");
+        showInfo("Feature Notice", "Data export feature is under development.");
     }
 
     /**
@@ -63,7 +62,7 @@ public class UserPageController {
             // 使用页面管理器切换到登录页面
             PageManager.getInstance().switchToPage("/view/Register.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法返回登录页面：" + e.getMessage());
+            showError("Navigation Failed", "Failed to return to login page: " + e.getMessage());
         }
     }
 
@@ -76,7 +75,7 @@ public class UserPageController {
             // 使用页面管理器切换到主页面
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载主页面：" + e.getMessage());
+            showError("Navigation Failed", "Failed to load main page: " + e.getMessage());
         }
     }
 
@@ -86,7 +85,7 @@ public class UserPageController {
             // 使用页面管理器切换到分析页面
             PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载分析页面：" + e.getMessage());
+            showError("Navigation Failed", "Failed to load analysis page: " + e.getMessage());
         }
     }
 
@@ -108,7 +107,7 @@ public class UserPageController {
      */
     private void showInfo(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
+        alert.setTitle("Notice");
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
