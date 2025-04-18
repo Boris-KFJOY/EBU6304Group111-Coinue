@@ -32,8 +32,8 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * 分析页面控制器
- * 处理消费数据分析和图表展示的逻辑
+ * Analysis Page Controller
+ * Handles the logic of expense data analysis and chart display
  */
 public class AnalysisPageController {
 
@@ -50,17 +50,17 @@ public class AnalysisPageController {
     @FXML
     private Label budgetLabel;
 
-    private static final double DEFAULT_BUDGET = 10000.0; // 默认预算金额
+    private static final double DEFAULT_BUDGET = 10000.0; // Default budget amount
     private double currentBudget = DEFAULT_BUDGET;
     private double totalExpense = 0.0;
 
     /**
-     * 处理导入分析文件按钮点击事件
+     * Handle import analysis file button click event
      */
     @FXML
     public void handleImportAnalysisFile() throws IOException {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("选择CSV文件");
+        fileChooser.setTitle("Select CSV file");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("CSV文件", "*.csv"));
 
@@ -71,8 +71,8 @@ public class AnalysisPageController {
     }
     
     /**
-     * 处理导入分析文件
-     * @param file 要分析的CSV文件
+     * Handle import analysis file
+     * @param file CSV file to analyze
      */
     public void handleImportAnalysisFile(File file) throws IOException {
         try {
@@ -80,14 +80,14 @@ public class AnalysisPageController {
             Map<String, Double> categoryStatistics = CSVHandler.readCategoryStatistics(file.getPath());
             
             // 更新文件名标签
-            fileNameLabel.setText("当前文件：" + file.getName());
+            fileNameLabel.setText("Current file: " + file.getName());
 
             // 生成并显示饼图
             expensePieChart.setData(ChartGenerator.generateExpensePieChartData(categoryStatistics));
             
             // 生成并显示条形图
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("消费金额");
+            series.setName("Expense amount");
             categoryStatistics.forEach((category, amount) ->
                 series.getData().add(new XYChart.Data<>(category, amount)));
             expenseBarChart.getData().clear();
@@ -100,7 +100,7 @@ public class AnalysisPageController {
             totalExpense = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
             updateBudgetProgress();
 
-            // 已移除导入成功提示窗口
+            // 已移除导入成功Notification窗口
         } catch (IOException e) {
             showError("导入失败", "无法读取CSV文件：" + e.getMessage());
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class AnalysisPageController {
     
 
     /**
-     * 处理导航到主页
+     * Handle navigation to home page
      */
     @FXML
     private void handleHomeNav() {
@@ -120,13 +120,13 @@ public class AnalysisPageController {
             Scene scene = expensePieChart.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showError("导航失败", "无法加载主页面：" + e.getMessage());
+            showError("Navigation failed", "Failed to load home page: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleAnalysisNav() {
-        // 已在分析页面，无需操作
+        // Already in analysis page, no action needed
     }
 
     @FXML
@@ -137,7 +137,7 @@ public class AnalysisPageController {
             Scene scene = expensePieChart.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            showError("导航失败", "无法加载用户页面：" + e.getMessage());
+            showError("Navigation failed", "Failed to load user page: " + e.getMessage());
         }
     }
 
@@ -150,18 +150,18 @@ public class AnalysisPageController {
     }
 
     /**
-     * 显示信息提示对话框
+     * Show information dialog
      */
     private void showInfo(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("提示");
+        alert.setTitle("Notification");
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
     }
 
     /**
-     * 更新预算进度条
+     * Update budget progress bar
      */
     private void updateBudgetProgress() {
         double progress = totalExpense / currentBudget;
@@ -174,18 +174,18 @@ public class AnalysisPageController {
             budgetProgressBar.setStyle("-fx-accent: #ffc107;"); // 黄色
         }
         
-        budgetLabel.setText(String.format("当前支出：¥%.2f / 预算：¥%.2f", totalExpense, currentBudget));
+        budgetLabel.setText(String.format("Current expense: ¥%.2f / Budget: ¥%.2f", totalExpense, currentBudget));
     }
 
     /**
-     * 处理导出PDF按钮点击事件
+     * Handle export PDF button click event
      */
     @FXML
     private void handleExportPdf() {
         try {
             // 创建文件选择器
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("保存PDF文件");
+            fileChooser.setTitle("Save PDF file");
             fileChooser.getExtensionFilters().add(
                     new FileChooser.ExtensionFilter("PDF文件", "*.pdf"));
             File file = fileChooser.showSaveDialog(expensePieChart.getScene().getWindow());
@@ -239,10 +239,10 @@ public class AnalysisPageController {
                 document.save(file);
                 document.close();
                 
-                showInfo("导出成功", "已成功导出PDF文件：" + file.getName());
+                showInfo("Export successful", "Successfully exported PDF file: " + file.getName());
             }
         } catch (IOException e) {
-            showError("导出失败", "无法导出PDF文件：" + e.getMessage());
+            showError("Export failed", "Failed to export PDF file: " + e.getMessage());
         }
     }
 }
