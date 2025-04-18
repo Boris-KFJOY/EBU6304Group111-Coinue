@@ -305,7 +305,7 @@ public class MainPageController {
     @FXML
     private void handleHomeNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
             Parent root = loader.load();
             Scene scene = budgetListView.getScene();
             scene.setRoot(root);

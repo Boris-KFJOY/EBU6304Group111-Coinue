@@ -4,37 +4,51 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.BillPaymentPageController" prefHeight="800.0" prefWidth="1200.0">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.BillPaymentPageController" stylesheets="@../styles/main.css">
     <!-- 顶部导航栏 -->
-    <top>
-        <HBox style="-fx-background-color: #87CEEB; -fx-padding: 10;">
-            <Button text="Homepage" onAction="#switchToHomepage" style="-fx-min-width: 400;"/>
-            <Button text="Analysis" onAction="#switchToAnalysis" style="-fx-min-width: 400;"/>
-            <Button text="Dashboard" onAction="#switchToDashboard" style="-fx-min-width: 400;"/>
+    <children>
+        <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
+            <padding>
+                <Insets left="20.0" right="20.0"/>
+            </padding>
+            <children>
+                <Label fx:id="titleLabel" text="Bill" style="-fx-font-weight: bold;">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Button fx:id="homeButton" text="Home" styleClass="nav-button" onAction="#handleHomeNav"/>
+                    <Button fx:id="analysisButton" text="Analysis" styleClass="nav-button" onAction="#handleAnalysisNav"/>
+                    <Button fx:id="userButton" text="User" styleClass="nav-button" onAction="#handleUserNav"/>
+                </HBox>
+            </children>
         </HBox>
-    </top>
+   
     
     <!-- 主要内容区域 -->
-    <center>
-        <VBox spacing="20" style="-fx-padding: 20;">
-            <Label fx:id="titleLabel" text="Bill Payment Analysis" style="-fx-font-size: 24; -fx-font-weight: bold;" />
-            <HBox spacing="20">
+    
+        <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+            <!-- 操作按钮区域 -->
+            <HBox spacing="20.0" alignment="CENTER_LEFT">
+                <Button text="Import CSV" onAction="#handleImportCSV" styleClass="action-button"/>
+               
+                <Label fx:id="creditLimitLabel" />
+                <Label fx:id="repaymentAmountLabel" />
+            </HBox>
+
+            <!-- 图表展示区域 -->
+            <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                 <!-- 左侧区域：环形图 -->
-                <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
-                    <Label text="Repayment Ratio" style="-fx-font-size: 18;"/>
-                    <PieChart fx:id="repaymentChart" VBox.vgrow="ALWAYS" />
-                    <Label fx:id="creditLimitLabel" text="Credit Limit:" style="-fx-font-size: 14;"/>
-                    <Label fx:id="repaymentAmountLabel" text="Repayment Amount:" style="-fx-font-size: 14;"/>
-                </VBox>
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
+                    <PieChart fx:id="repaymentChart" title="Repayment Ratio" legendVisible="true" />
+                </StackPane>
                 
                 <!-- 右侧区域：账单表格 -->
-                <VBox spacing="10" prefWidth="500" style="-fx-background-color: #F0F8FF; -fx-padding: 15; -fx-background-radius: 10;">
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Bill Details" style="-fx-font-size: 18;"/>
-                        <Region HBox.hgrow="ALWAYS" />
-                        <Button text="Import CSV" onAction="#handleImportCSV" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
-                    </HBox>
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
                     <TableView fx:id="billTable" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="dateColumn" text="Date" />
@@ -43,8 +57,8 @@
                             <TableColumn fx:id="statusColumn" text="Status" />
                         </columns>
                     </TableView>
-                </VBox>
+                </StackPane>
             </HBox>
         </VBox>
-    </center>
-</BorderPane>
+    </children>
+</AnchorPane>
