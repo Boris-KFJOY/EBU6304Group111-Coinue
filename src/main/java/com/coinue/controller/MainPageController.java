@@ -1,6 +1,7 @@
 package com.coinue.controller;
 
 import com.coinue.model.Budget;
+import com.coinue.model.ExpenseRecord;
 import com.coinue.model.PaymentReminder;
 import com.coinue.util.DataManager;
 import javafx.collections.FXCollections;
@@ -10,12 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -30,15 +33,27 @@ public class MainPageController {
     private ListView<PaymentReminder> reminderListView;
     @FXML
     private ImageView coinImageView;
+    @FXML
+    private TableView<ExpenseRecord> expenseTableView;
+    @FXML
+    private TableColumn<ExpenseRecord, String> dateColumn;
+    @FXML
+    private TableColumn<ExpenseRecord, String> categoryColumn;
+    @FXML
+    private TableColumn<ExpenseRecord, String> nameColumn;
+    @FXML
+    private TableColumn<ExpenseRecord, Double> amountColumn;
 
     private ObservableList<Budget> budgets;
     private ObservableList<PaymentReminder> reminders;
+    private ObservableList<ExpenseRecord> expenseRecords;
 
     @FXML
     public void initialize() {
         // 初始化数据
         budgets = FXCollections.observableArrayList(DataManager.loadBudgets());
         reminders = FXCollections.observableArrayList(DataManager.loadReminders());
+        expenseRecords = FXCollections.observableArrayList(DataManager.loadExpenseRecords());
 
         // 设置预算列表显示
         budgetListView.setItems(budgets);
@@ -76,9 +91,44 @@ public class MainPageController {
                 }
             }
         });
+        
+        // 设置消费记录表格
+        initializeExpenseTable();
 
         // 检查并显示到期提醒
         checkDueReminders();
+    }
+    
+    /**
+     * 初始化消费记录表格
+     */
+    private void initializeExpenseTable() {
+        // 设置表格列的单元格值工厂
+        dateColumn.setCellValueFactory(cellData -> {
+            LocalDate date = cellData.getValue().getDate();
+            return javafx.beans.binding.Bindings.createStringBinding(
+                () -> date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        });
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        
+        // 设置金额列的单元格工厂，用于格式化金额显示
+        amountColumn.setCellFactory(column -> new TableCell<ExpenseRecord, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    ExpenseRecord record = getTableView().getItems().get(getIndex());
+                    setText(String.format("%s %.2f", record.getCurrency(), item));
+                }
+            }
+        });
+        
+        // 设置表格数据
+        expenseTableView.setItems(expenseRecords);
     }
 
     @FXML
@@ -98,6 +148,9 @@ public class MainPageController {
             controller.setMainPageController(this);
 
             dialogStage.showAndWait();
+            
+            // 对话框关闭后刷新消费记录表格
+            refreshExpenseRecords();
         } catch (IOException e) {
             showError("打开记录窗口失败", e.getMessage());
         }
@@ -244,8 +297,28 @@ public class MainPageController {
             controller.setMainPageController(this);
 
             dialogStage.showAndWait();
+            
+            // 对话框关闭后刷新消费记录表格
+            refreshExpenseRecords();
         } catch (IOException e) {
             showError("打开记录窗口失败", e.getMessage());
         }
+    }
+    
+    /**
+     * 刷新消费记录表格数据
+     */
+    public void refreshExpenseRecords() {
+        expenseRecords.clear();
+        expenseRecords.addAll(DataManager.loadExpenseRecords());
+    }
+    
+    /**
+     * 添加消费记录
+     * @param record 消费记录
+     */
+    public void addExpenseRecord(ExpenseRecord record) {
+        expenseRecords.add(record);
+        DataManager.saveExpenseRecords(List.copyOf(expenseRecords));
     }
 }
