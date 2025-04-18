@@ -14,15 +14,15 @@
                 <Insets left="20.0" right="20.0"/>
             </padding>
             <children>
-                <Label text="个人中心" style="-fx-font-weight: bold;">
+                <Label text="Personal Center" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="24.0"/>
                     </font>
                 </Label>
                 <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Button fx:id="homeButton" text="主页" styleClass="nav-button" onAction="#handleHomeNav"/>
-                    <Button fx:id="analysisButton" text="分析" styleClass="nav-button" onAction="#handleAnalysisNav"/>
-                    <Button fx:id="userButton" text="用户" styleClass="nav-button" onAction="#handleUserNav"/>
+                    <Button fx:id="homeButton" text="Home" styleClass="nav-button" onAction="#handleHomeNav"/>
+                    <Button fx:id="analysisButton" text="Analysis" styleClass="nav-button" onAction="#handleAnalysisNav"/>
+                    <Button fx:id="userButton" text="User" styleClass="nav-button" onAction="#handleUserNav"/>
                 </HBox>
             </children>
         </HBox>

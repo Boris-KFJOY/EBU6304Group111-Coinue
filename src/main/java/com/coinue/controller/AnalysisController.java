@@ -54,6 +54,7 @@ public class AnalysisController {
     }
 
     private void initializePieChart() {
+        // Initialize pie chart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Health", 1230.00),
             new PieChart.Data("Shopping", 34.00),
@@ -64,12 +65,15 @@ public class AnalysisController {
     }
 
     private void initializeTable() {
+        // Initialize table
+        // Set cell value factories for table columns
         itemColumn.setCellValueFactory(new PropertyValueFactory<>("item"));
         moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
+        // Set table data
         masterData = FXCollections.observableArrayList(
             new ExpenditureRecord("KFC", 60.00, "Food", "Huabei", LocalDate.parse("2025-03-03")),
             new ExpenditureRecord("W-Shop", 34.00, "Shopping", "Huabei", LocalDate.parse("2025-03-05")),
@@ -77,6 +81,7 @@ public class AnalysisController {
             new ExpenditureRecord("Earl Harper", 87.50, "Tax", "Baitiao", LocalDate.parse("2025-03-19"))
         );
 
+        // Initialize filters
         // Initialize filters
         ObservableList<String> categories = FXCollections.observableArrayList(
             "All", "Food", "Shopping", "Health", "Tax"
@@ -93,6 +98,7 @@ public class AnalysisController {
         // Create filtered list
         FilteredList<ExpenditureRecord> filteredData = new FilteredList<>(masterData, p -> true);
 
+        // Add listeners to filters
         // Add listeners to filters
         categoryFilter.valueProperty().addListener((observable, oldValue, newValue) -> 
             updateFilters(filteredData));

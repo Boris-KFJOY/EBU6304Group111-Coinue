@@ -56,10 +56,10 @@ public class AnalysisPageTest {
         robot.interact(() -> {
             try {
                 File testFile = new File(testFilePath);
-                assertTrue(testFile.exists(), "测试文件不存在");
+                assertTrue(testFile.exists(), "Test file does not exist");
                 controller.handleImportAnalysisFile(testFile);
             } catch (IOException e) {
-                fail("文件导入失败: " + e.getMessage());
+                fail("File import failed: " + e.getMessage());
             }
         });
         

@@ -17,7 +17,7 @@
     <HBox alignment="CENTER" spacing="0" style="-fx-background-color: #B0E0FF;" VBox.vgrow="NEVER">
         <Button text="Homepage" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleHomeNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         <Button text="Analysis" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleAnalysisNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-        <Button text="Dashboard" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleUserNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button text="User" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleUserNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
     </HBox>
 
     <!-- Main Content -->
