@@ -1,21 +1,40 @@
 package com.coinue.controller;
 
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-// 删除未使用的FileChooser导入
-import javafx.geometry.Insets;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.scene.control.Dialog;
-import java.io.IOException;
 
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+
+/**
+ * 主页控制器类
+ * 负责管理应用程序主页面的所有功能，包括预算列表和还款提醒的显示和管理
+ * 实现了Initializable接口以支持FXML初始化
+ */
 public class HomepageController implements Initializable {
     // FXML 注入的UI组件
     @FXML private ImageView logoImage;
@@ -27,14 +46,131 @@ public class HomepageController implements Initializable {
     private static final String CSV_FILE_PATH = "src/main/resources/data/repayment_reminder.csv";
     private static final String ICONS_PATH = "/images/icons/";
 
+    /**
+     * 创建导入按钮
+     * @return 返回一个样式化的导入按钮，点击时触发导入对话框
+     */
     private Button createImportButton() {
         Button importButton = new Button("Import");
         importButton.setStyle("-fx-background-color: #87CEEB; -fx-text-fill: white; " +
                 "-fx-padding: 5 15; -fx-background-radius: 5;");
-        importButton.setOnAction(e -> showImportDialog());
+        importButton.setOnAction(e -> showImportOptionsDialog());
         return importButton;
     }
 
+    /**
+     * 显示导入选项对话框
+     * 提供默认导入和本地文件导入两个选项
+     */
+    private void showImportOptionsDialog() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("导入选项");
+        alert.setHeaderText("请选择导入方式");
+        alert.setContentText("请选择从默认位置导入或选择本地文件导入");
+
+        ButtonType defaultButton = new ButtonType("默认导入");
+        ButtonType localFileButton = new ButtonType("本地文件");
+        ButtonType cancelButton = new ButtonType("取消", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(defaultButton, localFileButton, cancelButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == defaultButton) {
+                showImportDialog(); // 使用原有的默认导入方法
+            } else if (result.get() == localFileButton) {
+                importLocalCSV();
+            }
+        }
+    }
+
+    /**
+     * 导入本地CSV文件
+     * 打开文件选择器并处理选中的文件
+     */
+    private void importLocalCSV() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("选择CSV文件");
+        fileChooser.getExtensionFilters().add(
+            new javafx.stage.FileChooser.ExtensionFilter("CSV文件", "*.csv")
+        );
+
+        javafx.stage.Stage stage = (javafx.stage.Stage) rootPane.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            try {
+                importCSVFromFile(selectedFile);
+            } catch (IOException e) {
+                showError("导入失败", "无法读取选中的CSV文件: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * 从指定文件导入CSV数据
+     * @param file 要导入的CSV文件
+     */
+    private void importCSVFromFile(File file) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean isFirstLine = true;
+
+            // 清除现有数据
+            budgetList.getChildren().clear();
+            reminderList.getChildren().clear();
+
+            // 重新初始化UI
+            Platform.runLater(() -> {
+                initializeUI();
+            });
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                if (data.length >= 4) {
+                    String type = data[0].trim();
+                    String amount = data[1].trim();
+                    String date = data[2].trim();
+                    String additional = data[3].trim();
+
+                    if (isBudgetType(type)) {
+                        addBudgetItem(type, amount, date, additional);
+                    } else {
+                        addReminderItem(type, amount, date, additional);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 初始化UI组件
+     * 从importCSV方法中提取的UI初始化逻辑
+     */
+    private void initializeUI() {
+        budgetList.setSpacing(10);
+        budgetList.setPadding(new Insets(10));
+        reminderList.setSpacing(10);
+        reminderList.setPadding(new Insets(10));
+
+        Label reminderTitle = createStyledLabel("Repayment reminder",
+                "-fx-font-size: 20; -fx-font-weight: bold;");
+        reminderList.getChildren().add(0, reminderTitle);
+
+        HBox buttonContainer = new HBox(10);
+        buttonContainer.getChildren().addAll(createImportButton(), createAddReminderButton());
+        reminderList.getChildren().add(1, buttonContainer);
+    }
+
+    /**
+     * 创建添加提醒按钮
+     * @return 返回一个样式化的添加提醒按钮，点击时触发添加提醒对话框
+     */
     private Button createAddReminderButton() {
         Button addButton = new Button("Add Reminder");
         addButton.setStyle("-fx-background-color: #87CEEB; -fx-text-fill: white; " +
@@ -43,6 +179,13 @@ public class HomepageController implements Initializable {
         return addButton;
     }
 
+    /**
+     * 添加还款提醒项到列表
+     * @param type 提醒类型
+     * @param amount 金额
+     * @param date 日期
+     * @param daysLeft 剩余天数
+     */
     private void addReminderItem(String type, String amount, String date, String daysLeft) {
         HBox item = new HBox(20);
         item.setStyle("-fx-background-color: #F8F9FA; -fx-padding: 15; " +
@@ -75,6 +218,13 @@ public class HomepageController implements Initializable {
         reminderList.getChildren().add(item);
     }
 
+    /**
+     * 添加预算项到列表
+     * @param category 预算类别
+     * @param amount 金额
+     * @param date 日期
+     * @param paymentType 支付类型
+     */
     private void addBudgetItem(String category, String amount, String date, String paymentType) {
         HBox item = new HBox(15);
         item.setStyle("-fx-background-color: #F8F9FA; -fx-padding: 10; " +
@@ -107,6 +257,13 @@ public class HomepageController implements Initializable {
         }
     }
 
+    /**
+     * 将新的提醒数据保存到CSV文件
+     * @param type 提醒类型
+     * @param amount 金额
+     * @param date 日期
+     * @param daysLeft 剩余天数
+     */
     private void saveToCSV(String type, String amount, String date, String daysLeft) {
         File file = new File(CSV_FILE_PATH);
         try (PrintWriter writer = new PrintWriter(new FileWriter(file, true))) {

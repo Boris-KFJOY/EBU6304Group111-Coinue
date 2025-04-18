@@ -23,31 +23,80 @@ import java.util.List;
 
 /**
  * 主页面控制器
- * 处理主页面的所有交互逻辑
+ * 负责管理和控制应用程序的主界面，包括预算显示、还款提醒和消费记录等功能
  */
 public class MainPageController {
 
+    // FXML 注入的 UI 组件
+    /**
+     * 预算列表视图，显示所有预算项目
+     */
     @FXML
     private ListView<Budget> budgetListView;
+
+    /**
+     * 还款提醒列表视图，显示所有待还款项目
+     */
     @FXML
     private ListView<PaymentReminder> reminderListView;
+
+    /**
+     * 用于触发记录消费的图标视图
+     */
     @FXML
     private ImageView coinImageView;
+
+    /**
+     * 消费记录表格，显示所有消费明细
+     */
     @FXML
     private TableView<ExpenseRecord> expenseTableView;
+
+    // 表格列定义
+    /**
+     * 消费日期列
+     */
     @FXML
     private TableColumn<ExpenseRecord, String> dateColumn;
+
+    /**
+     * 消费类别列
+     */
     @FXML
     private TableColumn<ExpenseRecord, String> categoryColumn;
+
+    /**
+     * 消费名称列
+     */
     @FXML
     private TableColumn<ExpenseRecord, String> nameColumn;
+
+    /**
+     * 消费金额列
+     */
     @FXML
     private TableColumn<ExpenseRecord, Double> amountColumn;
 
+    // 数据集合
+    /**
+     * 预算数据集合
+     */
     private ObservableList<Budget> budgets;
+
+    /**
+     * 还款提醒数据集合
+     */
     private ObservableList<PaymentReminder> reminders;
+
+    /**
+     * 消费记录数据集合
+     */
     private ObservableList<ExpenseRecord> expenseRecords;
 
+    /**
+     * 初始化方法，在FXML加载后自动调用
+     * 负责初始化所有数据和UI组件的显示
+     */
     @FXML
     public void initialize() {
         // 初始化数据
@@ -100,7 +149,8 @@ public class MainPageController {
     }
     
     /**
-     * 初始化消费记录表格
+     * 初始化消费记录表格的配置
+     * 设置各列的数据绑定和显示格式
      */
     private void initializeExpenseTable() {
         // 设置表格列的单元格值工厂
@@ -131,6 +181,10 @@ public class MainPageController {
         expenseTableView.setItems(expenseRecords);
     }
 
+    /**
+     * 处理金币图标点击事件
+     * 打开手动记录消费的对话框
+     */
     @FXML
     private void handleCoinClick() {
         try {
@@ -156,6 +210,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 处理添加预算按钮点击事件
+     * 打开添加预算的对话框
+     */
     @FXML
     private void handleAddBudget() {
         try {
@@ -179,6 +237,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 处理添加还款提醒按钮点击事件
+     * 打开添加还款提醒的对话框
+     */
     @FXML
     private void handleAddReminder() {
         try {
@@ -201,16 +263,28 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 添加新的预算项目
+     * @param budget 要添加的预算对象
+     */
     public void addBudget(Budget budget) {
         budgets.add(budget);
         DataManager.saveBudgets(List.copyOf(budgets));
     }
 
+    /**
+     * 添加新的还款提醒
+     * @param reminder 要添加的还款提醒对象
+     */
     public void addReminder(PaymentReminder reminder) {
         reminders.add(reminder);
         DataManager.saveReminders(List.copyOf(reminders));
     }
 
+    /**
+     * 检查到期的还款提醒
+     * 显示即将到期的还款提醒通知
+     */
     private void checkDueReminders() {
         LocalDate currentDate = LocalDate.now();
         for (PaymentReminder reminder : reminders) {
@@ -224,6 +298,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 处理主页导航按钮点击事件
+     * 切换到主页视图
+     */
     @FXML
     private void handleHomeNav() {
         try {
@@ -236,6 +314,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 处理分析页面导航按钮点击事件
+     * 切换到分析页面视图
+     */
     @FXML
     private void handleAnalysisNav() {
         try {
@@ -248,6 +330,10 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 处理用户页面导航按钮点击事件
+     * 切换到用户页面视图
+     */
     @FXML
     private void handleUserNav() {
         try {
@@ -278,6 +364,7 @@ public class MainPageController {
 
     /**
      * 处理手动记录按钮点击事件
+     * 打开手动记录消费的对话框
      */
     @FXML
     private void handleManualEntry() {
@@ -315,7 +402,7 @@ public class MainPageController {
     
     /**
      * 添加消费记录
-     * @param record 消费记录
+     * @param record 要添加的消费记录对象
      */
     public void addExpenseRecord(ExpenseRecord record) {
         expenseRecords.add(record);
