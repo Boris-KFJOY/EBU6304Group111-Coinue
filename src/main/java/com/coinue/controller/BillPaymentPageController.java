@@ -42,6 +42,8 @@ public class BillPaymentPageController {
 
     private double creditLimit = 7500.00; // 默认信用额度
 
+    
+
     @FXML
     public void initialize() {
         titleLabel.setText("Bill Payment Analysis");
@@ -149,32 +151,32 @@ public class BillPaymentPageController {
     }
 
     @FXML
-    private void switchToHomepage() {
+    private void handleHomeNav() {
         try {
-            // 使用页面管理器切换到主页
+            // 使用页面管理器切换到主页面
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
-            showError("Navigation Error", "Failed to load homepage");
+            showError("Navigation Failed", "Failed to load main page: " + e.getMessage());
         }
     }
 
     @FXML
-    private void switchToAnalysis() {
+    private void handleAnalysisNav() {
         try {
             // 使用页面管理器切换到分析页面
             PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
-            showError("Navigation Error", "Failed to load analysis page");
+            showError("Navigation Failed", "Failed to load analysis page: " + e.getMessage());
         }
     }
 
     @FXML
-    private void switchToDashboard() {
+    private void handleUserNav() {
         try {
             // 使用页面管理器切换到用户页面
             PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
-            showError("Navigation Error", "Failed to load dashboard page");
+            showError("Navigation Failed", "Failed to load user page: " + e.getMessage());
         }
     }
 }
