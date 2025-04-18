@@ -22,15 +22,21 @@
     <HBox spacing="10" VBox.vgrow="ALWAYS">
         <!-- Left Side -->
         <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="400">
-            <!-- Coin Image for Manual Entry -->
-            <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <!-- Coin Image and Label -->
+            <VBox alignment="CENTER" VBox.vgrow="ALWAYS" spacing="1">
                 <ImageView fx:id="coinImageView" onMouseClicked="#handleCoinClick" 
-                          fitHeight="200" fitWidth="200" preserveRatio="true">
+                          fitHeight="400" fitWidth="400" preserveRatio="true">
                     <image>
                         <Image url="@../images/Coinue.png"/>
                     </image>
                 </ImageView>
-            </HBox>
+                <Label text="Start to add data" 
+                       style="-fx-font-size: 16px; -fx-font-weight: bold;">
+                    <VBox.margin>
+                        <Insets top="-20" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
             
             <!-- Budget Section -->
             <VBox alignment="CENTER" spacing="10">
