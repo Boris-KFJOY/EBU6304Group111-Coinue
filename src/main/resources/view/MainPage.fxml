@@ -40,11 +40,27 @@
             </VBox>
         </VBox>
 
-        <!-- Right Side - Payment Reminders -->
+        <!-- Right Side - Payment Reminders and Excel Data -->
         <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="400">
-            <Label text="Repayment reminder" style="-fx-font-size: 18;"/>
-            <ListView fx:id="reminderListView" VBox.vgrow="ALWAYS"/>
-            <Button text="添加还款提醒" onAction="#handleAddReminder"/>
+            <!-- Payment Reminders Section -->
+            <VBox spacing="5">
+                <Label text="Repayment reminder" style="-fx-font-size: 18;"/>
+                <ListView fx:id="reminderListView" VBox.vgrow="ALWAYS" prefHeight="150"/>
+                <Button text="添加还款提醒" onAction="#handleAddReminder"/>
+            </VBox>
+            
+            <!-- Excel Data Section -->
+            <VBox spacing="5" VBox.vgrow="ALWAYS">
+                <Label text="Recent Expense Records" style="-fx-font-size: 18;"/>
+                <TableView fx:id="expenseTableView" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="dateColumn" text="Date" prefWidth="80"/>
+                        <TableColumn fx:id="categoryColumn" text="Category" prefWidth="80"/>
+                        <TableColumn fx:id="nameColumn" text="Name" prefWidth="100"/>
+                        <TableColumn fx:id="amountColumn" text="Amount" prefWidth="80"/>
+                    </columns>
+                </TableView>
+            </VBox>
         </VBox>
     </HBox>
 </VBox>

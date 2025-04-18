@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.List;
 
 public class ManualEntryDialogController {
     @FXML
@@ -38,7 +39,7 @@ public class ManualEntryDialogController {
     
     private Stage dialogStage;
     private boolean isConfirmed = false;
-    private MainPageController mainPageController;
+  
     
     @FXML
     private RadioButton expensesRadio;
@@ -139,10 +140,18 @@ public class ManualEntryDialogController {
         }
     }
     
-    // 将 MainPageController 改为 ExpenseRecordPageController
+    // 主页面控制器引用
+    private MainPageController mainPageController;
+    
+    // 记录页面控制器引用
     private ExpenseRecordPageController expenseRecordPageController;
     
-    // 修改设置控制器的方法
+    // 设置主页面控制器的方法
+    public void setMainPageController(MainPageController controller) {
+        this.mainPageController = controller;
+    }
+    
+    // 设置记录页面控制器的方法
     public void setExpenseRecordPageController(ExpenseRecordPageController controller) {
         this.expenseRecordPageController = controller;
     }
@@ -182,7 +191,13 @@ public class ManualEntryDialogController {
             record.setRecordType(recordType);
             record.setCurrency(currency);
             
-            expenseRecordPageController.addExpenseRecord(record);
+            // 根据控制器类型添加消费记录
+            if (mainPageController != null) {
+                mainPageController.addExpenseRecord(record);
+            } else if (expenseRecordPageController != null) {
+                expenseRecordPageController.addExpenseRecord(record);
+            }
+            
             isConfirmed = true;
             dialogStage.close();
         }
@@ -255,7 +270,7 @@ public class ManualEntryDialogController {
         return isConfirmed;
     }
 
-    // 新增导入CSV文件的方法
+    // 导入CSV文件的方法
     @FXML
     private void handleImport() {
         FileChooser fileChooser = new FileChooser();
@@ -266,11 +281,21 @@ public class ManualEntryDialogController {
         File file = fileChooser.showOpenDialog(dialogStage);
         if (file != null) {
             try {
-                // 这里添加CSV导入逻辑
+                // 使用CSVHandler导入数据
+                List<ExpenseRecord> importedRecords = com.coinue.util.CSVHandler.readExpenseRecords(file.getPath());
+                
+                // 将导入的记录添加到主页面
+                for (ExpenseRecord record : importedRecords) {
+                    mainPageController.addExpenseRecord(record);
+                }
+                
+                // 刷新主页面的消费记录表格
+                mainPageController.refreshExpenseRecords();
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("导入成功");
                 alert.setHeaderText(null);
-                alert.setContentText("CSV文件导入成功！");
+                alert.setContentText("成功导入 " + importedRecords.size() + " 条记录！");
                 alert.showAndWait();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -290,11 +315,5 @@ public class ManualEntryDialogController {
         this.dialogStage = dialogStage;
     }
 
-    /**
-     * 设置主页面控制器
-     * @param mainPageController 主页面控制器
-     */
-    public void setMainPageController(MainPageController mainPageController) {
-        this.mainPageController = mainPageController;
-    }
+
 }
