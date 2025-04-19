@@ -1,3 +1,86 @@
+/* 顶部导航栏样式 */
+.nav-bar {
+    -fx-background-color: #B0C4DE;
+    -fx-padding: 10;
+    -fx-spacing: 20;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2C3E50;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #9FB6CD;
+}
+
+/* 用户信息区域样式 */
+.user-info {
+    -fx-padding: 10 20;
+    -fx-alignment: center-right;
+}
+
+.user-info-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2C3E50;
+}
+
+/* 功能模块标签样式 */
+.function-tab {
+    -fx-background-color: #A9A9A9;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 266;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+}
+
+.function-tab:selected {
+    -fx-background-color: #C0C0C0;
+}
+
+/* 同步功能区样式 */
+.sync-section {
+    -fx-padding: 20;
+    -fx-spacing: 20;
+}
+
+.sync-progress {
+    -fx-text-fill: #4CAF50;
+    -fx-font-size: 16px;
+}
+
+/* 共享成员列表样式 */
+.member-list {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+}
+
+.member-list-item {
+    -fx-padding: 10;
+    -fx-border-color: #eee;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* 隐私开关样式 */
+.privacy-switch {
+    -fx-background-color: #4CAF50;
+}
+
+/* 加密状态标签样式 */
+.encrypted-label {
+    -fx-text-fill: #4CAF50;
+}
+
+.unencrypted-label {
+    -fx-text-fill: #f44336;
+}
+
+/* 保留原有的按钮样式 */
 .action-button {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
@@ -22,6 +105,7 @@
     -fx-background-color: #da190b;
 }
 
+/* 输入框样式 */
 .text-field, .combo-box, .date-picker {
     -fx-background-radius: 4;
     -fx-border-radius: 4;
@@ -32,4 +116,21 @@
 
 .text-field:focused, .combo-box:focused, .date-picker:focused {
     -fx-border-color: #4CAF50;
+}
+
+/* 列表视图样式 */
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-padding: 5;
+}
+
+.list-cell {
+    -fx-padding: 10;
+    -fx-background-color: white;
+}
+
+.list-cell:hover {
+    -fx-background-color: #f5f5f5;
 }

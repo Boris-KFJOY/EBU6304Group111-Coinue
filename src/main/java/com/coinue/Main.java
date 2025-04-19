@@ -6,21 +6,16 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
-
-            // 初始化页面管理器
-            PageManager pageManager = PageManager.getInstance();
-            pageManager.initStage(primaryStage);
-
-            primaryStage.setTitle("Coinue");
+            // 将 initialize 改为 initStage
+            PageManager.getInstance().initStage(primaryStage);
+            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
             
-            // 使用页面管理器加载初始页面
-            pageManager.switchToPage("/view/MainPage.fxml");
+            primaryStage.setTitle("Coinue");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            throw e;
         }
     }
 

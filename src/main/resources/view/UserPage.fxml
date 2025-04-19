@@ -3,76 +3,57 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #f0f5ff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coinue.controller.UserPageController" stylesheets="@../styles/main.css">
-    <children>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6f0fa;"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.coinue.controller.UserPageController">
+    <VBox spacing="20.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" 
+          AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        
         <!-- 顶部导航栏 -->
-        <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefHeight="60.0">
-            <padding>
-                <Insets left="20.0" right="20.0"/>
-            </padding>
-            <children>
-                <Label text="Personal Center" style="-fx-font-weight: bold;">
-                    <font>
-                        <Font size="24.0"/>
-                    </font>
-                </Label>
-                <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Button fx:id="homeButton" text="Home" styleClass="nav-button" onAction="#handleHomeNav"/>
-                    <Button fx:id="analysisButton" text="Analysis" styleClass="nav-button" onAction="#handleAnalysisNav"/>
-                    <Button fx:id="userButton" text="User" styleClass="nav-button" onAction="#handleUserNav"/>
-                </HBox>
-            </children>
+        <HBox style="-fx-background-color: #B0C4DE;" spacing="0">
+            <Button text="Homepage" onAction="#handleHomeNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+            <Button text="Analysis" onAction="#handleAnalysisNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+            <Button text="Dashboard" onAction="#handleUserNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
         </HBox>
 
-        <!-- 主要内容区域 -->
-        <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
-            <!-- 用户信息卡片 -->
-            <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 20px;">
-                <HBox spacing="20.0" alignment="CENTER_LEFT">
-                    <ImageView fitHeight="80.0" fitWidth="80.0">
-                        <image>
-                            <Image url="@../images/coinue_logo.png"/>
-                        </image>
-                    </ImageView>
-                    <VBox spacing="5.0">
-                        <Label fx:id="usernameLabel" text="Username" style="-fx-font-weight: bold;">
-                            <font>
-                                <Font size="18.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="emailLabel" text="Email" />
-                    </VBox>
-                </HBox>
+        <!-- 用户信息区域 -->
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;">
+            <VBox alignment="CENTER_RIGHT">
+                <Label fx:id="usernameLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+                <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
             </VBox>
+            <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+        </HBox>
 
-            <!-- 用户设置区域 -->
-            <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 20px;">
-                <Label text="Account Settings" style="-fx-font-weight: bold;">
-                    <font>
-                        <Font size="16.0"/>
-                    </font>
-                </Label>
-                
-                <!-- 设置选项 -->
-                <VBox spacing="10.0">
-                    <Button text="Change Password" onAction="#handleChangePassword" styleClass="setting-button" maxWidth="200.0" />
-                    <Button text="Bill Payment" onAction="#handleBillPayment" styleClass="setting-button" maxWidth="200.0" />
-                    <Button text="Export Data" onAction="#handleExportData" styleClass="setting-button" maxWidth="200.0" />
-                </VBox>
-            </VBox>
+        <!-- 功能区域标签 -->
+        <HBox style="-fx-background-color: #A9A9A9;">
+            <Button text="Synchronisation" onAction="#handleSyncNav" 
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+            <Button text="Sharing" onAction="#handleSharingNav" 
+                    style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" prefWidth="266"/>
+            <Button text="Encryption" onAction="#handleEncryptionNav" 
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+        </HBox>
 
-            <!-- 退出登录按钮 -->
-            <Button text="Logout" onAction="#handleLogout" styleClass="logout-button" maxWidth="200.0" />
+        <!-- 其他功能按钮 -->
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <Button text="Change Password" onAction="#handleChangePassword" 
+                    style="-fx-background-color: white; -fx-border-color: #3498db; 
+                           -fx-border-radius: 5; -fx-background-radius: 5;"/>
+            <Button text="Bill Payment" onAction="#handleBillPayment"
+                    style="-fx-background-color: white; -fx-border-color: #3498db; 
+                           -fx-border-radius: 5; -fx-background-radius: 5;"/>
+            <Button text="Export Data" onAction="#handleExportData"
+                    style="-fx-background-color: white; -fx-border-color: #3498db; 
+                           -fx-border-radius: 5; -fx-background-radius: 5;"/>
+            <Button text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color: white; -fx-border-color: #3498db; 
+                           -fx-border-radius: 5; -fx-background-radius: 5;"/>
         </VBox>
-    </children>
-
-    <!-- 删除这部分 -->
-    <!-- 
-    <stylesheets>
-        <String fx:value="@../styles/main.css"/>
-    </stylesheets>
-    -->
+    </VBox>
 </AnchorPane>
