@@ -11,7 +11,7 @@
       spacing="10"
       prefWidth="800"
       prefHeight="600"
-      style="-fx-background-color: #F0F8FF;">
+      style="-fx-background-color: linear-gradient(to right, #ffffff,rgb(192, 213, 255) 75%, #ffffff);">
 
     <!-- Top Navigation -->
     <HBox alignment="CENTER" spacing="0" style="-fx-background-color: #B0E0FF;" VBox.vgrow="NEVER">
@@ -32,10 +32,11 @@
                         <Image url="@../images/Coinue.png"/>
                     </image>
                 </ImageView>
-                <Label text="Start to add data" 
-                       style="-fx-font-size: 16px; -fx-font-weight: bold;">
+                <Label text="Start to add data"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: linear-gradient(to right,rgb(177, 214, 244),rgb(118, 189, 255)); -fx-effect: dropshadow(gaussian, #888, 6, 0.5, 2, 2); -fx-padding: 10 0 0 0;"
+                >
                     <VBox.margin>
-                        <Insets top="-20" />
+                        <Insets top="-10" />
                     </VBox.margin>
                 </Label>
             </VBox>
@@ -54,7 +55,9 @@
             <VBox spacing="5" VBox.vgrow="ALWAYS">
                 <Label text="Repayment reminder" style="-fx-font-size: 18;"/>
                 <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
-                    <VBox fx:id="reminderContainer" spacing="10" style="-fx-padding: 5; -fx-background-color: #E6F7FF; -fx-background-radius: 10;" />
+                    <VBox fx:id="reminderContainer" spacing="10"
+                      style="-fx-padding: 5; -fx-background-radius: 10;
+                             -fx-background-color: linear-gradient(to right, #e6f7ff, #b3d8ff 80%, #e6f7ff);"/>
                 </ScrollPane>
                 <Button text="添加还款提醒" onAction="#handleAddReminder"/>
             </VBox>
