@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 还款账单页面控制器
- * 处理账单导入和图表展示功能
+ * Bill Payment Page Controller
+ * Handles bill import and chart display functionality
  */
 public class BillPaymentPageController {
 
@@ -42,9 +42,11 @@ public class BillPaymentPageController {
 
     private double creditLimit = 7500.00; // 默认信用额度
 
+    
+
     @FXML
     public void initialize() {
-        titleLabel.setText("还款账单分析");
+        titleLabel.setText("Bill Payment Analysis");
         
         // 初始化表格列
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -56,8 +58,8 @@ public class BillPaymentPageController {
         updatePieChart(0.0);
         
         // 设置信用额度标签
-        creditLimitLabel.setText(String.format("信用额度：%.2f", creditLimit));
-        repaymentAmountLabel.setText("还款金额：0.00");
+        creditLimitLabel.setText(String.format("Credit Limit: %.2f", creditLimit));
+        repaymentAmountLabel.setText("Repayment Amount: 0.00");
     }
 
     @FXML
@@ -99,10 +101,10 @@ public class BillPaymentPageController {
                 }
             }
         } catch (IOException e) {
-            showError("导入错误", "导入CSV文件失败: " + e.getMessage());
+            showError("Import Error", "Failed to import CSV file: " + e.getMessage());
             return;
         } catch (Exception e) {
-            showError("数据错误", "请确保CSV文件格式正确");
+            showError("Data Error", "Please ensure the CSV file format is correct");
             return;
         }
 
@@ -149,32 +151,32 @@ public class BillPaymentPageController {
     }
 
     @FXML
-    private void switchToHomepage() {
+    private void handleHomeNav() {
         try {
-            // 使用页面管理器切换到主页
+            // 使用页面管理器切换到主页面
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
-            showError("导航错误", "无法加载主页面");
+            showError("Navigation Failed", "Failed to load main page: " + e.getMessage());
         }
     }
 
     @FXML
-    private void switchToAnalysis() {
+    private void handleAnalysisNav() {
         try {
             // 使用页面管理器切换到分析页面
             PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
-            showError("导航错误", "无法加载分析页面");
+            showError("Navigation Failed", "Failed to load analysis page: " + e.getMessage());
         }
     }
 
     @FXML
-    private void switchToDashboard() {
+    private void handleUserNav() {
         try {
             // 使用页面管理器切换到用户页面
             PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
-            showError("导航错误", "无法加载仪表盘页面");
+            showError("Navigation Failed", "Failed to load user page: " + e.getMessage());
         }
     }
 }

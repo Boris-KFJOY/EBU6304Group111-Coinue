@@ -11,8 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -35,10 +40,10 @@ public class MainPageController {
     private ListView<Budget> budgetListView;
 
     /**
-     * 还款提醒列表视图，显示所有待还款项目
+     * 还款提醒容器，显示所有待还款项目
      */
     @FXML
-    private ListView<PaymentReminder> reminderListView;
+    private VBox reminderContainer;
 
     /**
      * 用于触发记录消费的图标视图
@@ -123,23 +128,8 @@ public class MainPageController {
             }
         });
 
-        // 设置还款提醒列表显示
-        reminderListView.setItems(reminders);
-        reminderListView.setCellFactory(param -> new ListCell<PaymentReminder>() {
-            @Override
-            protected void updateItem(PaymentReminder item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    long daysUntilDue = item.getDaysUntilDue(LocalDate.now());
-                    setText(String.format("%s: %.2f (还有%d天到期)",
-                            item.getPlatform(),
-                            item.getAmount(),
-                            daysUntilDue));
-                }
-            }
-        });
+        // 设置还款提醒卡片式显示
+        updateReminderCards();
         
         // 设置消费记录表格
         initializeExpenseTable();
@@ -250,7 +240,7 @@ public class MainPageController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("添加还款提醒");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(reminderListView.getScene().getWindow());
+            dialogStage.initOwner(reminderContainer.getScene().getWindow());
             dialogStage.setScene(new Scene(root));
 
             ReminderDialogController controller = loader.getController();
@@ -279,6 +269,86 @@ public class MainPageController {
     public void addReminder(PaymentReminder reminder) {
         reminders.add(reminder);
         DataManager.saveReminders(List.copyOf(reminders));
+        updateReminderCards(); // 更新卡片显示
+    }
+    
+    /**
+     * 更新还款提醒卡片显示
+     * 根据当前的提醒列表创建卡片式UI
+     */
+    private void updateReminderCards() {
+        reminderContainer.getChildren().clear();
+        LocalDate currentDate = LocalDate.now();
+        
+        for (PaymentReminder reminder : reminders) {
+            // 创建卡片容器
+            HBox card = new HBox();
+            card.setSpacing(15);
+            card.setPadding(new Insets(10));
+            card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
+            
+            // 创建图标
+            String iconPath = reminder.getIconPath();
+            Image iconImage;
+            try {
+                iconImage = new Image(getClass().getResourceAsStream(iconPath));
+                if (iconImage.isError()) {
+                    // 如果加载失败，使用默认图标
+                    iconImage = new Image(getClass().getResourceAsStream("/images/credit_card_icon.png"));
+                }
+            } catch (Exception e) {
+                // 如果出现异常，使用默认图标
+                iconImage = new Image(getClass().getResourceAsStream("/images/credit_card_icon.png"));
+            }
+            
+            ImageView iconView = new ImageView(iconImage);
+            iconView.setFitHeight(50);
+            iconView.setFitWidth(50);
+            iconView.setPreserveRatio(true);
+            
+            // 创建图标背景
+            StackPane iconContainer = new StackPane(iconView);
+            iconContainer.setStyle("-fx-background-color: #4FC3F7; -fx-background-radius: 10;");
+            iconContainer.setPadding(new Insets(10));
+            
+            // 创建信息区域
+            VBox infoContainer = new VBox();
+            infoContainer.setSpacing(5);
+            infoContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            
+            // 平台名称
+            Label platformLabel = new Label(reminder.getPlatform());
+            platformLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+            
+            // 到期日期
+            Label dateLabel = new Label(reminder.getDueDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy")));
+            dateLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #757575;");
+            
+            infoContainer.getChildren().addAll(platformLabel, dateLabel);
+            
+            // 创建金额和剩余天数区域
+            VBox amountContainer = new VBox();
+            amountContainer.setSpacing(5);
+            amountContainer.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+            HBox.setHgrow(amountContainer, javafx.scene.layout.Priority.ALWAYS);
+            
+            // 金额
+            Label amountLabel = new Label(String.format("%.0fRMB", reminder.getAmount()));
+            amountLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+            
+            // 剩余天数
+            long daysUntilDue = reminder.getDaysUntilDue(currentDate);
+            Label daysLabel = new Label(String.format("%d days left", daysUntilDue));
+            daysLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #757575;");
+            
+            amountContainer.getChildren().addAll(amountLabel, daysLabel);
+            
+            // 组装卡片
+            card.getChildren().addAll(iconContainer, infoContainer, amountContainer);
+            
+            // 添加到容器
+            reminderContainer.getChildren().add(card);
+        }
     }
 
     /**
@@ -296,6 +366,8 @@ public class MainPageController {
                                 reminder.getAmount()));
             }
         }
+        // 更新卡片显示
+        updateReminderCards();
     }
 
     /**
@@ -305,7 +377,7 @@ public class MainPageController {
     @FXML
     private void handleHomeNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
             Parent root = loader.load();
             Scene scene = budgetListView.getScene();
             scene.setRoot(root);

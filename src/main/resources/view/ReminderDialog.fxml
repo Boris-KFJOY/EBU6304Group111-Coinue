@@ -3,6 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -22,6 +23,34 @@
 
         <Label text="到期日期：" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
         <DatePicker fx:id="dueDatePicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        
+        <Label text="选择图标：" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <VBox alignment="CENTER" spacing="5" styleClass="icon-option" onMouseClicked="#selectRentIcon">
+                <ImageView fx:id="rentIcon" fitHeight="40" fitWidth="40" preserveRatio="true">
+                    <Image url="@../images/icons/rent.png"/>
+                </ImageView>
+                <Label text="房租" style="-fx-font-size: 10;"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5" styleClass="icon-option" onMouseClicked="#selectCreditCardIcon">
+                <ImageView fx:id="creditCardIcon" fitHeight="40" fitWidth="40" preserveRatio="true">
+                    <Image url="@../images/icons/credit_card.png"/>
+                </ImageView>
+                <Label text="信用卡" style="-fx-font-size: 10;"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5" styleClass="icon-option" onMouseClicked="#selectExpressIcon">
+                <ImageView fx:id="expressIcon" fitHeight="40" fitWidth="40" preserveRatio="true">
+                    <Image url="@../images/icons/express.png"/>
+                </ImageView>
+                <Label text="快递" style="-fx-font-size: 10;"/>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5" styleClass="icon-option" onMouseClicked="#selectShoppingIcon">
+                <ImageView fx:id="shoppingIcon" fitHeight="40" fitWidth="40" preserveRatio="true">
+                    <Image url="@../images/icons/shopping.png"/>
+                </ImageView>
+                <Label text="购物" style="-fx-font-size: 10;"/>
+            </VBox>
+        </HBox>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">

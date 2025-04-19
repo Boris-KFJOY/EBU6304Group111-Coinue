@@ -14,15 +14,15 @@
                 <Insets left="20.0" right="20.0"/>
             </padding>
             <children>
-                <Label text="个人中心" style="-fx-font-weight: bold;">
+                <Label text="Personal Center" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="24.0"/>
                     </font>
                 </Label>
                 <HBox spacing="20.0" alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Button fx:id="homeButton" text="主页" styleClass="nav-button" onAction="#handleHomeNav"/>
-                    <Button fx:id="analysisButton" text="分析" styleClass="nav-button" onAction="#handleAnalysisNav"/>
-                    <Button fx:id="userButton" text="用户" styleClass="nav-button" onAction="#handleUserNav"/>
+                    <Button fx:id="homeButton" text="Home" styleClass="nav-button" onAction="#handleHomeNav"/>
+                    <Button fx:id="analysisButton" text="Analysis" styleClass="nav-button" onAction="#handleAnalysisNav"/>
+                    <Button fx:id="userButton" text="User" styleClass="nav-button" onAction="#handleUserNav"/>
                 </HBox>
             </children>
         </HBox>
@@ -38,19 +38,19 @@
                         </image>
                     </ImageView>
                     <VBox spacing="5.0">
-                        <Label fx:id="usernameLabel" text="用户名" style="-fx-font-weight: bold;">
+                        <Label fx:id="usernameLabel" text="Username" style="-fx-font-weight: bold;">
                             <font>
                                 <Font size="18.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="emailLabel" text="邮箱地址" />
+                        <Label fx:id="emailLabel" text="Email" />
                     </VBox>
                 </HBox>
             </VBox>
 
             <!-- 用户设置区域 -->
             <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-padding: 20px;">
-                <Label text="账户设置" style="-fx-font-weight: bold;">
+                <Label text="Account Settings" style="-fx-font-weight: bold;">
                     <font>
                         <Font size="16.0"/>
                     </font>
@@ -58,14 +58,14 @@
                 
                 <!-- 设置选项 -->
                 <VBox spacing="10.0">
-                    <Button text="修改密码" onAction="#handleChangePassword" styleClass="setting-button" maxWidth="200.0" />
-                    <Button text="还款账单" onAction="#handleBillPayment" styleClass="setting-button" maxWidth="200.0" />
-                    <Button text="导出数据" onAction="#handleExportData" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="Change Password" onAction="#handleChangePassword" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="Bill Payment" onAction="#handleBillPayment" styleClass="setting-button" maxWidth="200.0" />
+                    <Button text="Export Data" onAction="#handleExportData" styleClass="setting-button" maxWidth="200.0" />
                 </VBox>
             </VBox>
 
             <!-- 退出登录按钮 -->
-            <Button text="退出登录" onAction="#handleLogout" styleClass="logout-button" maxWidth="200.0" />
+            <Button text="Logout" onAction="#handleLogout" styleClass="logout-button" maxWidth="200.0" />
         </VBox>
     </children>
 
