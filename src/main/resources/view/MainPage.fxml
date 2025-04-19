@@ -51,9 +51,11 @@
         <!-- Right Side - Payment Reminders and Excel Data -->
         <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="400">
             <!-- Payment Reminders Section -->
-            <VBox spacing="5">
+            <VBox spacing="5" VBox.vgrow="ALWAYS">
                 <Label text="Repayment reminder" style="-fx-font-size: 18;"/>
-                <ListView fx:id="reminderListView" VBox.vgrow="ALWAYS" prefHeight="150"/>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <VBox fx:id="reminderContainer" spacing="10" style="-fx-padding: 5; -fx-background-color: #E6F7FF; -fx-background-radius: 10;" />
+                </ScrollPane>
                 <Button text="添加还款提醒" onAction="#handleAddReminder"/>
             </VBox>
             

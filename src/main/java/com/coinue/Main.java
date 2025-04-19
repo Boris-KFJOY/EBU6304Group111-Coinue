@@ -16,7 +16,7 @@ public class Main extends Application {
             primaryStage.setTitle("Coinue");
             
             // 使用页面管理器加载初始页面
-            pageManager.switchToPage("/view/BillPaymentPage.fxml");
+            pageManager.switchToPage("/view/MainPage.fxml");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
