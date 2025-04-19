@@ -112,4 +112,40 @@ public class UserPageController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    /**
+     * 处理同步功能区导航
+     */
+    @FXML
+    private void handleSyncNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/SyncPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load synchronisation page: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 处理共享功能区导航
+     */
+    @FXML
+    private void handleSharingNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/SharingPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load sharing page: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 处理加密功能区导航
+     */
+    @FXML
+    private void handleEncryptionNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/EncryptionPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load encryption page: " + e.getMessage());
+        }
+    }
 }
