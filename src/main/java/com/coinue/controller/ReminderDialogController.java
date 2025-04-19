@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ReminderDialogController {
@@ -14,10 +15,20 @@ public class ReminderDialogController {
     private TextField amountField;
     @FXML
     private DatePicker dueDatePicker;
+    
+    @FXML
+    private ImageView rentIcon;
+    @FXML
+    private ImageView creditCardIcon;
+    @FXML
+    private ImageView expressIcon;
+    @FXML
+    private ImageView shoppingIcon;
 
     private Stage dialogStage;
     private MainPageController mainPageController;
     private boolean okClicked = false;
+    private String selectedIconPath = "/images/icons/credit_card.png"; // 默认图标
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -33,8 +44,8 @@ public class ReminderDialogController {
             String platform = platformField.getText();
             double amount = Double.parseDouble(amountField.getText());
             
-            // 创建新的还款提醒对象
-            PaymentReminder reminder = new PaymentReminder(platform, amount, dueDatePicker.getValue());
+            // 创建新的还款提醒对象，包含选择的图标
+            PaymentReminder reminder = new PaymentReminder(platform, amount, dueDatePicker.getValue(), selectedIconPath);
             
             // 添加到主页面
             mainPageController.addReminder(reminder);
@@ -84,5 +95,46 @@ public class ReminderDialogController {
 
     public boolean isOkClicked() {
         return okClicked;
+    }
+    
+    @FXML
+    private void selectRentIcon() {
+        selectedIconPath = "/images/icons/rent.png";
+        highlightSelectedIcon(rentIcon);
+    }
+    
+    @FXML
+    private void selectCreditCardIcon() {
+        selectedIconPath = "/images/icons/credit_card.png";
+        highlightSelectedIcon(creditCardIcon);
+    }
+    
+    @FXML
+    private void selectExpressIcon() {
+        selectedIconPath = "/images/icons/express.png";
+        highlightSelectedIcon(expressIcon);
+    }
+    
+    @FXML
+    private void selectShoppingIcon() {
+        selectedIconPath = "/images/icons/shopping.png";
+        highlightSelectedIcon(shoppingIcon);
+    }
+    
+    private void highlightSelectedIcon(ImageView selectedIcon) {
+        // 重置所有图标的样式
+        rentIcon.setOpacity(0.5);
+        creditCardIcon.setOpacity(0.5);
+        expressIcon.setOpacity(0.5);
+        shoppingIcon.setOpacity(0.5);
+        
+        // 高亮选中的图标
+        selectedIcon.setOpacity(1.0);
+    }
+    
+    @FXML
+    public void initialize() {
+        // 默认选中信用卡图标
+        highlightSelectedIcon(creditCardIcon);
     }
 }

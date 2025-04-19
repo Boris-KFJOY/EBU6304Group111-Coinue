@@ -3,5 +3,11 @@
     "platform": "1",
     "amount": 1.0,
     "dueDate": "2025-04-01"
+  },
+  {
+    "platform": "card",
+    "amount": 1.0,
+    "dueDate": "2025-04-01",
+    "iconPath": "/images/icons/rent.png"
   }
 ]

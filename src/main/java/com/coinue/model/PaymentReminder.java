@@ -7,11 +7,18 @@ public class PaymentReminder {
     private String platform;
     private double amount;
     private LocalDate dueDate;
+    private String iconPath; // 添加图标路径属性
 
-    public PaymentReminder(String platform, double amount, LocalDate dueDate) {
+    public PaymentReminder(String platform, double amount, LocalDate dueDate, String iconPath) {
         this.platform = platform;
         this.amount = amount;
         this.dueDate = dueDate;
+        this.iconPath = iconPath;
+    }
+    
+    // 兼容旧版本的构造函数
+    public PaymentReminder(String platform, double amount, LocalDate dueDate) {
+        this(platform, amount, dueDate, "/images/icons/credit_card.png"); // 默认图标
     }
 
     // Getters
@@ -25,6 +32,14 @@ public class PaymentReminder {
 
     public LocalDate getDueDate() {
         return dueDate;
+    }
+    
+    public String getIconPath() {
+        return iconPath;
+    }
+    
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
     }
 
     // 计算距离到期还有多少天
