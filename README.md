@@ -1,8 +1,20 @@
+
+
 # EBU6304Group111-Coinue
 ## Team Members
-SiyueZhu, 2022213509, 221170858, Susana_2004@126.com
 
-YubingjieLONG, 2022213536, 221171121, jp2022213536@qmul.ac.uk
+|Name| Chine | 英方学号 | Github 邮箱 | Github 用户名 |
+|Yujue Yan|2022213499|221170766|2667965387@qq.com|Boris-KFJOY|
+|Siyue Zhu|2022213509|221170858|Susana 2004@126.com|jucie-yue|
+|Yubingjie Long|2022213536|221171121|jp2022213536@qmul.ac.uk|JADE-13|
+|Yufei Ye|22022213513|221170892|jp2022213513@qmul.ac.uk|Siloopy|
+|Wanyu Chen|2022213534|221171109|2022213534@bupt.cn|Feldzug|
+|Ruijun Gao|   |   |grj0319@bupt.edu.cn|junjun0319|
 
-WanyuChen, 2022213534, 221171109, 2022213534@bupt.cn
+## Coinue - EBU6304 Software Engineering Project
+
+This project is developed for the EBU6304 Software Engineering module.
+
+Coinue is a financial management application designed to help users track their expenses, manage budgets, and set payment reminders effectively.
+
 
