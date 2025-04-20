@@ -9,6 +9,22 @@
     "currency": "CNY"
   },
   {
+    "amount": 600.0,
+    "category": "娱乐",
+    "name": "出去看话剧",
+    "date": "2025-04-19",
+    "description": "我感觉今天画的钱有点多",
+    "recordType": "支出",
+    "currency": "USD"
+  },
+  {
+    "amount": 1.0,
+    "category": "投资",
+    "name": "1",
+    "date": "2025-04-20",
+    "description": "1",
+    "recordType": "收入",
+    "currency": "CNY"
 
   }
 ]

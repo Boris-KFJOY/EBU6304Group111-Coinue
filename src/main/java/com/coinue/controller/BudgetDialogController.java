@@ -21,21 +21,72 @@ public class BudgetDialogController {
 
     @FXML
     private void initialize() {
-        // 初始化类别选项
+        // 初始化类别选项，与手动输入保持一致
         categoryComboBox.getItems().addAll(
+            "食品",
             "购物",
-            "餐饮",
             "交通",
             "娱乐",
+            "教育",
+            "医疗",
+            "住房",
             "其他"
         );
 
         // 初始化货币选项
         currencyComboBox.getItems().addAll(
-            "RMB",
+            "CNY",
             "USD",
             "EUR"
         );
+
+        // 设置默认值
+        categoryComboBox.setValue("食品");
+        currencyComboBox.setValue("CNY");
+    }
+
+    // 获取类别对应的图标路径
+    public static String getCategoryIconPath(String category) {
+        switch (category.toLowerCase()) {
+            case "食品":
+                return "/images/icons/food.png";
+            case "购物":
+                return "/images/icons/shopping.png";
+            case "交通":
+                return "/images/icons/transport.png";
+            case "娱乐":
+                return "/images/icons/entertainment.png";
+            case "教育":
+                return "/images/icons/education.png";
+            case "医疗":
+                return "/images/icons/medical.png";
+            case "住房":
+                return "/images/icons/house.png";
+            default:
+                return "/images/icons/other.png";
+        }
+    }
+
+    // 获取类别对应的背景颜色
+    public static String getCategoryColor(String category) {
+        switch (category.toLowerCase()) {
+            case "食品":
+                return "linear-gradient(to right, #FFE0B2, #FFB74D)";
+            case "购物":
+                return "linear-gradient(to right, #B3E5FC, #4FC3F7)";
+            case "交通":
+                return "linear-gradient(to right, #C8E6C9, #81C784)";
+            case "娱乐":
+                return "linear-gradient(to right, #F8BBD0, #F06292)";
+            case "教育":
+                return "linear-gradient(to right, #D1C4E9, #9575CD)";
+            case "医疗":
+                return "linear-gradient(to right, #B2EBF2, #4DD0E1)";
+            case "住房":
+                return "linear-gradient(to right, #FFCCBC, #FF8A65)";
+            default:
+                return "linear-gradient(to right, #CFD8DC, #90A4AE)";
+        }
     }
 
     public void setDialogStage(Stage dialogStage) {

@@ -1,14 +1,32 @@
 [
   {
     "category": "购物",
-    "amount": 1.0,
-    "currency": "RMB",
+    "amount": 100.0,
+    "currency": "USD",
     "spentAmount": 0.0
   },
   {
-    "category": "购物",
-    "amount": 1.0,
-    "currency": "RMB",
+    "category": "交通",
+    "amount": 100.0,
+    "currency": "EUR",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 100.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "医疗",
+    "amount": 100.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "住房",
+    "amount": 100.0,
+    "currency": "CNY",
     "spentAmount": 0.0
   }
 ]
