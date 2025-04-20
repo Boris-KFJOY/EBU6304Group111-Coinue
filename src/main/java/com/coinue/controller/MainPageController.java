@@ -117,9 +117,6 @@ public class MainPageController {
         
         // 设置消费记录表格
         initializeExpenseTable();
-
-        // 检查并显示到期提醒
-        checkDueReminders();
     }
     
     /**
@@ -458,25 +455,6 @@ public class MainPageController {
             
             reminderContainer.getChildren().add(card);
         }
-    }
-
-    /**
-     * 检查到期的还款提醒
-     * 显示即将到期的还款提醒通知
-     */
-    private void checkDueReminders() {
-        LocalDate currentDate = LocalDate.now();
-        for (PaymentReminder reminder : reminders) {
-            if (reminder.needsReminder(currentDate)) {
-                showInfo("还款提醒",
-                        String.format("%s将在%d天后到期，需要还款%.2f元",
-                                reminder.getPlatform(),
-                                reminder.getDaysUntilDue(currentDate),
-                                reminder.getAmount()));
-            }
-        }
-        // 更新卡片显示
-        updateReminderCards();
     }
 
     /**
