@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6f0fa;"
+            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.coinue.controller.EncryptionPageController">
+    <VBox spacing="20.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" 
+          AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        
+        <!-- 顶部导航栏 -->
+        <HBox style="-fx-background-color: #B0C4DE;" spacing="0">
+            <Button text="Homepage" onAction="#handleHomeNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+            <Button text="Analysis" onAction="#handleAnalysisNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+            <Button text="Dashboard" onAction="#handleUserNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+        </HBox>
+
+        <!-- 用户信息区域 -->
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;">
+            <VBox alignment="CENTER_RIGHT">
+                <Label text="NAME" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+                <Label text="0000000000" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
+            </VBox>
+            <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+        </HBox>
+
+        <!-- 功能区域标签 -->
+        <HBox style="-fx-background-color: #A9A9A9;">
+            <Button text="Synchronisation" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+            <Button text="Sharing" style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" prefWidth="266"/>
+            <Button text="Encryption" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+        </HBox>
+
+        <!-- 加密列表 -->
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <ListView fx:id="encryptionListView" prefHeight="400" style="-fx-background-color: white;">
+                <VBox.margin>
+                    <Insets bottom="20"/>
+                </VBox.margin>
+            </ListView>
+        </VBox>
+    </VBox>
+</AnchorPane>
