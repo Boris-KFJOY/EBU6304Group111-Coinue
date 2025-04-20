@@ -139,8 +139,8 @@ public class ManualEntryDialogController {
             updateSubCategories(newValue);
         });
 
-        // 添加单选按钮变化监听器
-        expensesRadio.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        // 修改：使用ToggleGroup的selectedToggleProperty来监听单选按钮变化
+        recordTypeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             handleRecordTypeChange();
         });
     }
@@ -312,7 +312,7 @@ public class ManualEntryDialogController {
      * 关闭对话框
      */
     @FXML
-    private void handleCancel() {
+    void handleCancel() {
         dialogStage.close();
     }
 
@@ -376,6 +376,28 @@ public class ManualEntryDialogController {
      */
     public boolean isConfirmed() {
         return isConfirmed;
+    }
+    
+    /**
+     * 检查是否选择了收入类型
+     * @return 如果选择了收入类型返回true，否则返回false
+     */
+    public boolean isIncomeSelected() {
+        return incomeRadio.isSelected();
+    }
+    
+    /**
+     * 设置记录类型（支出或收入）
+     * @param type 记录类型，"income"表示收入，其他值表示支出
+     */
+    public void setRecordType(String type) {
+        if ("income".equalsIgnoreCase(type)) {
+            incomeRadio.setSelected(true);
+        } else {
+            expensesRadio.setSelected(true);
+        }
+        // 手动触发类别更新
+        handleRecordTypeChange();
     }
 
     /**
