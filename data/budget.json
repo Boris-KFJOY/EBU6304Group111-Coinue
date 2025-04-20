@@ -28,5 +28,53 @@
     "amount": 100.0,
     "currency": "CNY",
     "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "食品",
+    "amount": 1000.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
   }
 ]
