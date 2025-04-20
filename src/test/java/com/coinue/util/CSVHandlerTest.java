@@ -1,4 +1,4 @@
-package com.coinue;
+package com.coinue.util;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -27,7 +27,7 @@ import com.coinue.model.ExpenseRecord;
 import com.coinue.util.CSVHandler;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class Importcsv_test {
+class CSVHandlerTest {
 
     private ManualEntryDialogController controller;
     private MainPageController mockMainPageController;

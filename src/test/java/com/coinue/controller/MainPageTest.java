@@ -1,4 +1,4 @@
-package com.coinue;
+package com.coinue.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
