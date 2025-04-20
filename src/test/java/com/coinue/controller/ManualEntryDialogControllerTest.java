@@ -153,7 +153,7 @@ public class ManualEntryDialogControllerTest {
     @Test
     void testImportFromCsv() throws IOException {
         // 获取测试CSV文件
-        File testFile = new File("d:/Group/Malocalre/EBU6304Group111-Coinue/src/main/resources/data/test/sample_expenses.csv");
+        File testFile = new File("src/main/resources/data/test/sample_expenses.csv");
         assertTrue(testFile.exists(), "测试文件不存在");
         
         // 这里可以添加代码来测试CSV导入功能
