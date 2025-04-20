@@ -1,10 +1,5 @@
 [
   {
-    "platform": "1",
-    "amount": 1.0,
-    "dueDate": "2025-04-01"
-  },
-  {
     "platform": "card",
     "amount": 1.0,
     "dueDate": "2025-04-01",
@@ -15,5 +10,11 @@
     "amount": 1000.0,
     "dueDate": "2025-04-26",
     "iconPath": "/images/icons/shopping.png"
+  },
+  {
+    "platform": "京东",
+    "amount": 200.0,
+    "dueDate": "2025-05-03",
+    "iconPath": "/images/icons/express.png"
   }
 ]

@@ -37,7 +37,7 @@ public class MainPageController {
      * 预算列表视图，显示所有预算项目
      */
     @FXML
-    private ListView<Budget> budgetListView;
+    private VBox budgetContainer;
 
     /**
      * 还款提醒容器，显示所有待还款项目
@@ -109,24 +109,8 @@ public class MainPageController {
         reminders = FXCollections.observableArrayList(DataManager.loadReminders());
         expenseRecords = FXCollections.observableArrayList(DataManager.loadExpenseRecords());
 
-        // 设置预算列表显示
-        budgetListView.setItems(budgets);
-        budgetListView.setCellFactory(param -> new ListCell<Budget>() {
-            @Override
-            protected void updateItem(Budget item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("%s: %.2f/%s%.2f (%.1f%%)",
-                            item.getCategory(),
-                            item.getSpentAmount(),
-                            item.getCurrency(),
-                            item.getAmount(),
-                            item.getUsagePercentage()));
-                }
-            }
-        });
+        // 设置预算卡片式显示
+        updateBudgetCards();
 
         // 设置还款提醒卡片式显示
         updateReminderCards();
@@ -213,7 +197,7 @@ public class MainPageController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("添加预算");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(budgetListView.getScene().getWindow());
+            dialogStage.initOwner(budgetContainer.getScene().getWindow());
             dialogStage.setScene(new Scene(root));
 
             BudgetDialogController controller = loader.getController();
@@ -260,6 +244,119 @@ public class MainPageController {
     public void addBudget(Budget budget) {
         budgets.add(budget);
         DataManager.saveBudgets(List.copyOf(budgets));
+        updateBudgetCards(); // 更新预算卡片显示
+    }
+    
+    /**
+     * 更新预算卡片显示
+     * 根据当前的预算列表创建卡片式UI
+     */
+    private void updateBudgetCards() {
+        budgetContainer.getChildren().clear();
+        
+        for (Budget budget : budgets) {
+            HBox card = new HBox();
+            card.setSpacing(15);
+            card.setPadding(new Insets(10));
+            card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);");
+            
+            // 创建图标
+            String iconPath = BudgetDialogController.getCategoryIconPath(budget.getCategory());
+            Image iconImage = null;
+            try {
+                iconImage = new Image(getClass().getResourceAsStream(iconPath));
+            } catch (Exception e) {
+                try {
+                    iconImage = new Image(getClass().getResourceAsStream("/images/icons/other.png"));
+                } catch (Exception ex) {
+                    iconImage = null;
+                }
+            }
+            
+            ImageView iconView;
+            if (iconImage != null && !iconImage.isError()) {
+                iconView = new ImageView(iconImage);
+            } else {
+                iconView = new ImageView();
+            }
+            
+            iconView.setFitHeight(50);
+            iconView.setFitWidth(50);
+            iconView.setPreserveRatio(true);
+            
+            // 创建图标背景
+            StackPane iconContainer = new StackPane(iconView);
+            iconContainer.setStyle("-fx-background-color: " + BudgetDialogController.getCategoryColor(budget.getCategory()) + "; -fx-background-radius: 10;");
+            iconContainer.setPadding(new Insets(10));
+            
+            // 创建信息区域
+            VBox infoContainer = new VBox();
+            infoContainer.setSpacing(5);
+            infoContainer.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            
+            // 预算类别
+            Label categoryLabel = new Label(budget.getCategory());
+            categoryLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+            
+            // 使用百分比
+            double percentage = budget.getUsagePercentage();
+            Label percentageLabel = new Label(String.format("%.1f%% used", percentage));
+            percentageLabel.setStyle("-fx-font-size: 12; -fx-text-fill: #757575;");
+            
+            infoContainer.getChildren().addAll(categoryLabel, percentageLabel);
+            
+            // 创建金额区域
+            VBox amountContainer = new VBox();
+            amountContainer.setSpacing(5);
+            amountContainer.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+            HBox.setHgrow(amountContainer, javafx.scene.layout.Priority.ALWAYS);
+            
+            // 已用/总额
+            Label amountLabel = new Label(String.format("%s%.2f / %s%.2f", 
+                    budget.getCurrency(), budget.getSpentAmount(),
+                    budget.getCurrency(), budget.getAmount()));
+            amountLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+            
+            // 进度条
+            ProgressBar progressBar = new ProgressBar(percentage / 100);
+            progressBar.setPrefWidth(100);
+            progressBar.setStyle("-fx-accent: " + getProgressBarColor(percentage) + ";");
+            
+            amountContainer.getChildren().addAll(amountLabel, progressBar);
+            
+            // 添加删除按钮
+            Button deleteButton = new Button("×");
+            deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #757575; -fx-font-size: 16; -fx-cursor: hand;");
+            deleteButton.setOnMouseEntered(e -> deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #ff4444; -fx-font-size: 16; -fx-cursor: hand;"));
+            deleteButton.setOnMouseExited(e -> deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #757575; -fx-font-size: 16; -fx-cursor: hand;"));
+            
+            // 添加删除功能
+            deleteButton.setOnAction(e -> {
+                budgets.remove(budget);
+                DataManager.saveBudgets(List.copyOf(budgets));
+                updateBudgetCards();
+            });
+            
+            // 组装卡片
+            card.getChildren().addAll(iconContainer, infoContainer, amountContainer, deleteButton);
+            
+            budgetContainer.getChildren().add(card);
+        }
+    }
+    
+    /**
+     * 根据百分比获取进度条颜色
+     * @param percentage 使用百分比
+     * @return 颜色字符串
+     */
+    private String getProgressBarColor(double percentage) {
+        if (percentage < 50) {
+            return "#4CAF50"; // 绿色
+        } else if (percentage < 80) {
+            return "#FFC107"; // 黄色
+        } else {
+            return "#F44336"; // 红色
+        }
     }
 
     /**
@@ -281,7 +378,6 @@ public class MainPageController {
         LocalDate currentDate = LocalDate.now();
         
         for (PaymentReminder reminder : reminders) {
-            // 创建卡片容器
             HBox card = new HBox();
             card.setSpacing(15);
             card.setPadding(new Insets(10));
@@ -308,7 +404,7 @@ public class MainPageController {
             
             // 创建图标背景
             StackPane iconContainer = new StackPane(iconView);
-            iconContainer.setStyle("-fx-background-color: #4FC3F7; -fx-background-radius: 10;");
+            iconContainer.setStyle("-fx-background-color: linear-gradient(to right, rgb(177, 214, 244), rgb(118, 189, 255)); -fx-background-radius: 10;");
             iconContainer.setPadding(new Insets(10));
             
             // 创建信息区域
@@ -344,9 +440,22 @@ public class MainPageController {
             amountContainer.getChildren().addAll(amountLabel, daysLabel);
             
             // 组装卡片
-            card.getChildren().addAll(iconContainer, infoContainer, amountContainer);
+            // 添加删除按钮
+            Button deleteButton = new Button("×");
+            deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #757575; -fx-font-size: 16; -fx-cursor: hand;");
+            deleteButton.setOnMouseEntered(e -> deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #ff4444; -fx-font-size: 16; -fx-cursor: hand;"));
+            deleteButton.setOnMouseExited(e -> deleteButton.setStyle("-fx-background-color: transparent; -fx-text-fill: #757575; -fx-font-size: 16; -fx-cursor: hand;"));
             
-            // 添加到容器
+            // 添加删除功能
+            deleteButton.setOnAction(e -> {
+                reminders.remove(reminder);
+                DataManager.saveReminders(List.copyOf(reminders));
+                updateReminderCards();
+            });
+            
+            // 修改卡片组装顺序，添加删除按钮
+            card.getChildren().addAll(iconContainer, infoContainer, amountContainer, deleteButton);
+            
             reminderContainer.getChildren().add(card);
         }
     }
@@ -379,7 +488,7 @@ public class MainPageController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
             Parent root = loader.load();
-            Scene scene = budgetListView.getScene();
+            Scene scene = budgetContainer.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
             showError("导航失败", "无法加载主页：" + e.getMessage());
@@ -395,7 +504,7 @@ public class MainPageController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AnalysisPage.fxml"));
             Parent root = loader.load();
-            Scene scene = budgetListView.getScene();
+            Scene scene = budgetContainer.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
             showError("导航失败", "无法加载分析页面：" + e.getMessage());
@@ -411,7 +520,7 @@ public class MainPageController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserPage.fxml"));
             Parent root = loader.load();
-            Scene scene = budgetListView.getScene();
+            Scene scene = budgetContainer.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
             showError("导航失败", "无法加载用户页面：" + e.getMessage());
@@ -447,8 +556,8 @@ public class MainPageController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("记录消费");
             dialogStage.initModality(Modality.WINDOW_MODAL);
-            // 修改这行，使用 budgetListView 作为父窗口
-            dialogStage.initOwner(budgetListView.getScene().getWindow());
+            // 修改这行，使用 budgetContainer 作为父窗口
+            dialogStage.initOwner(budgetContainer.getScene().getWindow());
             dialogStage.setScene(new Scene(root));
 
             ManualEntryDialogController controller = loader.getController();

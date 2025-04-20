@@ -25,7 +25,7 @@
         <!-- Left Side -->
         <VBox spacing="10" HBox.hgrow="ALWAYS" prefWidth="400">
             <!-- Coin Image and Label -->
-            <VBox alignment="CENTER" VBox.vgrow="ALWAYS" spacing="1">
+            <VBox alignment="CENTER" VBox.vgrow="NEVER" spacing="1">
                 <ImageView fx:id="coinImageView" onMouseClicked="#handleCoinClick" 
                           fitHeight="400" fitWidth="400" preserveRatio="true">
                     <image>
@@ -33,19 +33,23 @@
                     </image>
                 </ImageView>
                 <Label text="Start to add data"
-                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: linear-gradient(to right,rgb(177, 214, 244),rgb(118, 189, 255)); -fx-effect: dropshadow(gaussian, #888, 6, 0.5, 2, 2); -fx-padding: 10 0 0 0;"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: linear-gradient(to right,rgb(177, 214, 244),rgb(118, 189, 255)); -fx-effect: dropshadow(gaussian, #888, 6, 0.5, 2, 2); -fx-padding: 0;"
                 >
                     <VBox.margin>
-                        <Insets top="-10" />
+                        <Insets top="-50" />
                     </VBox.margin>
                 </Label>
             </VBox>
             
             <!-- Budget Section -->
-            <VBox alignment="CENTER" spacing="10">
+            <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <Label text="Budget Management" style="-fx-font-size: 18;"/>
+                <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+                    <VBox fx:id="budgetContainer" spacing="10"
+                      style="-fx-padding: 5; -fx-background-radius: 10;
+                             -fx-background-color: linear-gradient(to right, #e6f7ff, #b3d8ff 80%, #e6f7ff);"/>
+                </ScrollPane>
                 <Button text="添加预算" onAction="#handleAddBudget"/>
-                <ListView fx:id="budgetListView" VBox.vgrow="ALWAYS" 
-                         style="-fx-min-height: 200;"/>
             </VBox>
         </VBox>
 
