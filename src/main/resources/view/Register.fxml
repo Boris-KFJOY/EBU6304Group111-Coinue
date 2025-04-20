@@ -90,7 +90,7 @@
                            </children>
                         </VBox>
                         <!-- 登录按钮 -->
-                        <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="40.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" text="Sign in" textFill="WHITE">
+                        <Button fx:id="loginButton" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSignIn" prefHeight="40.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" text="Sign in" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
