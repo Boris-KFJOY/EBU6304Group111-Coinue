@@ -24,16 +24,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * SignUp页面的控制器类
@@ -129,7 +133,7 @@ public class SignUpController implements Initializable {
      */
     private void handleTermsLink(ActionEvent event) {
         System.out.println("用户点击了服务条款链接");
-        openWebpage("https://www.coinue.com/terms"); // 示例URL，实际应替换为真实URL
+        showDocumentInDialog("Terms of Service", "doc/terms.txt");
     }
 
     /**
@@ -137,7 +141,7 @@ public class SignUpController implements Initializable {
      */
     private void handlePrivacyLink(ActionEvent event) {
         System.out.println("用户点击了隐私政策链接");
-        openWebpage("https://www.coinue.com/privacy"); // 示例URL，实际应替换为真实URL
+        showDocumentInDialog("Privacy Policy", "doc/privacy.txt");
     }
 
     /**
@@ -145,7 +149,7 @@ public class SignUpController implements Initializable {
      */
     private void handleConductLink(ActionEvent event) {
         System.out.println("用户点击了行为准则链接");
-        openWebpage("https://www.coinue.com/conduct"); // 示例URL，实际应替换为真实URL
+        showDocumentInDialog("User Code of Conduct", "doc/conduct.txt");
     }
 
     /**
@@ -233,6 +237,14 @@ public class SignUpController implements Initializable {
     }
 
     /**
+     * 显示一个简单的信息提示框
+     * @param alertType 提示框类型 (e.g., Alert.AlertType.INFORMATION, Alert.AlertType.ERROR)
+     * @param title 提示框标题
+     * @param message 提示信息
+     */
+    // Removed incorrect code block here
+
+    /**
      * 处理创建账户按钮点击事件
      */
     @FXML
@@ -296,15 +308,50 @@ public class SignUpController implements Initializable {
         alert.showAndWait();
     }
 
-   
     /**
-     * 打开网页的辅助方法
+     * 读取指定路径的文本文件内容并在新窗口的TextArea中显示
+     * @param title 弹窗标题
+     * @param relativePath 相对于项目根目录的文件路径
      */
-    private void openWebpage(String url) {
+    private void showDocumentInDialog(String title, String relativePath) {
         try {
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e) {
-            System.err.println("无法打开网页: " + e.getMessage());
+            // 获取项目根目录
+            String projectRoot = System.getProperty("user.dir");
+            Path filePath = Paths.get(projectRoot, relativePath);
+
+            if (!Files.exists(filePath)) {
+                showAlert(Alert.AlertType.ERROR, "文件未找到", "无法找到文档文件: " + relativePath);
+                return;
+            }
+
+            // 读取文件内容
+            String content = Files.lines(filePath).collect(Collectors.joining("\n"));
+
+            // 创建TextArea并设置内容
+            javafx.scene.control.TextArea textArea = new javafx.scene.control.TextArea(content);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            // 创建布局和场景
+            StackPane layout = new StackPane(textArea);
+            Scene scene = new Scene(layout, 600, 400);
+
+            // 创建新舞台（窗口）
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle(title);
+            dialogStage.initModality(Modality.APPLICATION_MODAL); // 模态窗口，阻止与父窗口交互
+            dialogStage.initOwner((Stage) termsLink.getScene().getWindow()); // 设置父窗口
+            dialogStage.setScene(scene);
+
+            // 显示窗口
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            System.err.println("无法读取或显示文件: " + relativePath + ", 错误: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "读取错误", "无法加载文档内容。");
+            e.printStackTrace();
         }
     }
+
+    // 不再需要 openWebpage 方法，已移除
 }

@@ -1,0 +1,22 @@
+Coinue User Code of Conduct
+
+As a user of Coinue, you agree to:
+
+1. Lawful Use
+Only use Coinue for lawful, ethical, and educational purposes. Never engage in illegal activities using the software.
+
+2. Data Responsibility
+You must ensure that all data you input into Coinue complies with applicable laws and ethical guidelines. You assume full responsibility for the accuracy and legality of your data.
+
+3. Respect for Software Integrity
+Do not attempt to modify, reverse engineer, or distribute Coinue without explicit permission from its creators.
+
+4. Respectful Engagement
+You agree to use Coinue in a manner that respects the rights and privacy of others, refraining from abusive, discriminatory, or harmful behavior.
+
+5. Reporting Issues
+Promptly report any software bugs or errors to help improve the quality and reliability of Coinue.
+
+Violation of these terms may result in loss of access to the software.
+
+Last updated: April 22, 2025

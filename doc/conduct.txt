@@ -1,0 +1,21 @@
+Coinue Terms of Service
+
+1. Acceptance of Terms
+By using the Coinue software ("Software"), you agree to comply with and be bound by these terms. If you disagree, please discontinue use immediately.
+
+2. License and Use
+Coinue is developed solely for educational and non-commercial personal use. Redistribution, sale, or commercial use of the Software without permission is strictly prohibited.
+
+3. Software Disclaimer
+Coinue is provided "as-is" without warranties of any kind. The developers assume no responsibility for data loss, software malfunction, or financial damage arising from its use.
+
+4. Data Management
+All data processed by Coinue is stored solely on your local machine. Coinue does not transmit or collect any user data externally.
+
+5. Updates and Support
+This Software version does not provide ongoing updates or technical support. Future updates or support are not guaranteed.
+
+6. Changes to Terms
+We reserve the right to modify these terms at any time. Continued use after any modifications indicates acceptance of the updated terms.
+
+Last updated: April 22, 2025

@@ -1,4 +1,4 @@
-package com.coinue;
+package com.coinue.controller;
 
 import java.io.File;
 import java.io.FileWriter;
