@@ -30,6 +30,9 @@
             <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
         </HBox>
 
+        <!-- 页面标题 -->
+        <Label fx:id="titleLabel" text="User Dashboard" style="-fx-font-size: 18px; -fx-text-fill: #333333; -fx-padding: 10 0 10 20;"/>
+        
         <!-- 功能区域标签 -->
         <HBox style="-fx-background-color: #A9A9A9;">
             <Button text="Synchronisation" onAction="#handleSyncNav" 
@@ -52,6 +55,24 @@
                     style="-fx-background-color: white; -fx-border-color: #3498db; 
                            -fx-border-radius: 5; -fx-background-radius: 5;"/>
             <Button text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color: white; -fx-border-color: #3498db; 
+                           -fx-border-radius: 5; -fx-background-radius: 5;"/>
+            <Pane fx:id="chartContainer" prefHeight="200" prefWidth="760" 
+                  style="-fx-background-color: white; -fx-border-color: #3498db; -fx-border-radius: 5; -fx-background-radius: 5; -fx-z-index: 100;" 
+                  visible="true" managed="true">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+        </Pane>
+            <TableView fx:id="paymentTable" prefHeight="200" prefWidth="760"
+                      style="-fx-background-color: white; -fx-border-color: #3498db;">
+                <columns>
+                    <TableColumn text="Date" prefWidth="150"/>
+                    <TableColumn text="Amount" prefWidth="150"/>
+                    <TableColumn text="Description" prefWidth="460"/>
+                </columns>
+            </TableView>
+            <Button fx:id="importButton" text="Import Bill" onAction="#handleImportBill"
                     style="-fx-background-color: white; -fx-border-color: #3498db; 
                            -fx-border-radius: 5; -fx-background-radius: 5;"/>
         </VBox>

@@ -85,7 +85,7 @@ class PageManagerTest {
         // It typically requires running on the FX thread and mocking FXMLLoader.
         // Placeholder: Asserting IllegalStateException if stage not initialized.
         assertThrows(IllegalStateException.class, () -> {
-            pageManager.switchToPage("/view/SomePage.fxml");
+            pageManager.switchToPage("/fxml/SomePage.fxml");
         }, "Should throw IllegalStateException if stage is not initialized.");
 
         // Further testing requires a more sophisticated setup (e.g., TestFX).
@@ -98,7 +98,7 @@ class PageManagerTest {
         // Placeholder: Asserting IllegalStateException if stage not initialized.
         PageManager.ControllerInitializer initializer = controller -> {}; // Dummy initializer
         assertThrows(IllegalStateException.class, () -> {
-            pageManager.switchToPage("/view/SomePage.fxml", initializer);
+            pageManager.switchToPage("/fxml/SomePage.fxml", initializer);
         }, "Should throw IllegalStateException if stage is not initialized.");
 
         // Further testing requires a more sophisticated setup.
@@ -141,7 +141,7 @@ class PageManagerTest {
     void testSwitchToPage_nullInitializer() {
         pageManager.initStage(mockPrimaryStage);
         assertThrows(RuntimeException.class, () -> {
-            pageManager.switchToPage("/view/SomePage.fxml", null);
+            pageManager.switchToPage("/fxml/SomePage.fxml", null);
         }, "应当在初始化器为null时正常执行");
     }
     // TODO: Implement proper JavaFX testing setup (e.g., TestFX) for UI-related tests
