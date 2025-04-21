@@ -35,7 +35,7 @@ class MainPageTest {
 
     @Start
     void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainPage.fxml"));
         Parent root = loader.load();
         controller = loader.getController();
         stage.setScene(new Scene(root));

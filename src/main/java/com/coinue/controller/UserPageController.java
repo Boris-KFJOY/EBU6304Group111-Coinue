@@ -148,4 +148,12 @@ public class UserPageController {
             showError("Navigation Failed", "Failed to load encryption page: " + e.getMessage());
         }
     }
+    
+    /**
+     * 处理导入账单按钮点击事件
+     */
+    @FXML
+    private void handleImportBill() {
+        showInfo("Feature Notice", "Bill import feature is under development.");
+    }
 }

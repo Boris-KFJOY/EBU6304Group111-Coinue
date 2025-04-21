@@ -37,7 +37,7 @@ public class SignUpControllerTest extends ApplicationTest {
     @Start
     public void start(Stage stage) throws IOException {
         // 加载FXML
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SignUp.fxml"));
         Scene scene = new Scene(loader.load());
         
         // 获取控制器实例
