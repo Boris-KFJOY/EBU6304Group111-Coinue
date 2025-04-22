@@ -225,44 +225,63 @@ public class SignUpControllerTest extends ApplicationTest {
         String testEmail = "testuser" + timestamp + "@example.com";
         String testUsername = "testuser" + timestamp;
         
-        // 填写表单
-        clickOn("#emailField").write(testEmail);
-        clickOn("#signUpUsernameField").write(testUsername);
-        clickOn("#signUpPasswordField").write("password123");
-        clickOn("#confirmPasswordField").write("password123");
+        try {
+            // 填写表单
+            clickOn("#emailField").write(testEmail);
+            clickOn("#signUpUsernameField").write(testUsername);
+            clickOn("#signUpPasswordField").write("password123");
+            clickOn("#confirmPasswordField").write("password123");
 
-        // --- 正确选择日期 ---
-        selectDateInPicker(birthdayPicker, LocalDate.of(2000, 1, 1));
-        // --- 日期选择结束 ---
+            // --- 正确选择日期 ---
+            selectDateInPicker(birthdayPicker, LocalDate.of(2000, 1, 1));
+            // --- 日期选择结束 ---
 
-        // --- 正确选择安全问题 ---
-        clickOn("#securityQuestionComboBox");
-        WaitForAsyncUtils.waitForFxEvents();
-        clickOn(hasText("What was the name of your elementary school?"));
-        WaitForAsyncUtils.waitForFxEvents(); // Wait for combo box to close
-        // --- 安全问题选择结束 ---
+            // --- 正确选择安全问题 ---
+            clickOn("#securityQuestionComboBox");
+            WaitForAsyncUtils.waitForFxEvents();
+            clickOn(hasText("What was the name of your elementary school?"));
+            WaitForAsyncUtils.waitForFxEvents(); // Wait for combo box to close
+            // --- 安全问题选择结束 ---
 
-        clickOn("#securityAnswerField").write("My School");
-        clickOn("#termsCheckBox");
+            clickOn("#securityAnswerField").write("My School");
+            clickOn("#termsCheckBox");
 
-        // 点击创建账户按钮
-        clickOn("#createAccountButton"); // Use ID for button
-        WaitForAsyncUtils.waitForFxEvents();
+            // 点击创建账户按钮
+            clickOn("#createAccountButton"); // Use ID for button
+            WaitForAsyncUtils.waitForFxEvents();
 
-        // 验证注册成功 Alert 是否显示
-        verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
-        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("账户创建成功，请登录"));
-        // Close the alert
-        clickOn(lookup(".dialog-pane .button").queryButton());
-        WaitForAsyncUtils.waitForFxEvents();
+            // 验证注册成功 Alert 是否显示
+            verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
+            verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("账户创建成功，请登录"));
+            // Close the alert
+            clickOn(lookup(".dialog-pane .button").queryButton());
+            WaitForAsyncUtils.waitForFxEvents();
 
-        // 等待页面切换动画完成
-        sleep(600); // Wait for animation
-        WaitForAsyncUtils.waitForFxEvents();
+            // 等待页面切换动画完成
+            sleep(600); // Wait for animation
+            WaitForAsyncUtils.waitForFxEvents();
 
-        // 验证是否返回登录页面
-        verifyThat(lookup("#usernameField").queryAs(TextField.class), isVisible());
-        verifyThat(lookup(hasText("Sign in to Coinue")).queryAs(Label.class), isVisible());
+            // 验证是否返回登录页面
+            verifyThat(lookup("#usernameField").queryAs(TextField.class), isVisible());
+            verifyThat(lookup(hasText("Sign in to Coinue")).queryAs(Label.class), isVisible());
+        } finally {
+            // 测试完成后清理测试数据
+            cleanupTestUser(testEmail, testUsername);
+        }
+    }
+
+    /**
+     * 清理测试用户数据
+     */
+    private void cleanupTestUser(String email, String username) {
+        try {
+            // 这里添加实际的清理逻辑，例如：
+            // userService.deleteByEmail(email);
+            // 或 userRepository.deleteByUsername(username);
+            System.out.println("Cleaned up test user: " + username);
+        } catch (Exception e) {
+            System.err.println("Failed to clean up test user: " + e.getMessage());
+        }
     }
 
     // --- Helper method for DatePicker ---
