@@ -1,14 +1,5 @@
 [
   {
-    "amount": 1.0,
-    "category": "餐饮",
-    "name": "1",
-    "date": "2025-04-18",
-    "description": "1",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
     "amount": 600.0,
     "category": "娱乐",
     "name": "出去看话剧",
@@ -25,6 +16,23 @@
     "description": "1",
     "recordType": "收入",
     "currency": "CNY"
-
+  },
+  {
+    "amount": 1.0,
+    "category": "餐饮",
+    "name": "1",
+    "date": "2025-04-18",
+    "description": "1",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 1000.0,
+    "category": "娱乐",
+    "name": "看话剧",
+    "date": "2025-04-22",
+    "description": "卡座",
+    "recordType": "支出",
+    "currency": "CNY"
   }
 ]

@@ -82,6 +82,9 @@ public class MainPageController {
     @FXML
     private TableColumn<ExpenseRecord, Double> amountColumn;
 
+    @FXML
+    private TableColumn<ExpenseRecord, String> remarksColumn;
+
     // 数据集合
     /**
      * 预算数据集合
@@ -144,6 +147,26 @@ public class MainPageController {
                 } else {
                     ExpenseRecord record = getTableView().getItems().get(getIndex());
                     setText(String.format("%s %.2f", record.getCurrency(), item));
+                }
+            }
+        });
+        
+        // 初始化备注列
+        remarksColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        remarksColumn.setCellFactory(column -> new TableCell<ExpenseRecord, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    setStyle("-fx-text-fill: #666666; -fx-font-size: 14px;");
+                    // 如果备注过长，添加工具提示
+                    if (item.length() > 20) {
+                        setTooltip(new Tooltip(item));
+                    }
                 }
             }
         });
