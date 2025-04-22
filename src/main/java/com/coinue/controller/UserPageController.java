@@ -4,6 +4,8 @@ import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
@@ -17,12 +19,28 @@ public class UserPageController {
     private Label usernameLabel;
     @FXML
     private Label emailLabel;
+    @FXML
+    private ImageView avatarImage;
+    @FXML
+    private VBox contentArea;
 
     @FXML
     public void initialize() {
         // TODO: 从用户会话或数据库加载用户信息
         usernameLabel.setText("测试用户");
         emailLabel.setText("test@example.com");
+        
+        // Ensure content area is visible
+        if (contentArea != null) {
+            contentArea.setVisible(true);
+        }
+        
+        // Initialize avatar image if needed
+        if (avatarImage != null) {
+            // Set a default avatar or load from user profile
+            avatarImage.setFitWidth(40);
+            avatarImage.setFitHeight(40);
+        }
     }
 
     /**
@@ -121,19 +139,20 @@ public class UserPageController {
         try {
             PageManager.getInstance().switchToPage("/view/SyncPage.fxml");
         } catch (IOException e) {
-            showError("Navigation Failed", "Failed to load synchronisation page: " + e.getMessage());
+            e.printStackTrace();
+            showError("Navigation Failed", 
+                "Failed to load synchronisation page. Please check if the page exists and try again.");
         }
     }
 
-    /**
-     * 处理共享功能区导航
-     */
     @FXML
     private void handleSharingNav() {
         try {
             PageManager.getInstance().switchToPage("/view/SharingPage.fxml");
         } catch (IOException e) {
-            showError("Navigation Failed", "Failed to load sharing page: " + e.getMessage());
+            e.printStackTrace();
+            showError("Navigation Failed", 
+                "Failed to load sharing page. Please check if the page exists and try again.");
         }
     }
 
@@ -155,5 +174,13 @@ public class UserPageController {
     @FXML
     private void handleImportBill() {
         showInfo("Feature Notice", "Bill import feature is under development.");
+    }
+
+    /**
+     * Handle username edit button click event
+     */
+    @FXML
+    private void handleUsernameEdit() {
+        showInfo("Feature Notice", "Username edit feature is under development.");
     }
 }

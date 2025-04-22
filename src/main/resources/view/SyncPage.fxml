@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6f0fa;"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
@@ -12,48 +13,66 @@
           AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         
         <!-- 顶部导航栏 -->
-        <HBox alignment="CENTER" spacing="0" style="-fx-background-color: #B0E0FF;" VBox.vgrow="NEVER">
-            <Button text="Homepage" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" 
-                    onAction="#handleHomeNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-            <Button text="Analysis" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" 
-                    onAction="#handleAnalysisNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-            <Button text="User" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" 
-                    onAction="#handleUserNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <HBox style="-fx-background-color: #B0C4DE;" HBox.hgrow="ALWAYS">
+            <Button text="Homepage" onAction="#handleHomeNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Button text="Analysis" onAction="#handleAnalysisNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Button text="User" onAction="#handleUserNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- 用户信息区域 -->
-        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;">
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;" spacing="10">
             <VBox alignment="CENTER_RIGHT">
-                <Label text="NAME" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
-                <Label text="0000000000" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
+                <Label fx:id="usernameLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+                <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
             </VBox>
-            <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+            <StackPane>
+                <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+                <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true"/>
+            </StackPane>
         </HBox>
 
         <!-- 功能区域标签 -->
-        <HBox style="-fx-background-color: #A9A9A9;">
-            <Button text="Synchronisation" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
-            <Button text="Sharing" style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" prefWidth="266"/>
-            <Button text="Encryption" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+        <HBox style="-fx-background-color: #A9A9A9;" VBox.vgrow="NEVER">
+            <Button text="Synchronisation" onAction="#handleSyncNav" 
+                    style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Button text="Sharing" onAction="#handleSharingNav" 
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Button text="Encryption" onAction="#handleEncryptionNav" 
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- 同步功能区域 -->
-        <VBox spacing="30" style="-fx-padding: 20;">
-            <HBox spacing="20" alignment="CENTER_LEFT">
+        <VBox spacing="30" style="-fx-padding: 20;" alignment="CENTER" VBox.vgrow="ALWAYS">
+            <HBox spacing="20" alignment="CENTER" HBox.hgrow="ALWAYS">
                 <Label text="Information Synchronisation" style="-fx-font-size: 14px;"/>
                 <Label text="100%" style="-fx-text-fill: #4CAF50; -fx-font-size: 14px;"/>
                 <Button text="Sync" style="-fx-background-color: white; -fx-border-color: #3498db; 
                         -fx-border-radius: 5; -fx-background-radius: 5;"/>
                 <Label text="20XX.03.15" style="-fx-text-fill: #666666;"/>
                 <Label text="Updated" style="-fx-text-fill: #666666;"/>
+                <HBox.margin>
+                    <Insets left="20" right="20"/>
+                </HBox.margin>
             </HBox>
 
-            <HBox spacing="20" alignment="CENTER_LEFT">
+            <HBox spacing="20" alignment="CENTER" HBox.hgrow="ALWAYS">
                 <Label text="Mailbox Binding" style="-fx-font-size: 14px;"/>
                 <TextField promptText="Please enter" style="-fx-background-color: white; 
-                         -fx-border-color: #ddd; -fx-border-radius: 5;"/>
+                         -fx-border-color: #ddd; -fx-border-radius: 5;" HBox.hgrow="ALWAYS"/>
                 <Button text="Bind" style="-fx-background-color: white; -fx-border-color: #3498db; 
                         -fx-border-radius: 5; -fx-background-radius: 5;"/>
+                <HBox.margin>
+                    <Insets left="20" right="20"/>
+                </HBox.margin>
             </HBox>
         </VBox>
     </VBox>
