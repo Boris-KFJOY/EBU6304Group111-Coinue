@@ -5,4 +5,11 @@
   "securityQuestion" : "Where was your mother born?",
   "securityAnswer" : "1",
   "birthday" : "2004-01-01"
+}, {
+  "username" : "newtestuser1745307072919",
+  "email" : "newuser@example.com",
+  "password" : "password123",
+  "securityQuestion" : "What was the name of your elementary school?",
+  "securityAnswer" : "My School",
+  "birthday" : "2000-01-01"
 } ]

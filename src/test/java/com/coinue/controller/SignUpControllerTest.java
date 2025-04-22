@@ -1,17 +1,26 @@
 package com.coinue.controller;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.Node;
+import javafx.stage.Window;
 import org.junit.jupiter.api.Test;
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
@@ -66,11 +75,14 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testEmptyFormSubmission() {
         // 点击创建账户按钮
-        clickOn(hasText("Create Account"));
-        
-        // 验证错误提示是否显示
-        verifyThat(".dialog-pane", isVisible());
-        verifyThat(".dialog-pane .content", isVisible());
+        clickOn("#createAccountButton"); // Use ID for button
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 验证错误提示 Alert 是否显示
+        verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
+        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("所有字段都必须填写"));
+        // Close the alert
+        clickOn(lookup(".dialog-pane .button").queryButton());
     }
 
     /**
@@ -83,18 +95,30 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpUsernameField").write("testuser");
         clickOn("#signUpPasswordField").write("password123");
         clickOn("#confirmPasswordField").write("password456");
-        clickOn("#birthdayPicker").write("2000-01-01");
+
+        // --- 正确选择日期 ---
+        selectDateInPicker(birthdayPicker, LocalDate.of(2000, 1, 1));
+        // --- 日期选择结束 ---
+
+        // --- 正确选择安全问题 ---
         clickOn("#securityQuestionComboBox");
+        WaitForAsyncUtils.waitForFxEvents();
         clickOn(hasText("What was the name of your elementary school?"));
+        WaitForAsyncUtils.waitForFxEvents(); // Wait for combo box to close
+        // --- 安全问题选择结束 ---
+
         clickOn("#securityAnswerField").write("My School");
         clickOn("#termsCheckBox");
-        
+
         // 点击创建账户按钮
-        clickOn(hasText("Create Account"));
-        
-        // 验证错误提示是否显示
-        verifyThat(".dialog-pane", isVisible());
-        verifyThat(".dialog-pane .content", isVisible());
+        clickOn("#createAccountButton"); // Use ID for button
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 验证错误提示 Alert 是否显示
+        verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
+        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("两次输入的密码不匹配"));
+        // Close the alert
+        clickOn(lookup(".dialog-pane .button").queryButton());
     }
 
     /**
@@ -107,17 +131,30 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpUsernameField").write("testuser");
         clickOn("#signUpPasswordField").write("password123");
         clickOn("#confirmPasswordField").write("password123");
-        clickOn("#birthdayPicker").write("2000-01-01");
+
+        // --- 正确选择日期 ---
+        selectDateInPicker(birthdayPicker, LocalDate.of(2000, 1, 1));
+        // --- 日期选择结束 ---
+
+        // --- 正确选择安全问题 ---
         clickOn("#securityQuestionComboBox");
+        WaitForAsyncUtils.waitForFxEvents();
         clickOn(hasText("What was the name of your elementary school?"));
+        WaitForAsyncUtils.waitForFxEvents(); // Wait for combo box to close
+        // --- 安全问题选择结束 ---
+
         clickOn("#securityAnswerField").write("My School");
-        
+        // 不点击 termsCheckBox
+
         // 点击创建账户按钮
-        clickOn(hasText("Create Account"));
-        
-        // 验证错误提示是否显示
-        verifyThat(".dialog-pane", isVisible());
-        verifyThat(".dialog-pane .content", isVisible());
+        clickOn("#createAccountButton"); // Use ID for button
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 验证错误提示 Alert 是否显示
+        verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
+        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("请阅读并同意服务条款、隐私政策和行为准则"));
+        // Close the alert
+        clickOn(lookup(".dialog-pane .button").queryButton());
     }
 
     /**
@@ -126,13 +163,16 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testBackToSignIn() {
         // 点击返回登录链接
-        clickOn(hasText("Sign in"));
-        
-        // 等待页面切换完成
-        sleep(1000);
-        
-        // 验证是否返回登录页面
-        verifyThat("Sign in to Coinue", hasText("Sign in to Coinue"));
+        clickOn("#signInLink"); // Use ID for link
+
+        // 等待页面切换动画完成
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(600); // Wait for animation
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 验证是否返回登录页面 (查找登录页面的特定元素)
+        verifyThat(lookup("#usernameField").queryAs(TextField.class), isVisible());
+        verifyThat(lookup(hasText("Sign in to Coinue")).queryAs(Label.class), isVisible());
     }
 
     /**
@@ -141,10 +181,11 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testTermsLink() {
         // 点击服务条款链接
-        clickOn(hasText("Terms of Service"));
-        
-        // 验证是否显示服务条款对话框
-        verifyThat(".dialog-pane", isVisible());
+        clickOn("#termsLink"); // Use ID for link
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 验证是否显示服务条款对话框 (查找新窗口及其内容)
+        verifyDialogShowingWithTitle("Terms of Service");
     }
 
     /**
@@ -153,10 +194,11 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testPrivacyLink() {
         // 点击隐私政策链接
-        clickOn(hasText("Privacy Policy"));
-        
+        clickOn("#privacyLink"); // Use ID for link
+        WaitForAsyncUtils.waitForFxEvents();
+
         // 验证是否显示隐私政策对话框
-        verifyThat(".dialog-pane", isVisible());
+        verifyDialogShowingWithTitle("Privacy Policy");
     }
 
     /**
@@ -165,10 +207,12 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testConductLink() {
         // 点击行为准则链接
-        clickOn(hasText("Code of Conduct"));
-        
-        // 验证是否显示行为准则对话框
-        verifyThat(".dialog-pane", isVisible());
+        clickOn("#conductLink"); // 使用ID而不是文本
+        WaitForAsyncUtils.waitForFxEvents();
+        sleep(1000); // 等待对话框显示
+
+        // 验证是否显示行为准则对话框 (查找新窗口及其内容)
+        verifyDialogShowingWithTitle("User Code of Conduct");
     }
 
     /**
@@ -177,49 +221,93 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testSuccessfulRegistration() {
         // 填写表单
-        clickOn("#emailField").write("test@example.com");
-        clickOn("#signUpUsernameField").write("testuser");
+        clickOn("#emailField").write("newuser@example.com");
+        // Use a unique username for each test run if needed, or ensure cleanup
+        clickOn("#signUpUsernameField").write("newtestuser" + System.currentTimeMillis());
         clickOn("#signUpPasswordField").write("password123");
         clickOn("#confirmPasswordField").write("password123");
 
-        // --- 修改生日选择部分 ---
-        // 1. (可选但推荐) 先用代码设置日期，让日历打开时接近目标
-        interact(() -> birthdayPicker.setValue(LocalDate.of(2000, 1, 15))); // 设置到目标月份
-        WaitForAsyncUtils.waitForFxEvents(); // 等待值设置生效
+        // --- 正确选择日期 ---
+        selectDateInPicker(birthdayPicker, LocalDate.of(2000, 1, 1));
+        // --- 日期选择结束 ---
 
-        // 2. 点击打开日历
-        clickOn("#birthdayPicker");
-        WaitForAsyncUtils.waitForFxEvents(); // 等待日历弹出
-
-        // 3. (如果第1步没做或不够精确，需要导航年月 - 此处省略导航逻辑，假设已是2000年1月)
-        //    示例：点击上一年按钮 (需要找到正确的选择器)
-        //    clickOn(".date-picker-popup .button.previous-year");
-
-        // 4. 定位并点击日期 "1"
-        //    注意：这个查找器可能需要根据实际 FXML 结构调整
-        Node dayCell = lookup(".date-cell")
-            .match(node -> node instanceof Labeled && "1".equals(((Labeled) node).getText()) && !node.getStyleClass().contains("previous-month") && !node.getStyleClass().contains("next-month")) // 确保是当前月份的 "1"
-            .query();
-        clickOn(dayCell);
-        WaitForAsyncUtils.waitForFxEvents(); // 等待选择生效，日历关闭
-        // --- 生日选择部分结束 ---
-
+        // --- 正确选择安全问题 ---
         clickOn("#securityQuestionComboBox");
-        // 需要确保下拉框选项可见后再点击
         WaitForAsyncUtils.waitForFxEvents();
         clickOn(hasText("What was the name of your elementary school?"));
+        WaitForAsyncUtils.waitForFxEvents(); // Wait for combo box to close
+        // --- 安全问题选择结束 ---
+
         clickOn("#securityAnswerField").write("My School");
         clickOn("#termsCheckBox");
 
         // 点击创建账户按钮
-        clickOn(hasText("Create Account"));
+        clickOn("#createAccountButton"); // Use ID for button
+        WaitForAsyncUtils.waitForFxEvents();
 
-        // 等待页面切换完成 (使用更可靠的等待方式可能更好)
-        // 例如，等待登录页面的某个特定元素出现
-        WaitForAsyncUtils.waitForFxEvents(); // 基础等待
-        sleep(1000); // 保留 sleep 作为后备，但尽量避免
+        // 验证注册成功 Alert 是否显示
+        verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
+        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("账户创建成功，请登录"));
+        // Close the alert
+        clickOn(lookup(".dialog-pane .button").queryButton());
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 等待页面切换动画完成
+        sleep(600); // Wait for animation
+        WaitForAsyncUtils.waitForFxEvents();
 
         // 验证是否返回登录页面
-        verifyThat("Sign in to Coinue", hasText("Sign in to Coinue"));
+        verifyThat(lookup("#usernameField").queryAs(TextField.class), isVisible());
+        verifyThat(lookup(hasText("Sign in to Coinue")).queryAs(Label.class), isVisible());
+    }
+
+    // --- Helper method for DatePicker ---
+    private void selectDateInPicker(DatePicker datePicker, LocalDate dateToSelect) {
+        interact(() -> datePicker.setValue(dateToSelect));
+        WaitForAsyncUtils.waitForFxEvents();
+        // The above might be sufficient if direct value setting works reliably.
+        // If UI interaction is strictly needed:
+        /*
+        // 1. Set value close to the target month/year first (optional but good)
+        interact(() -> datePicker.setValue(dateToSelect.withDayOfMonth(15)));
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 2. Click to open the calendar
+        clickOn(datePicker);
+        WaitForAsyncUtils.waitForFxEvents();
+
+        // 3. Navigate month/year if necessary (more complex, omitted for brevity)
+        //    Example: clickOn(".date-picker-popup .button.previous-month");
+
+        // 4. Find and click the specific day cell
+        String dayOfMonthStr = String.valueOf(dateToSelect.getDayOfMonth());
+        Node dayCell = lookup(".date-cell")
+                .match(node -> node instanceof Labeled && dayOfMonthStr.equals(((Labeled) node).getText()) &&
+                        !node.getStyleClass().contains("previous-month") &&
+                        !node.getStyleClass().contains("next-month"))
+                .query();
+        clickOn(dayCell);
+        WaitForAsyncUtils.waitForFxEvents();
+        */
+    }
+
+    // --- Helper method to verify custom dialog ---
+    private void verifyDialogShowingWithTitle(String expectedTitle) {
+        // Find the dialog stage by title
+        Optional<Window> dialogWindow = listWindows().stream()
+                .filter(window -> window instanceof Stage && expectedTitle.equals(((Stage) window).getTitle()))
+                .findFirst();
+
+        assertTrue(dialogWindow.isPresent(), "Dialog with title '" + expectedTitle + "' should be showing.");
+        assertTrue(((Stage)dialogWindow.get()).isShowing(), "Dialog stage should be showing");
+
+        // Optional: Verify content within the dialog
+        // Stage dialogStage = (Stage) dialogWindow.get();
+        // FxRobot dialogRobot = new FxRobot(dialogStage);
+        // verifyThat(dialogRobot.lookup("TextArea").queryAs(TextArea.class), NodeMatchers.isVisible());
+
+        // Close the dialog for the next test
+        interact(() -> ((Stage) dialogWindow.get()).close());
+        WaitForAsyncUtils.waitForFxEvents();
     }
 }

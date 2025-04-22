@@ -143,7 +143,10 @@
                            </children>
                         </VBox>
                         <!-- 创建账户按钮 -->
-                        <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCreateAccount" prefHeight="40.0" style="-fx-background-color: #333333; -fx-background-radius: 5;" text="Create Account" textFill="WHITE">
+                        <Button fx:id="createAccountButton" defaultButton="true" maxWidth="1.7976931348623157E308" 
+                                mnemonicParsing="false" onAction="#handleCreateAccount" prefHeight="40.0" 
+                                style="-fx-background-color: #333333; -fx-background-radius: 5;" 
+                                text="Create Account" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
