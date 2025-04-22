@@ -2,31 +2,12 @@ package com.coinue.controller;
 
 import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
+
 import java.io.IOException;
 
 public class SyncPageController {
-    @FXML
-    private Button syncButton;
-    @FXML
-    private Button bindButton;
-    @FXML
-    private TextField mailboxInput;
-    @FXML
-    private Label syncProgressLabel;
-    @FXML
-    private Label lastUpdateLabel;
-
-    @FXML
-    public void initialize() {
-        // 初始化同步页面组件
-        syncProgressLabel.setText("100%");
-        lastUpdateLabel.setText("20XX.03.15 Updated");
-    }
-
+    
     @FXML
     private void handleHomeNav() {
         try {
@@ -55,13 +36,26 @@ public class SyncPageController {
     }
 
     @FXML
-    private void handleSync() {
-        // 处理同步操作
+    private void handleSyncNav() {
+        // 已在同步页面，无需操作
     }
 
     @FXML
-    private void handleMailboxBind() {
-        // 处理邮箱绑定
+    private void handleSharingNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/SharingPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load sharing page: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleEncryptionNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/EncryptionPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load encryption page: " + e.getMessage());
+        }
     }
 
     private void showError(String title, String content) {

@@ -12,30 +12,42 @@
           AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         
         <!-- 顶部导航栏 -->
-        <HBox style="-fx-background-color: #B0C4DE;" spacing="0">
+        <HBox style="-fx-background-color: #B0C4DE;" spacing="0" VBox.vgrow="NEVER">
             <Button text="Homepage" onAction="#handleHomeNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             <Button text="Analysis" onAction="#handleAnalysisNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             <Button text="Dashboard" onAction="#handleUserNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- 用户信息区域 -->
-        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;">
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 20;" spacing="10">
             <VBox alignment="CENTER_RIGHT">
-                <Label text="NAME" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
-                <Label text="0000000000" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
+                <Label fx:id="usernameLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
+                <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
             </VBox>
-            <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+            <StackPane>
+                <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+                <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true"/>
+            </StackPane>
         </HBox>
 
-        <!-- 功能区域标签 -->
-        <HBox style="-fx-background-color: #A9A9A9;">
-            <Button text="Synchronisation" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
-            <Button text="Sharing" style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" prefWidth="266"/>
-            <Button text="Encryption" style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
-        </HBox>
+     <!-- 功能区域标签 -->
+     <HBox style="-fx-background-color: #A9A9A9;" VBox.vgrow="NEVER">
+        <Button text="Synchronisation" onAction="#handleSyncNav" 
+                style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button text="Sharing" onAction="#handleSharingNav" 
+                style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button text="Encryption" onAction="#handleEncryptionNav" 
+                style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" 
+                maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+    </HBox>
 
         <!-- 加密列表 -->
         <VBox spacing="10" style="-fx-padding: 20;">

@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e6f0fa;"
             xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
@@ -12,13 +14,16 @@
           AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
         
         <!-- 顶部导航栏 -->
-        <HBox style="-fx-background-color: #B0C4DE;" spacing="0">
+        <HBox style="-fx-background-color: #B0C4DE;" HBox.hgrow="ALWAYS">
             <Button text="Homepage" onAction="#handleHomeNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             <Button text="Analysis" onAction="#handleAnalysisNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
-            <Button text="Dashboard" onAction="#handleUserNav" 
-                    style="-fx-background-color: transparent; -fx-font-size: 14px;" prefWidth="266"/>
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+            <Button text="User" onAction="#handleUserNav" 
+                    style="-fx-background-color: transparent; -fx-font-size: 14px;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- 用户信息区域 -->
@@ -27,7 +32,10 @@
                 <Label fx:id="usernameLabel" style="-fx-text-fill: #666666; -fx-font-size: 14px;"/>
                 <Label fx:id="emailLabel" style="-fx-text-fill: #666666; -fx-font-size: 12px;"/>
             </VBox>
-            <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+            <StackPane>
+                <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
+                <ImageView fx:id="avatarImage" fitHeight="40.0" fitWidth="40.0" preserveRatio="true"/>
+            </StackPane>
         </HBox>
 
         <!-- 页面标题 -->
@@ -36,11 +44,14 @@
         <!-- 功能区域标签 -->
         <HBox style="-fx-background-color: #A9A9A9;">
             <Button text="Synchronisation" onAction="#handleSyncNav" 
-                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             <Button text="Sharing" onAction="#handleSharingNav" 
-                    style="-fx-background-color: #C0C0C0; -fx-text-fill: white;" prefWidth="266"/>
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
             <Button text="Encryption" onAction="#handleEncryptionNav" 
-                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" prefWidth="266"/>
+                    style="-fx-background-color: #A9A9A9; -fx-text-fill: white;" 
+                    maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         </HBox>
 
         <!-- 其他功能按钮 -->

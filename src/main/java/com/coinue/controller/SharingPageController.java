@@ -2,23 +2,12 @@ package com.coinue.controller;
 
 import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert;
+
 import java.io.IOException;
 
 public class SharingPageController {
-    @FXML
-    private ListView<String> memberListView;
-    @FXML
-    private ToggleButton privacySwitch;
-
-    @FXML
-    public void initialize() {
-        // 初始化共享页面组件
-        memberListView.getItems().addAll("Member A", "Member B", "Member C", "Member D");
-    }
-
+    
     @FXML
     private void handleHomeNav() {
         try {
@@ -47,23 +36,26 @@ public class SharingPageController {
     }
 
     @FXML
-    private void handleAddMember() {
-        // 处理添加成员
+    private void handleSyncNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/SyncPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load sync page: " + e.getMessage());
+        }
     }
 
     @FXML
-    private void handleRemoveMember() {
-        // 处理移除成员
+    private void handleSharingNav() {
+        // 已在共享页面，无需操作
     }
 
     @FXML
-    private void handleRefresh() {
-        // 处理刷新成员列表
-    }
-
-    @FXML
-    private void handlePrivacySwitch() {
-        // 处理隐私开关
+    private void handleEncryptionNav() {
+        try {
+            PageManager.getInstance().switchToPage("/view/EncryptionPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load encryption page: " + e.getMessage());
+        }
     }
 
     private void showError(String title, String content) {
