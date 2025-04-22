@@ -220,10 +220,14 @@ public class SignUpControllerTest extends ApplicationTest {
      */
     @Test
     public void testSuccessfulRegistration() {
+        // 生成更随机的测试数据
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String testEmail = "testuser" + timestamp + "@example.com";
+        String testUsername = "testuser" + timestamp;
+        
         // 填写表单
-        clickOn("#emailField").write("newuser@example.com");
-        // Use a unique username for each test run if needed, or ensure cleanup
-        clickOn("#signUpUsernameField").write("newtestuser" + System.currentTimeMillis());
+        clickOn("#emailField").write(testEmail);
+        clickOn("#signUpUsernameField").write(testUsername);
         clickOn("#signUpPasswordField").write("password123");
         clickOn("#confirmPasswordField").write("password123");
 
