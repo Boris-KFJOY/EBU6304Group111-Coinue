@@ -34,13 +34,15 @@
             </VBox>
             <StackPane>
                 <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
-                <ImageView fx:id="avatarImage" fitHeight="40.0" fitWidth="40.0" preserveRatio="true"/>
+                <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true" 
+                          onMouseClicked="#handleChangeAvatar" 
+                          style="-fx-cursor: hand;"/>
             </StackPane>
         </HBox>
 
-        <!-- 页面标题 -->
+        <!-- 页面标题
         <Label fx:id="titleLabel" text="User Dashboard" style="-fx-font-size: 18px; -fx-text-fill: #333333; -fx-padding: 10 0 10 20;"/>
-        
+         -->
         <!-- 功能区域标签 -->
         <HBox style="-fx-background-color: #A9A9A9;">
             <Button text="Synchronisation" onAction="#handleSyncNav" 

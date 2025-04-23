@@ -1,13 +1,15 @@
 package com.coinue.controller;
 
+import java.io.IOException;
+
 import com.coinue.util.PageManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
+import javafx.stage.FileChooser;
 
 /**
  * 用户页面控制器
@@ -182,5 +184,29 @@ public class UserPageController {
     @FXML
     private void handleUsernameEdit() {
         showInfo("Feature Notice", "Username edit feature is under development.");
+    }
+
+    @FXML
+    public void handleChangeAvatar() {
+        javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+        fileChooser.setTitle("选择头像图片");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("图片文件", "*.png", "*.jpg", "*.jpeg")
+        );
+        
+        java.io.File selectedFile = fileChooser.showOpenDialog(avatarImage.getScene().getWindow());
+        if (selectedFile != null) {
+            try {
+                javafx.scene.image.Image image = new javafx.scene.image.Image(selectedFile.toURI().toString());
+                avatarImage.setImage(image);
+                // TODO: 保存头像到用户配置或数据库
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("错误");
+                alert.setHeaderText("无法加载图片");
+                alert.setContentText("请选择有效的图片文件。");
+                alert.showAndWait();
+            }
+        }
     }
 }
