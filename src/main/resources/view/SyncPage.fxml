@@ -33,7 +33,9 @@
             </VBox>
             <StackPane>
                 <Circle radius="20" style="-fx-fill: #CCCCCC;"/>
-                <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true"/>
+                <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true" 
+                          onMouseClicked="#handleChangeAvatar" 
+                          style="-fx-cursor: hand;"/>
             </StackPane>
         </HBox>
 
