@@ -4,6 +4,7 @@ import com.coinue.util.CSVHandler;
 import com.coinue.util.ChartGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -12,6 +13,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -23,6 +26,9 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -30,6 +36,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Analysis Page Controller
@@ -49,6 +56,8 @@ public class AnalysisPageController {
     private ProgressBar budgetProgressBar;
     @FXML
     private Label budgetLabel;
+    @FXML
+    private HBox statsCardsContainer;  // 新增统计卡片容器
 
     private static final double DEFAULT_BUDGET = 10000.0; // Default budget amount
     private double currentBudget = DEFAULT_BUDGET;
@@ -100,6 +109,8 @@ public class AnalysisPageController {
             totalExpense = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
             updateBudgetProgress();
 
+            // 替换原来的统计标签更新
+            updateStatisticsDisplay(categoryStatistics);
             // 已移除导入成功Notification窗口
         } catch (IOException e) {
             showError("导入失败", "无法读取CSV文件：" + e.getMessage());
@@ -245,4 +256,79 @@ public class AnalysisPageController {
             showError("Export failed", "Failed to export PDF file: " + e.getMessage());
         }
     }
-}
+
+    @FXML
+    private void handleSetBudget() {
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(currentBudget));
+        dialog.setTitle("Set Budget");
+        dialog.setHeaderText("Enter your monthly budget");
+        dialog.setContentText("Amount:");
+    
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(amount -> {
+            try {
+                currentBudget = Double.parseDouble(amount);
+                updateBudgetProgress();
+            } catch (NumberFormatException e) {
+                showError("Invalid Input", "Please enter a valid number");
+            }
+        });
+    }
+
+    private void updateStatisticsDisplay(Map<String, Double> categoryStatistics) {
+        if (statsCardsContainer == null) {
+            System.err.println("Warning: statsCardsContainer is not initialized");
+            return;
+        }
+        
+        // 清空现有卡片
+        statsCardsContainer.getChildren().clear();
+        
+        // 创建滚动面板
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
+        
+        // 修改内部容器设置
+        HBox cardsBox = new HBox(5);  // 减少卡片间距
+        cardsBox.setAlignment(Pos.CENTER_LEFT);
+        cardsBox.setStyle("-fx-padding: 5;");  // 添加内边距
+        
+        // 创建总支出卡片
+        VBox totalCard = createStatCard("总支出", 
+                String.format("¥%.2f", totalExpense), 
+                "#4CAF50");
+        cardsBox.getChildren().add(totalCard);
+        
+        // 创建预算卡片
+        VBox budgetCard = createStatCard("剩余预算", 
+                String.format("¥%.2f", currentBudget - totalExpense), 
+                "#2196F3");
+        cardsBox.getChildren().add(budgetCard);
+        
+        // 创建类别数卡片
+        VBox categoriesCard = createStatCard("消费类别", 
+                String.valueOf(categoryStatistics.size()), 
+                "#FF9800");
+        cardsBox.getChildren().add(categoriesCard);
+        
+        scrollPane.setContent(cardsBox);
+        statsCardsContainer.getChildren().add(scrollPane);
+    }
+
+    private VBox createStatCard(String title, String value, String color) {
+        VBox card = new VBox(3);  // 减少间距
+        card.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 8; -fx-padding: 8;");
+        
+        Label titleLabel = new Label(title);
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12;");
+        
+        Label valueLabel = new Label(value);
+        valueLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;");
+        
+        card.getChildren().addAll(titleLabel, valueLabel);
+        return card;
+    }
+}  // 这是类的结束大括号

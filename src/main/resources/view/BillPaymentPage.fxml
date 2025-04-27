@@ -48,16 +48,22 @@
                 </StackPane>
                 
                 <!-- 右侧区域：账单表格 -->
-                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
-                    <TableView fx:id="billTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="dateColumn" text="Date" />
-                            <TableColumn fx:id="descriptionColumn" text="Description" />
-                            <TableColumn fx:id="amountColumn" text="Amount" />
-                            <TableColumn fx:id="statusColumn" text="Status" />
-                        </columns>
-                    </TableView>
-                </StackPane>
+                <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <VBox spacing="10" style="-fx-padding: 10;">
+                        <!-- 修改图表容器 -->
+                        <HBox spacing="10" style="-fx-padding: 10;">
+                            <PieChart fx:id="repaymentChart" prefWidth="300" prefHeight="300"/>
+                            <TableView fx:id="billTable" prefWidth="400" prefHeight="300">
+                                <columns>
+                                    <TableColumn prefWidth="80" text="Date" fx:id="dateColumn"/>
+                                    <TableColumn prefWidth="120" text="Description" fx:id="descriptionColumn"/>
+                                    <TableColumn prefWidth="80" text="Amount" fx:id="amountColumn"/>
+                                    <TableColumn prefWidth="80" text="Status" fx:id="statusColumn"/>
+                                </columns>
+                            </TableView>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
             </HBox>
         </VBox>
     </children>
