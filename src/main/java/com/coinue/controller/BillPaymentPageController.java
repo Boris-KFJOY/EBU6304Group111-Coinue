@@ -62,38 +62,18 @@ public class BillPaymentPageController {
         repaymentAmountLabel.setText("Repayment Amount: 0.00");
     }
 
-    // 1. 添加常量定义
-    private static final String CSV_FILE_EXTENSION = "*.csv";
-    private static final String CSV_FILE_DESCRIPTION = "CSV文件";
-
-    // 2. 优化CSV导入方法
     @FXML
     private void handleImportCSV() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("选择CSV文件");
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter(CSV_FILE_DESCRIPTION, CSV_FILE_EXTENSION)
+            new FileChooser.ExtensionFilter("CSV文件", "*.csv")
         );
-    
-        // 3. 添加文件选择监听器
+
         File file = fileChooser.showOpenDialog(billTable.getScene().getWindow());
         if (file != null) {
             importCSVFile(file);
         }
-    }
-
-    // 4. 优化饼图更新方法
-    private void updatePieChart(double repaymentAmount) {
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("已用额度", repaymentAmount),
-            new PieChart.Data("剩余额度", Math.max(0, creditLimit - repaymentAmount)) // 防止负数
-        );
-        
-        // 5. 添加饼图样式设置
-        repaymentChart.setData(pieChartData);
-        repaymentChart.setTitle(String.format("%.0f%%", (repaymentAmount / creditLimit) * 100));
-        repaymentChart.setLabelsVisible(true);
-        repaymentChart.setLegendVisible(true);
     }
 
     private void importCSVFile(File file) {
@@ -131,6 +111,15 @@ public class BillPaymentPageController {
         billTable.setItems(FXCollections.observableArrayList(records));
         updatePieChart(totalAmount);
         repaymentAmountLabel.setText(String.format("还款金额：%.2f", totalAmount));
+    }
+
+    private void updatePieChart(double repaymentAmount) {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+            new PieChart.Data("已用额度", repaymentAmount),
+            new PieChart.Data("剩余额度", creditLimit - repaymentAmount)
+        );
+        repaymentChart.setData(pieChartData);
+        repaymentChart.setTitle(String.format("%.0f%%", (repaymentAmount / creditLimit) * 100));
     }
 
     private void showError(String title, String content) {
