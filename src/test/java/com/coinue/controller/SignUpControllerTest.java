@@ -29,6 +29,16 @@ import org.testfx.util.WaitForAsyncUtils;
 /**
  * SignUpController测试类
  * 使用 TestFX 进行集成测试
+ * 
+ * 测试类覆盖了用户注册功能的所有关键场景：
+ * 1. 空表单提交验证
+ * 2. 密码不匹配验证
+ * 3. 服务条款未接受验证
+ * 4. 返回登录页面功能
+ * 5. 服务条款、隐私政策和行为准则链接功能
+ * 6. 成功注册流程
+ * 
+ * 测试类使用TestFX框架模拟用户界面交互，验证UI组件状态和业务逻辑
  */
 public class SignUpControllerTest extends ApplicationTest {
 
@@ -44,6 +54,15 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 初始化测试环境
+     * 
+     * 在每个测试方法执行前调用，完成以下准备工作：
+     * 1. 加载SignUp.fxml界面文件
+     * 2. 创建场景并显示舞台
+     * 3. 获取控制器实例
+     * 4. 初始化所有UI组件的引用
+     * 
+     * @param stage JavaFX主舞台
+     * @throws IOException 如果加载FXML文件失败
      */
     @Start
     public void start(Stage stage) throws IOException {
@@ -71,6 +90,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试空表单提交
+     * 
+     * 验证场景：用户未填写任何字段直接点击注册按钮
+     * 
+     * 测试步骤：
+     * 1. 不填写任何字段
+     * 2. 直接点击创建账户按钮
+     * 
+     * 预期结果：
+     * 1. 显示错误提示对话框
+     * 2. 错误消息为"所有字段都必须填写"
      */
     @Test
     public void testEmptyFormSubmission() {
@@ -87,6 +116,17 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试密码不匹配
+     * 
+     * 验证场景：用户输入的密码和确认密码不一致
+     * 
+     * 测试步骤：
+     * 1. 填写所有必填字段
+     * 2. 设置密码和确认密码为不同值
+     * 3. 点击创建账户按钮
+     * 
+     * 预期结果：
+     * 1. 显示错误提示对话框
+     * 2. 错误消息为"两次输入的密码不匹配"
      */
     @Test
     public void testPasswordMismatch() {
@@ -123,6 +163,18 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试未同意服务条款
+     * 
+     * 验证场景：用户填写了所有必填字段但未勾选服务条款复选框
+     * 
+     * 测试步骤：
+     * 1. 填写所有必填字段
+     * 2. 确保密码和确认密码一致
+     * 3. 不勾选服务条款复选框
+     * 4. 点击创建账户按钮
+     * 
+     * 预期结果：
+     * 1. 显示错误提示对话框
+     * 2. 错误消息为"请阅读并同意服务条款、隐私政策和行为准则"
      */
     @Test
     public void testTermsNotAccepted() {
@@ -159,6 +211,17 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试返回登录页面
+     * 
+     * 验证场景：用户点击返回登录链接
+     * 
+     * 测试步骤：
+     * 1. 点击返回登录链接
+     * 2. 等待页面切换动画完成
+     * 
+     * 预期结果：
+     * 1. 成功返回登录页面
+     * 2. 登录页面的用户名输入框可见
+     * 3. 登录页面的标题可见
      */
     @Test
     public void testBackToSignIn() {
@@ -177,6 +240,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试服务条款链接
+     * 
+     * 验证场景：用户点击服务条款链接
+     * 
+     * 测试步骤：
+     * 1. 点击服务条款链接
+     * 2. 等待对话框显示
+     * 
+     * 预期结果：
+     * 1. 显示服务条款对话框
+     * 2. 对话框标题为"Terms of Service"
      */
     @Test
     public void testTermsLink() {
@@ -190,6 +263,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试隐私政策链接
+     * 
+     * 验证场景：用户点击隐私政策链接
+     * 
+     * 测试步骤：
+     * 1. 点击隐私政策链接
+     * 2. 等待对话框显示
+     * 
+     * 预期结果：
+     * 1. 显示隐私政策对话框
+     * 2. 对话框标题为"Privacy Policy"
      */
     @Test
     public void testPrivacyLink() {
@@ -203,6 +286,16 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试行为准则链接
+     * 
+     * 验证场景：用户点击行为准则链接
+     * 
+     * 测试步骤：
+     * 1. 点击行为准则链接
+     * 2. 等待对话框显示
+     * 
+     * 预期结果：
+     * 1. 显示行为准则对话框
+     * 2. 对话框标题为"User Code of Conduct"
      */
     @Test
     public void testConductLink() {
@@ -217,6 +310,21 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 测试成功注册
+     * 
+     * 验证场景：用户填写所有必填字段并成功注册
+     * 
+     * 测试步骤：
+     * 1. 生成唯一的测试用户名和邮箱
+     * 2. 填写所有必填字段
+     * 3. 确保密码和确认密码一致
+     * 4. 勾选服务条款复选框
+     * 5. 点击创建账户按钮
+     * 
+     * 预期结果：
+     * 1. 显示成功提示对话框
+     * 2. 成功消息为"账户创建成功，请登录"
+     * 3. 自动跳转到登录页面
+     * 4. 测试数据被正确清理
      */
     @Test
     public void testSuccessfulRegistration() {
@@ -272,6 +380,11 @@ public class SignUpControllerTest extends ApplicationTest {
 
     /**
      * 清理测试用户数据
+     * 
+     * 在测试完成后清理创建的测试用户
+     * 
+     * @param email 测试用户的邮箱
+     * @param username 测试用户的用户名
      */
     private void cleanupTestUser(String email, String username) {
         try {
@@ -285,6 +398,12 @@ public class SignUpControllerTest extends ApplicationTest {
     }
 
     // --- Helper method for DatePicker ---
+    /**
+     * 辅助方法：在DatePicker中选择指定日期
+     * 
+     * @param datePicker 要操作的DatePicker组件
+     * @param dateToSelect 要选择的日期
+     */
     private void selectDateInPicker(DatePicker datePicker, LocalDate dateToSelect) {
         interact(() -> datePicker.setValue(dateToSelect));
         WaitForAsyncUtils.waitForFxEvents();
@@ -315,6 +434,11 @@ public class SignUpControllerTest extends ApplicationTest {
     }
 
     // --- Helper method to verify custom dialog ---
+    /**
+     * 辅助方法：验证自定义对话框是否显示
+     * 
+     * @param expectedTitle 预期的对话框标题
+     */
     private void verifyDialogShowingWithTitle(String expectedTitle) {
         // Find the dialog stage by title
         Optional<Window> dialogWindow = listWindows().stream()

@@ -19,47 +19,72 @@ import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 
+/**
+ * UserPageController的测试类
+ * 使用TestFX框架进行UI自动化测试
+ * 测试用户页面导航和账单支付功能
+ */
 @ExtendWith(ApplicationExtension.class)
 public class UserPageTest {
 
 
+    /**
+     * 初始化测试环境
+     * @param stage JavaFX主舞台
+     * @throws Exception 如果加载FXML文件失败
+     */
     @Start
     public void start(Stage stage) throws Exception {
-        // 初始化PageManager
+        // 初始化PageManager单例并设置舞台
         PageManager.getInstance().initStage(stage);
         
-        // 加载UserPage.fxml
+        // 从资源文件加载UserPage.fxml界面
         Parent root = FXMLLoader.load(getClass().getResource("/view/UserPage.fxml"));
+        
+        // 设置场景并显示舞台
         stage.setScene(new Scene(root));
         stage.show();
     }
 
+    /**
+     * 测试用户导航功能
+     * 验证点击Dashboard按钮后是否正确显示用户信息
+     * @param robot TestFX提供的机器人对象，用于模拟用户操作
+     */
     @Test
     void testUserNavigation(FxRobot robot) {
-        // 点击Dashboard按钮并验证
+        // 模拟用户点击Dashboard按钮
         robot.clickOn("Dashboard");
-        robot.sleep(2000); // 增加等待时间确保UI加载
+        
+        // 等待2秒确保UI完全加载
+        robot.sleep(2000); 
+        
+        // 验证用户名和邮箱标签是否可见
         verifyThat("#usernameLabel", isVisible());
         verifyThat("#emailLabel", isVisible());
     }
     
+    /**
+     * 测试账单支付页面导航功能
+     * 验证从Dashboard进入账单支付页面的流程和UI元素
+     * @param robot TestFX提供的机器人对象，用于模拟用户操作
+     */
     @Test
     void testBillPaymentNavigation(FxRobot robot) {
-        // 进入用户页面
+        // 首先进入用户Dashboard页面
         robot.clickOn("Dashboard");
-        robot.sleep(3000); // 增加等待时间确保UI加载
+        robot.sleep(3000); // 等待3秒确保页面加载完成
         
-        // 点击Bill Payment按钮并验证
+        // 从Dashboard导航到账单支付页面
         robot.clickOn("Bill Payment");
-        robot.sleep(3000); // 增加等待时间确保UI加载
+        robot.sleep(3000); // 等待3秒确保页面切换完成
         
-        // 验证所有UI元素 - 使用与FXML文件匹配的ID
-        verifyThat("#titleLabel", isVisible());
-        verifyThat("#repaymentChart", isVisible());
-        verifyThat("#billTable", isVisible());
+        // 验证账单支付页面的关键UI元素是否可见
+        verifyThat("#titleLabel", isVisible());    // 验证标题标签
+        verifyThat("#repaymentChart", isVisible()); // 验证还款图表
+        verifyThat("#billTable", isVisible());     // 验证账单表格
         
-        // 不再测试不存在的元素
-        // 原测试中的importButton在FXML中是一个没有ID的按钮，使用文本查找
+        // 查找并验证"Import CSV"按钮(该按钮在FXML中没有ID，使用文本查找)
         Button importButton = robot.lookup("Import CSV").queryButton();
         verifyThat(importButton, isVisible());
     }
