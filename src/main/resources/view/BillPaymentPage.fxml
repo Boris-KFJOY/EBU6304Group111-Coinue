@@ -28,33 +28,31 @@
             </children>
         </HBox>
    
-    
-    <!-- 主要内容区域 -->
-    
+        <!-- 主要内容区域 -->
         <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
             <!-- 操作按钮区域 -->
-            <HBox spacing="20.0" alignment="CENTER_LEFT">
+            <HBox spacing="20.0" alignment="CENTER_LEFT" style="-fx-padding: 10;">
                 <Button text="Import CSV" onAction="#handleImportCSV" styleClass="action-button"/>
-               
-                <Label fx:id="creditLimitLabel" />
-                <Label fx:id="repaymentAmountLabel" />
+                <Button text="Export Report" onAction="#handleExportReport" styleClass="action-button"/>
+                <Label fx:id="creditLimitLabel" style="-fx-font-weight: bold; -fx-text-fill: #333;"/>
+                <Label fx:id="repaymentAmountLabel" style="-fx-font-weight: bold; -fx-text-fill: #333;"/>
             </HBox>
 
             <!-- 图表展示区域 -->
             <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                 <!-- 左侧区域：环形图 -->
-                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
                     <PieChart fx:id="repaymentChart" title="Repayment Ratio" legendVisible="true" />
                 </StackPane>
                 
                 <!-- 右侧区域：账单表格 -->
-                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
+                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
                     <TableView fx:id="billTable" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="dateColumn" text="Date" />
-                            <TableColumn fx:id="descriptionColumn" text="Description" />
-                            <TableColumn fx:id="amountColumn" text="Amount" />
-                            <TableColumn fx:id="statusColumn" text="Status" />
+                            <TableColumn fx:id="dateColumn" text="Date" style="-fx-alignment: CENTER;"/>
+                            <TableColumn fx:id="descriptionColumn" text="Description" style="-fx-alignment: CENTER-LEFT;"/>
+                            <TableColumn fx:id="amountColumn" text="Amount" style="-fx-alignment: CENTER-RIGHT;"/>
+                            <TableColumn fx:id="statusColumn" text="Status" style="-fx-alignment: CENTER;"/>
                         </columns>
                     </TableView>
                 </StackPane>
