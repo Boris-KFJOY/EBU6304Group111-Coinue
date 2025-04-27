@@ -30,11 +30,18 @@
    
         <!-- 主要内容区域 -->
         <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
-            <!-- 操作按钮区域 -->
+            <!-- 操作按钮区域 - 修改后的布局 -->
             <HBox spacing="20.0" alignment="CENTER_LEFT">
-                <Button text="Import CSV" onAction="#handleImportCSV" styleClass="action-button"/>
-                <Label fx:id="creditLimitLabel" />
-                <Label fx:id="repaymentAmountLabel" />
+                <Label fx:id="repaymentAmountLabel" HBox.hgrow="NEVER">
+                    <font>
+                        <Font size="20.0" />
+                    </font>
+                </Label>
+                <Label text="      Credit Limit:" HBox.hgrow="NEVER" />
+                <TextField fx:id="creditLimitField" promptText="Enter amount" prefWidth="120" HBox.hgrow="NEVER" />
+                <DatePicker fx:id="dateFilterPicker" promptText="Filter by date" HBox.hgrow="NEVER" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Button text="Import CSV" onAction="#handleImportCSV" styleClass="action-button" HBox.hgrow="NEVER" />
             </HBox>
 
             <!-- 图表和表格区域 -->
