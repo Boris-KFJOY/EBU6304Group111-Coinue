@@ -1,6 +1,7 @@
 package com.coinue.controller;
 
 // 添加必要的导入
+// Add necessary imports
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,124 +23,150 @@ import javafx.stage.Stage;
 
 /**
  * 手动记账对话框控制器
+ * Manual Entry Dialog Controller
  * 负责处理手动记账界面的所有交互逻辑，包括收支记录的输入、验证和保存
+ * Responsible for handling all interaction logic of the manual entry interface, including input, validation, and saving of income and expense records
  */
 public class ManualEntryDialogController {
     /**
      * 收支名称输入框
+     * Income/Expense name input field
      */
     @FXML
     private TextField nameField;
     
     /**
      * 金额输入框
+     * Amount input field
      */
     @FXML
     private TextField amountField;
     
     /**
      * 类别选择下拉框
+     * Category selection combo box
      */
     @FXML
     private ComboBox<String> categoryComboBox;
     
     /**
      * 日期选择器
+     * Date picker
      */
     @FXML
     private DatePicker datePicker;
     
     /**
      * 子类别列表视图
+     * Subcategory list view
      * 显示所选类别下的具体子类别选项
+     * Displays specific subcategory options under the selected category
      */
     @FXML
     private ListView<String> subCategoryListView;
     
     /**
      * 备注输入区域
+     * Note input area
      */
     @FXML
     private TextArea noteField;
     
     /**
      * 支出单选按钮
+     * Expense radio button
      */
     @FXML
     private RadioButton expensesRadio;
     
     /**
      * 收入单选按钮
+     * Income radio button
      */
     @FXML
     private RadioButton incomeRadio;
     
     /**
      * 收支类型单选按钮组
+     * Income/Expense type radio button group
      */
     @FXML
     private ToggleGroup recordTypeGroup;
     
     /**
      * 币种选择下拉框
+     * Currency selection combo box
      */
     @FXML
     private ComboBox<String> currencyComboBox;
     
     /**
      * 快速记账按钮
+     * Quick entry button
      */
     @FXML
     private Button quickEntryButton;
     
     /**
      * 家庭共享按钮
+     * Family sharing button
      */
     @FXML
     private Button familySharingButton;
     
     /**
      * 对话框窗口引用
+     * Reference to the dialog window
      */
     private Stage dialogStage;
     
     /**
      * 用户是否确认保存的标志
+     * Flag indicating whether the user has confirmed saving
      */
     private boolean isConfirmed = false;
     
     /**
      * 主页面控制器引用
+     * Reference to the main page controller
      */
     private MainPageController mainPageController;
     
     /**
      * 记录页面控制器引用
+     * Reference to the expense record page controller
      */
     private ExpenseRecordPageController expenseRecordPageController;
 
     /**
      * 初始化方法
+     * Initialization method
      * 在FXML加载后自动调用，设置界面初始状态和事件监听器
+     * Automatically called after FXML is loaded, sets the initial state of the interface and event listeners
      */
     @FXML
     private void initialize() {
         // 初始化币种选择
+        // Initialize currency selection
         currencyComboBox.getItems().addAll("CNY", "USD", "EUR", "GBP", "JPY");
         currencyComboBox.setValue("CNY");
         
         // 初始化类别下拉框 - 默认为支出类别
+        // Initialize category combo box - default to expense category
         updateCategoryComboBox(true);
         
         // 初始化日期选择器为当前日期
+        // Initialize date picker to current date
         datePicker.setValue(LocalDate.now());
         
         // 设置类别选择监听器，更新子类别列表
+        // Set category selection listener to update subcategory list
         categoryComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             updateSubCategories(newValue);
         });
 
         // 修改：使用ToggleGroup的selectedToggleProperty来监听单选按钮变化
+        // Modification: Use selectedToggleProperty of ToggleGroup to listen for radio button changes
         recordTypeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             handleRecordTypeChange();
         });
@@ -147,7 +174,9 @@ public class ManualEntryDialogController {
     
     /**
      * 处理记录类型变化事件
+     * Handle record type change event
      * 当切换收支类型时更新类别选项
+     * Update category options when switching income/expense type
      */
     @FXML
     private void handleRecordTypeChange() {
@@ -157,23 +186,29 @@ public class ManualEntryDialogController {
     
     /**
      * 更新类别下拉框选项
+     * Update category combo box options
      * @param isExpense 是否为支出类型
+     * @param isExpense Whether it is an expense type
      */
     private void updateCategoryComboBox(boolean isExpense) {
         categoryComboBox.getItems().clear();
         
         if (isExpense) {
             // 支出类别
+            // Expense categories
             categoryComboBox.getItems().addAll("餐饮", "交通", "购物", "娱乐", "教育", "运动", "生活", "通讯", "医疗");
         } else {
             // 收入类别
+            // Income categories
             categoryComboBox.getItems().addAll("工资", "投资", "礼金", "奖金", "兼职", "其他");
         }
     }
     
     /**
      * 更新子类别列表
+     * Update subcategory list
      * @param category 选中的主类别
+     * @param category Selected main category
      */
     private void updateSubCategories(String category) {
         if (subCategoryListView == null || category == null) return;
@@ -181,8 +216,10 @@ public class ManualEntryDialogController {
         subCategoryListView.getItems().clear();
         
         // 根据是支出还是收入以及选择的类别添加对应的子类别
+        // Add corresponding subcategories based on whether it is an expense or income and the selected category
         if (expensesRadio.isSelected()) {
             // 支出子类别
+            // Expense subcategories
             switch (category) {
                 case "餐饮":
                     subCategoryListView.getItems().addAll("早餐", "午餐", "晚餐", "外卖", "零食", "饮料", "下午茶", "宵夜");
@@ -216,6 +253,7 @@ public class ManualEntryDialogController {
             }
         } else {
             // 收入子类别
+            // Income subcategories
             switch (category) {
                 case "工资":
                     subCategoryListView.getItems().addAll("月薪", "年终奖", "加班费", "绩效奖金", "项目奖励", "补贴", "提成");
@@ -243,7 +281,9 @@ public class ManualEntryDialogController {
     
     /**
      * 设置主页面控制器
+     * Set main page controller
      * @param controller 主页面控制器实例
+     * @param controller Main page controller instance
      */
     public void setMainPageController(MainPageController controller) {
         this.mainPageController = controller;
@@ -251,7 +291,9 @@ public class ManualEntryDialogController {
     
     /**
      * 设置记录页面控制器
+     * Set expense record page controller
      * @param controller 记录页面控制器实例
+     * @param controller Expense record page controller instance
      */
     public void setExpenseRecordPageController(ExpenseRecordPageController controller) {
         this.expenseRecordPageController = controller;
@@ -259,12 +301,15 @@ public class ManualEntryDialogController {
     
     /**
      * 处理保存按钮点击事件
+     * Handle save button click event
      * 验证输入数据并保存记录
+     * Validate input data and save record
      */
     @FXML
     private void handleSave() {
         if (isInputValid()) {
             // 获取子类别作为消费名称，如果没有选择则使用nameField的值
+            // Get subcategory as expense name, use nameField value if none selected
             String expenseName = nameField.getText();
             if (subCategoryListView != null) {
                 String selectedSubCategory = subCategoryListView.getSelectionModel().getSelectedItem();
@@ -274,9 +319,11 @@ public class ManualEntryDialogController {
             }
             
             // 获取记录类型（支出或收入）
+            // Get record type (expense or income)
             String recordType = expensesRadio.isSelected() ? "支出" : "收入";
             
             // 获取币种
+            // Get currency
             String currency = currencyComboBox.getValue();
             
             ExpenseRecord record = new ExpenseRecord(
@@ -287,15 +334,18 @@ public class ManualEntryDialogController {
             );
             
             // 设置备注信息
+            // Set note information
             if (noteField != null && noteField.getText() != null && !noteField.getText().isEmpty()) {
                 record.setDescription(noteField.getText());
             }
             
             // 设置记录类型和币种
+            // Set record type and currency
             record.setRecordType(recordType);
             record.setCurrency(currency);
             
             // 根据控制器类型添加消费记录
+            // Add expense record based on controller type
             if (mainPageController != null) {
                 mainPageController.addExpenseRecord(record);
             } else if (expenseRecordPageController != null) {
@@ -309,7 +359,9 @@ public class ManualEntryDialogController {
 
     /**
      * 处理取消按钮点击事件
+     * Handle cancel button click event
      * 关闭对话框
+     * Close dialog
      */
     @FXML
     void handleCancel() {
@@ -318,8 +370,11 @@ public class ManualEntryDialogController {
 
     /**
      * 验证输入数据的有效性
+     * Validate input data validity
      * 检查必填字段和数据格式
+     * Check required fields and data format
      * @return 如果所有输入有效返回true，否则返回false
+     * @return true if all inputs are valid, otherwise false
      */
     private boolean isInputValid() {
         String errorMessage = "";
@@ -346,8 +401,10 @@ public class ManualEntryDialogController {
         }
         
         // 检查是否有输入名称
+        // Check if a name is entered
         if (nameField.getText() == null || nameField.getText().trim().isEmpty()) {
             // 检查是否有选择子类别
+            // Check if a subcategory is selected
             boolean hasSelectedSubCategory = false;
             if (subCategoryListView != null) {
                 hasSelectedSubCategory = subCategoryListView.getSelectionModel().getSelectedItem() != null;
@@ -372,7 +429,9 @@ public class ManualEntryDialogController {
 
     /**
      * 获取用户是否确认保存
+     * Get whether the user has confirmed saving
      * @return 如果用户确认保存返回true，否则返回false
+     * @return true if the user has confirmed saving, otherwise false
      */
     public boolean isConfirmed() {
         return isConfirmed;
@@ -380,7 +439,9 @@ public class ManualEntryDialogController {
     
     /**
      * 检查是否选择了收入类型
+     * Check if income type is selected
      * @return 如果选择了收入类型返回true，否则返回false
+     * @return true if income type is selected, otherwise false
      */
     public boolean isIncomeSelected() {
         return incomeRadio.isSelected();
@@ -388,7 +449,9 @@ public class ManualEntryDialogController {
     
     /**
      * 设置记录类型（支出或收入）
+     * Set record type (expense or income)
      * @param type 记录类型，"income"表示收入，其他值表示支出
+     * @param type Record type, "income" for income, other values for expense
      */
     public void setRecordType(String type) {
         if ("income".equalsIgnoreCase(type)) {
@@ -397,18 +460,27 @@ public class ManualEntryDialogController {
             expensesRadio.setSelected(true);
         }
         // 手动触发类别更新
+        // Manually trigger category update
         handleRecordTypeChange();
     }
 
     /**
      * 处理导入按钮点击事件
+     * Handle import button click event
      * 打开文件选择器并导入CSV文件数据
+     * Open file chooser and import CSV file data
      * CSV文件格式要求：
+     * CSV file format requirements:
      * - 标题行：Type,Amount,Date,Additional
+     * - Header row: Type,Amount,Date,Additional
      * - Type: 支出/收入类别（如：餐饮、交通、工资等）
+     * - Type: Expense/Income category (e.g., dining, transportation, salary, etc.)
      * - Amount: 金额（数字格式）
+     * - Amount: Amount (numeric format)
      * - Date: 日期（格式：yyyy-MM-dd）
+     * - Date: Date (format: yyyy-MM-dd)
      * - Additional: 子类别或备注信息
+     * - Additional: Subcategory or note information
      */
     @FXML
     private void handleImport() {
@@ -416,11 +488,14 @@ public class ManualEntryDialogController {
         fileChooser.setTitle("选择CSV文件");
         
         // 设置默认目录为项目的data文件夹
+        // Set default directory to the project's data folder
         // 但是目前只能直接调用这个测试csv，还没有变成“默认调用任意一个本地csv文件”后续会改，此行仅测试用 ————BY JADE
+        // But currently can only directly call this test csv, not yet changed to "default call any local csv file", will be modified later, this line is for testing only ————BY JADE
         fileChooser.setInitialDirectory(
             new File("src/main/resources/data/homepagecontroller_test_sorted.csv").getParentFile());
         
         // 添加CSV文件过滤器
+        // Add CSV file filter
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("CSV文件", "*.csv"),
                 new FileChooser.ExtensionFilter("所有文件", "*.*"));
@@ -464,11 +539,15 @@ public class ManualEntryDialogController {
 
     /**
      * 验证导入的记录是否有效
+     * Validate if the imported record is valid
      * @param record 要验证的记录
+     * @param record The record to validate
      * @return 如果记录有效返回true，否则返回false
+     * @return true if the record is valid, otherwise false
      */
     private boolean validateRecord(ExpenseRecord record) {
         // 检查必要字段
+        // Check necessary fields
         if (record.getAmount() <= 0 || 
             record.getCategory() == null || 
             record.getCategory().trim().isEmpty() ||
@@ -477,6 +556,7 @@ public class ManualEntryDialogController {
         }
 
         // 验证类别是否在预定义列表中
+        // Validate if the category is in the predefined list
         String category = record.getCategory();
         if (record.getRecordType().equals("支出")) {
             return java.util.Arrays.asList("餐饮", "交通", "购物", "娱乐", "教育",
@@ -489,8 +569,11 @@ public class ManualEntryDialogController {
 
     /**
      * 显示导入结果对话框
+     * Show import result dialog
      * @param successCount 成功导入的记录数
+     * @param successCount Number of successfully imported records
      * @param failureCount 导入失败的记录数
+     * @param failureCount Number of failed imports
      */
     private void showImportResult(int successCount, int failureCount) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -511,8 +594,11 @@ public class ManualEntryDialogController {
 
     /**
      * 显示错误对话框
+     * Show error dialog
      * @param title 对话框标题
+     * @param title Dialog title
      * @param message 错误信息
+     * @param message Error message
      */
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -524,7 +610,9 @@ public class ManualEntryDialogController {
 
     /**
      * 设置对话框的Stage
+     * Set the dialog's Stage
      * @param dialogStage 对话框的Stage实例
+     * @param dialogStage The Stage instance of the dialog
      */
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;

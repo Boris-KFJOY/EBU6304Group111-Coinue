@@ -10,6 +10,7 @@
         <VBox spacing="20.0" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
             <children>
                 <!-- 标题栏 -->
+                <!-- Title Bar -->
                 <HBox alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 5;">
                     <padding>
                         <Insets top="10" right="15" bottom="10" left="15" />
@@ -25,12 +26,14 @@
                 </HBox>
 
                 <!-- 主内容区域 -->
+                <!-- Main Content Area -->
                 <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                     <padding>
                         <Insets top="15" right="15" bottom="15" left="15" />
                     </padding>
                     <children>
                         <!-- 类别选择 - 修改为包含Expenses和Income的选项 -->
+                        <!-- Category Selection - Modified to include options for Expenses and Income -->
                         <HBox spacing="10.0">
                             <RadioButton fx:id="expensesRadio" text="Expenses" selected="true">
                                 <toggleGroup>
@@ -41,27 +44,34 @@
                         </HBox>
                         
                         <!-- 类别选择 -->
+                        <!-- Category Selection -->
                         <ComboBox fx:id="categoryComboBox" promptText="选择类别" prefWidth="150.0" style="-fx-font-size: 14px;"/>
                         
                         <!-- 子类别列表 -->
+                        <!-- Subcategory List -->
                         <ListView fx:id="subCategoryListView" prefHeight="150.0" style="-fx-background-color: #f8f8f8; -fx-background-radius: 5;"/>
                         
                         <!-- 名称输入 -->
+                        <!-- Name Input -->
                         <TextField fx:id="nameField" promptText="Name" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
                         
                         <!-- 金额输入和币种选择 -->
+                        <!-- Amount Input and Currency Selection -->
                         <HBox spacing="10.0">
                             <TextField fx:id="amountField" promptText="Enter Amount" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;" HBox.hgrow="ALWAYS"/>
                             <ComboBox fx:id="currencyComboBox" prefWidth="100.0" promptText="CNY" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
                         </HBox>
                         
                         <!-- 备注输入 -->
+                        <!-- Note Input -->
                         <TextArea fx:id="noteField" promptText="Click to write notes" prefHeight="100.0" style="-fx-background-color: #f0f7ff; -fx-background-radius: 5;"/>
                         
                         <!-- 日期选择 -->
+                        <!-- Date Selection -->
                         <DatePicker fx:id="datePicker" prefWidth="300.0" style="-fx-background-color: #f0f7ff;"/>
                         
                         <!-- 快速选项 - 保留UI位置但不实现功能 -->
+                        <!-- Quick Options - Retain UI position but do not implement functionality -->
                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                             <Label text="Quick Entry" />
                             <Button fx:id="quickEntryButton" style="-fx-background-color: #3498db; -fx-background-radius: 10; -fx-min-width: 20; -fx-min-height: 20; -fx-max-width: 20; -fx-max-height: 20;" disable="true"/>
@@ -75,6 +85,7 @@
                 </VBox>
                 
                 <!-- 底部按钮区域 -->
+                <!-- Bottom Button Area -->
                 <HBox spacing="15.0" alignment="CENTER">
                     <Button text="Import (.csv)" style="-fx-background-color: white; -fx-border-color: #3498db; -fx-border-radius: 5; -fx-background-radius: 5;" prefWidth="120.0" onAction="#handleImport"/>
                     <Button fx:id="saveButton" text="Save" style="-fx-background-color: white; -fx-border-color: #3498db; -fx-border-radius: 5; -fx-background-radius: 5;" prefWidth="120.0" onAction="#handleSave"/>
