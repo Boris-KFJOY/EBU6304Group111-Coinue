@@ -20,53 +20,80 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
+/**
+ * AnalysisPageController的测试类
+ * 使用TestFX框架进行UI自动化测试
+ * 测试分析页面导航和图表显示功能
+ */
 @ExtendWith(ApplicationExtension.class)
 public class AnalysisPageTest {
 
+    /**
+     * 初始化测试环境
+     * @param stage JavaFX主舞台
+     * @throws Exception 如果加载FXML文件失败
+     */
     @Start
     public void start(Stage stage) throws Exception {
+        // 从资源文件加载MainPage.fxml界面
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
+        // 设置场景并显示舞台
         stage.setScene(new Scene(root));
         stage.show();
     }
 
+    /**
+     * 测试分析页面导航功能
+     * 验证点击Analysis按钮后是否正确切换到分析页面
+     * @param robot TestFX提供的机器人对象，用于模拟用户操作
+     */
     @Test
     void testAnalysisNavigation(FxRobot robot) {
-        // 点击Analysis按钮并验证
+        // 模拟用户点击Analysis按钮
         robot.clickOn("Analysis");
-        // 验证页面已切换到分析页面
-        robot.sleep(1000); // 等待页面加载
+        // 等待1秒确保页面加载完成
+        robot.sleep(1000);
+        // 验证分析页面的预算进度条是否可见
         verifyThat("#budgetProgressBar", isVisible());
     }
     
    
+    /**
+     * 测试图表分析功能
+     * 验证导入测试数据后饼图和柱状图是否正确显示
+     * @param robot TestFX提供的机器人对象，用于模拟用户操作
+     * @throws IOException 如果文件加载失败
+     */
     @Test
     void testChartAnalysis(FxRobot robot) throws IOException {
-        // 点击Analysis按钮进入分析页面
+        // 首先进入分析页面
         robot.clickOn("Analysis");
-        robot.sleep(1000);
+        robot.sleep(1000); // 等待1秒确保页面加载完成
         
-        // 使用相对路径获取测试文件
+        // 获取测试数据文件路径
         String testFilePath = getClass().getResource("/test_expense_records.csv").getFile();
+        // 加载AnalysisPage.fxml界面
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AnalysisPage.fxml"));
         Parent root = loader.load();
         AnalysisPageController controller = loader.getController();
         
-        // 添加更健壮的异常处理和验证
+        // 在JavaFX应用线程中执行文件导入操作
         robot.interact(() -> {
             try {
+                // 验证测试文件是否存在
                 File testFile = new File(testFilePath);
-                assertTrue(testFile.exists(), "Test file does not exist");
+                assertTrue(testFile.exists(), "测试文件不存在");
+                // 调用控制器方法导入分析文件
                 controller.handleImportAnalysisFile(testFile);
             } catch (IOException e) {
-                fail("File import failed: " + e.getMessage());
+                fail("文件导入失败: " + e.getMessage());
             }
         });
         
-        // 等待数据加载和图表生成
+        // 等待3秒确保数据加载和图表生成完成
         robot.sleep(3000);
         
-        // 验证图表是否正确显示
+        // 验证饼图和柱状图是否可见
         verifyThat("#expensePieChart", isVisible());
         verifyThat("#expenseBarChart", isVisible());
     }
