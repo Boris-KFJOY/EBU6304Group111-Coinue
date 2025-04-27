@@ -84,6 +84,9 @@ public class MainPageController {
 
     @FXML
     private TableColumn<ExpenseRecord, String> remarksColumn;
+    
+    @FXML
+    private TableColumn<ExpenseRecord, Void> deleteColumn;
 
     // 数据集合
     /**
@@ -170,6 +173,50 @@ public class MainPageController {
                 }
             }
         });
+        
+        // 添加删除列
+        deleteColumn = new TableColumn<>("操作");
+        deleteColumn.setPrefWidth(80);
+        deleteColumn.setCellFactory(col -> new TableCell<ExpenseRecord, Void>() {
+            private final Button deleteButton = new Button("删除");
+            {
+                deleteButton.setStyle("-fx-background-color:rgb(180, 180, 180); -fx-text-fill: white;");
+                deleteButton.setOnMouseEntered(e -> deleteButton.setStyle("-fx-background-color:rgb(175, 175, 175); -fx-text-fill: white;"));
+                deleteButton.setOnMouseExited(e -> deleteButton.setStyle("-fx-background-color:rgb(176, 176, 176); -fx-text-fill: white;"));
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    deleteButton.setOnAction(event -> {
+                        ExpenseRecord record = getTableView().getItems().get(getIndex());
+                        // 显示确认对话框
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("确认删除");
+                        alert.setHeaderText("确定要删除这条消费记录吗？");
+                        alert.setContentText("记录详情：\n" + 
+                                          "日期：" + record.getDate() + "\n" +
+                                          "类别：" + record.getCategory() + "\n" +
+                                          "金额：" + record.getAmount());
+                        
+                        alert.showAndWait().ifPresent(response -> {
+                            if (response == ButtonType.OK) {
+                                expenseRecords.remove(record);
+                                DataManager.saveExpenseRecords(List.copyOf(expenseRecords));
+                                refreshExpenseRecords();
+                            }
+                        });
+                    });
+                    setGraphic(deleteButton);
+                }
+            }
+        });
+        
+        // 将删除列添加到表格
+        expenseTableView.getColumns().add(deleteColumn);
         
         // 设置表格数据
         expenseTableView.setItems(expenseRecords);

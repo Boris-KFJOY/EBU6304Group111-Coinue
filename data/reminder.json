@@ -16,5 +16,11 @@
     "amount": 200.0,
     "dueDate": "2025-05-03",
     "iconPath": "/images/icons/express.png"
+  },
+  {
+    "platform": "1",
+    "amount": 1.0,
+    "dueDate": "2025-04-30",
+    "iconPath": "/images/icons/credit_card.png"
   }
 ]
