@@ -28,42 +28,29 @@
             </children>
         </HBox>
    
-    
-    <!-- 主要内容区域 -->
-    
+        <!-- 主要内容区域 -->
         <VBox spacing="20.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
             <!-- 操作按钮区域 -->
             <HBox spacing="20.0" alignment="CENTER_LEFT">
                 <Button text="Import CSV" onAction="#handleImportCSV" styleClass="action-button"/>
-               
                 <Label fx:id="creditLimitLabel" />
                 <Label fx:id="repaymentAmountLabel" />
             </HBox>
 
-            <!-- 图表展示区域 -->
+            <!-- 图表和表格区域 -->
             <HBox spacing="20.0" VBox.vgrow="ALWAYS">
-                <!-- 左侧区域：环形图 -->
-                <StackPane HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-background-radius: 1px;">
-                    <PieChart fx:id="repaymentChart" title="Repayment Ratio" legendVisible="true" />
-                </StackPane>
+                <!-- 左侧饼图 -->
+                <PieChart fx:id="repaymentChart" title="Repayment Ratio" legendVisible="true" HBox.hgrow="ALWAYS" prefWidth="400" prefHeight="400"/>
                 
-                <!-- 右侧区域：账单表格 -->
-                <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                    <VBox spacing="10" style="-fx-padding: 10;">
-                        <!-- 修改图表容器 -->
-                        <HBox spacing="10" style="-fx-padding: 10;">
-                            <PieChart fx:id="repaymentChart" prefWidth="300" prefHeight="300"/>
-                            <TableView fx:id="billTable" prefWidth="400" prefHeight="300">
-                                <columns>
-                                    <TableColumn prefWidth="80" text="Date" fx:id="dateColumn"/>
-                                    <TableColumn prefWidth="120" text="Description" fx:id="descriptionColumn"/>
-                                    <TableColumn prefWidth="80" text="Amount" fx:id="amountColumn"/>
-                                    <TableColumn prefWidth="80" text="Status" fx:id="statusColumn"/>
-                                </columns>
-                            </TableView>
-                        </HBox>
-                    </VBox>
-                </ScrollPane>
+                <!-- 右侧表格 -->
+                <TableView fx:id="billTable" HBox.hgrow="ALWAYS" prefWidth="400" prefHeight="400">
+                    <columns>
+                        <TableColumn prefWidth="80" text="Date" fx:id="dateColumn"/>
+                        <TableColumn prefWidth="120" text="Description" fx:id="descriptionColumn"/>
+                        <TableColumn prefWidth="80" text="Amount" fx:id="amountColumn"/>
+                        <TableColumn prefWidth="80" text="Status" fx:id="statusColumn"/>
+                    </columns>
+                </TableView>
             </HBox>
         </VBox>
     </children>

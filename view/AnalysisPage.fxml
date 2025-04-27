@@ -1,5 +1,22 @@
-// ... existing code ...
-<HBox fx:id="statsCardsContainer" prefHeight="80" minHeight="80" maxHeight="80">
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <!-- 图表区域 -->
+    <VBox spacing="10" style="-fx-padding: 10;">
+        <PieChart fx:id="expensePieChart" prefHeight="250" prefWidth="300"/>
+        <BarChart fx:id="expenseBarChart" prefHeight="250" prefWidth="300">
+            <xAxis>
+                <CategoryAxis />
+            </xAxis>
+            <yAxis>
+                <NumberAxis />
+            </yAxis>
+        </BarChart>
+    </VBox>
+    
+    <!-- 统计卡片区域 -->
+    <HBox fx:id="statsCardsContainer" prefHeight="100" spacing="10" style="-fx-padding: 10;"/>
+    
+    <!-- 其他控件 -->
+    <HBox fx:id="statsCardsContainer" prefHeight="80" minHeight="80" maxHeight="80">
     <!-- 卡片将通过代码动态添加 -->
 </HBox>
-// ... existing code ...
+</VBox>

@@ -291,12 +291,12 @@ public class AnalysisPageController {
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
         
-        // 修改内部容器设置
-        HBox cardsBox = new HBox(5);  // 减少卡片间距
+        // 创建内部容器
+        HBox cardsBox = new HBox(5);
         cardsBox.setAlignment(Pos.CENTER_LEFT);
-        cardsBox.setStyle("-fx-padding: 5;");  // 添加内边距
+        cardsBox.setStyle("-fx-padding: 5;");
         
-        // 创建总支出卡片
+        // 创建卡片（保持原有卡片创建逻辑）
         VBox totalCard = createStatCard("总支出", 
                 String.format("¥%.2f", totalExpense), 
                 "#4CAF50");
