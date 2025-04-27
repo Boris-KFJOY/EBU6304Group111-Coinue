@@ -26,7 +26,7 @@ public class BillPaymentPageController {
     @FXML
     private PieChart repaymentChart;
     @FXML
-    private Label creditLimitLabel;
+    private TextField creditLimitField; // 替换原来的Label
     @FXML
     private Label repaymentAmountLabel;
     @FXML
@@ -39,35 +39,67 @@ public class BillPaymentPageController {
     private TableColumn<BillRecord, Double> amountColumn;
     @FXML
     private TableColumn<BillRecord, String> statusColumn;
+    @FXML
+    private DatePicker dateFilterPicker;
 
-    private double creditLimit = 7500.00; // 默认信用额度
-
-    
+    private double creditLimit = 7500.00; // Default credit limit
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         titleLabel.setText("Bill Payment Analysis");
         
-        // 初始化表格列
+        // Initialize table columns
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // 初始化环形图
+        // Initialize pie chart
         updatePieChart(0.0);
         
-        // 设置信用额度标签
-        creditLimitLabel.setText(String.format("Credit Limit: %.2f", creditLimit));
+        // 设置信用额度输入框
+        creditLimitField.setText(String.format("%.2f", creditLimit));
+        creditLimitField.setOnAction(event -> {
+            try {
+                creditLimit = Double.parseDouble(creditLimitField.getText());
+                updatePieChart(0.0); // 更新图表
+            } catch (NumberFormatException e) {
+                showError("Invalid Input", "Please enter a valid number");
+                creditLimitField.setText(String.format("%.2f", creditLimit));
+            }
+        });
         repaymentAmountLabel.setText("Repayment Amount: 0.00");
+        
+        // Set repayment amount label style
+        repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
+        
+        // 添加日期筛选器监听
+        dateFilterPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                filterTableByDate(newVal);
+            } else {
+                // 如果取消选择日期，显示所有记录
+                billTable.setItems(FXCollections.observableArrayList(billTable.getItems()));
+            }
+        });
+    }
+
+    private void filterTableByDate(LocalDate date) {
+        ObservableList<BillRecord> filteredList = FXCollections.observableArrayList();
+        for (BillRecord record : billTable.getItems()) {
+            if (record.getDate().equals(date)) {
+                filteredList.add(record);
+            }
+        }
+        billTable.setItems(filteredList);
     }
 
     @FXML
     private void handleImportCSV() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("选择CSV文件");
+        fileChooser.setTitle("Select CSV File");
         fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("CSV文件", "*.csv")
+            new FileChooser.ExtensionFilter("CSV Files", "*.csv")
         );
 
         File file = fileChooser.showOpenDialog(billTable.getScene().getWindow());
@@ -110,13 +142,22 @@ public class BillPaymentPageController {
 
         billTable.setItems(FXCollections.observableArrayList(records));
         updatePieChart(totalAmount);
-        repaymentAmountLabel.setText(String.format("还款金额：%.2f", totalAmount));
+        repaymentAmountLabel.setText(String.format("Repayment Amount: %.2f", totalAmount));
+        
+        // Change color based on amount
+        if(totalAmount > creditLimit * 0.8) {
+            repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
+        } else if(totalAmount > creditLimit * 0.5) {
+            repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ff9900;");
+        } else {
+            repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #009900;");
+        }
     }
 
     private void updatePieChart(double repaymentAmount) {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("已用额度", repaymentAmount),
-            new PieChart.Data("剩余额度", creditLimit - repaymentAmount)
+            new PieChart.Data("Used Credit", repaymentAmount),
+            new PieChart.Data("Remaining Credit", creditLimit - repaymentAmount)
         );
         repaymentChart.setData(pieChartData);
         repaymentChart.setTitle(String.format("%.0f%%", (repaymentAmount / creditLimit) * 100));
@@ -130,7 +171,7 @@ public class BillPaymentPageController {
         alert.showAndWait();
     }
 
-    // 账单记录数据模型
+    // Bill record data model
     public static class BillRecord {
         private final LocalDate date;
         private final String description;
@@ -153,7 +194,7 @@ public class BillPaymentPageController {
     @FXML
     private void handleHomeNav() {
         try {
-            // 使用页面管理器切换到主页面
+            // Switch to main page using page manager
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             showError("Navigation Failed", "Failed to load main page: " + e.getMessage());
@@ -163,7 +204,7 @@ public class BillPaymentPageController {
     @FXML
     private void handleAnalysisNav() {
         try {
-            // 使用页面管理器切换到分析页面
+            // Switch to analysis page using page manager
             PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
             showError("Navigation Failed", "Failed to load analysis page: " + e.getMessage());
@@ -173,7 +214,7 @@ public class BillPaymentPageController {
     @FXML
     private void handleUserNav() {
         try {
-            // 使用页面管理器切换到用户页面
+            // Switch to user page using page manager
             PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
             showError("Navigation Failed", "Failed to load user page: " + e.getMessage());
