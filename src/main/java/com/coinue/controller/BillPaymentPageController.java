@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -48,12 +49,33 @@ public class BillPaymentPageController {
     private void initialize() {
         titleLabel.setText("Bill Payment Analysis");
         
-        // Initialize table columns
+        // 初始化表格列
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        // 设置列比较器
+        dateColumn.setComparator(LocalDate::compareTo);
+        descriptionColumn.setComparator(String::compareToIgnoreCase);
+        amountColumn.setComparator(Double::compare);
+        statusColumn.setComparator(String::compareToIgnoreCase);
+
+        // 启用表格排序
+        billTable.setSortPolicy(tableView -> {
+            Comparator<BillRecord> comparator = (r1, r2) -> 0;
+            ObservableList<TableColumn<BillRecord, ?>> sortOrder = tableView.getSortOrder();
+            
+            for (TableColumn<BillRecord, ?> column : sortOrder) {
+                Comparator<BillRecord> columnComparator = (Comparator<BillRecord>) column.getComparator();
+                if (columnComparator != null) {
+                    comparator = comparator.thenComparing(columnComparator);
+                }
+            }
+            
+            FXCollections.sort(tableView.getItems(), comparator);
+            return true;
+        });
         // Initialize pie chart
         updatePieChart(0.0);
         
