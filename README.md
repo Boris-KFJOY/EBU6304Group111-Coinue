@@ -10,7 +10,7 @@
 |Yubingjie Long|2022213536|221171121|jp2022213536@qmul.ac.uk|JADE-13|
 |Yufei Ye|2022213513|221170892|jp2022213513@qmul.ac.uk|Siloopy|
 |Wanyu Chen|2022213534|221171109|2022213534@bupt.cn|Feldzug|
-|Ruijun Gao|2022213510|221170869|QMULIDgrj0319@bupt.edu.cn|junjun0319|
+|Ruijun Gao|2022213510|221170869|grj0319@bupt.edu.cn|junjun0319|
 
 ---
 
