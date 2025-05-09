@@ -37,9 +37,11 @@
         <!-- Right Panel: Expenditure Table -->
         <VBox styleClass="table-panel" HBox.hgrow="ALWAYS" minWidth="450" prefWidth="450" spacing="15">
             <!-- Filter Controls -->
-            <HBox spacing="10" styleClass="filter-controls">
+            <HBox spacing="10" styleClass="filter-controls" prefHeight="40">
                 <ComboBox fx:id="categoryFilter" promptText="Filter by Category" />
                 <ComboBox fx:id="companyFilter" promptText="Filter by Company" />
+                <DatePicker fx:id="startDatePicker" promptText="开始日期"/>
+                <DatePicker fx:id="endDatePicker" promptText="结束日期"/>
             </HBox>
             
             <TableView fx:id="expenditureTable" VBox.vgrow="ALWAYS">

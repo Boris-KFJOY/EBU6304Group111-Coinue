@@ -113,3 +113,16 @@
     -fx-background-color: #ff4444;
     -fx-text-fill: white;
 }
+
+/* 确保日期选择器可见 */
+.date-picker {
+    -fx-opacity: 1;
+    -fx-display: inline;
+}
+
+/* 调整筛选控件区域布局 */
+.filter-controls {
+    -fx-spacing: 10px;
+    -fx-padding: 5px;
+    -fx-alignment: center-left;
+}

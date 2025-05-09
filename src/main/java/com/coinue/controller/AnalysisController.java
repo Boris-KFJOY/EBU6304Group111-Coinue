@@ -1,11 +1,13 @@
 package com.coinue.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,17 +46,24 @@ public class AnalysisController {
     @FXML
     private ComboBox<String> companyFilter;
 
+    @FXML
+    private DatePicker startDatePicker;
+
+    @FXML 
+    private DatePicker endDatePicker;
+
     private ObservableList<ExpenditureRecord> masterData;
+    private FilteredList<ExpenditureRecord> filteredData;
 
     @FXML
     public void initialize() {
-        tabPane.getSelectionModel().select(1); // Select Analysis tab
+        tabPane.getSelectionModel().select(1);
         initializePieChart();
         initializeTable();
+        initializeFilters();
     }
 
     private void initializePieChart() {
-        // Initialize pie chart
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Health", 1230.00),
             new PieChart.Data("Shopping", 34.00),
@@ -65,15 +74,12 @@ public class AnalysisController {
     }
 
     private void initializeTable() {
-        // Initialize table
-        // Set cell value factories for table columns
         itemColumn.setCellValueFactory(new PropertyValueFactory<>("item"));
         moneyColumn.setCellValueFactory(new PropertyValueFactory<>("money"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         companyColumn.setCellValueFactory(new PropertyValueFactory<>("company"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
-        // Set table data
         masterData = FXCollections.observableArrayList(
             new ExpenditureRecord("KFC", 60.00, "Food", "Huabei", LocalDate.parse("2025-03-03")),
             new ExpenditureRecord("W-Shop", 34.00, "Shopping", "Huabei", LocalDate.parse("2025-03-05")),
@@ -81,8 +87,6 @@ public class AnalysisController {
             new ExpenditureRecord("Earl Harper", 87.50, "Tax", "Baitiao", LocalDate.parse("2025-03-19"))
         );
 
-        // Initialize filters
-        // Initialize filters
         ObservableList<String> categories = FXCollections.observableArrayList(
             "All", "Food", "Shopping", "Health", "Tax"
         );
@@ -95,17 +99,32 @@ public class AnalysisController {
         categoryFilter.setValue("All");
         companyFilter.setValue("All");
 
-        // Create filtered list
-        FilteredList<ExpenditureRecord> filteredData = new FilteredList<>(masterData, p -> true);
+        filteredData = new FilteredList<>(masterData, p -> true);
 
-        // Add listeners to filters
-        // Add listeners to filters
         categoryFilter.valueProperty().addListener((observable, oldValue, newValue) -> 
             updateFilters(filteredData));
         companyFilter.valueProperty().addListener((observable, oldValue, newValue) -> 
             updateFilters(filteredData));
 
         expenditureTable.setItems(filteredData);
+    }
+
+    private void initializeFilters() {
+        if (startDatePicker != null && endDatePicker != null) {
+            startDatePicker.setValue(LocalDate.now().minusMonths(1));
+            endDatePicker.setValue(LocalDate.now());
+            
+            startDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+                if (filteredData != null) {
+                    updateFilters(filteredData);
+                }
+            });
+            endDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
+                if (filteredData != null) {
+                    updateFilters(filteredData);
+                }
+            });
+        }
     }
 
     public static class ExpenditureRecord {
@@ -134,11 +153,16 @@ public class AnalysisController {
         filteredData.setPredicate(record -> {
             String selectedCategory = categoryFilter.getValue();
             String selectedCompany = companyFilter.getValue();
-
+            LocalDate startDate = startDatePicker.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+        
             boolean categoryMatch = selectedCategory.equals("All") || record.getCategory().equals(selectedCategory);
             boolean companyMatch = selectedCompany.equals("All") || record.getCompany().equals(selectedCompany);
-
-            return categoryMatch && companyMatch;
+        
+            boolean dateMatch = (startDate == null || !record.getTime().isBefore(startDate)) &&
+                              (endDate == null || !record.getTime().isAfter(endDate));
+        
+            return categoryMatch && companyMatch && dateMatch;
         });
     }
 
