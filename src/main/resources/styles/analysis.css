@@ -117,7 +117,7 @@
 /* 确保日期选择器可见 */
 .date-picker {
     -fx-opacity: 1;
-    -fx-display: inline;
+    -fx-pref-width: 150px;
 }
 
 /* 调整筛选控件区域布局 */

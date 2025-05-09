@@ -110,6 +110,9 @@ public class AnalysisController {
     }
 
     private void initializeFilters() {
+        System.out.println("startDatePicker: " + (startDatePicker == null ? "null" : "not null"));
+        System.out.println("endDatePicker: " + (endDatePicker == null ? "null" : "not null"));
+        
         if (startDatePicker != null && endDatePicker != null) {
             startDatePicker.setValue(LocalDate.now().minusMonths(1));
             endDatePicker.setValue(LocalDate.now());
