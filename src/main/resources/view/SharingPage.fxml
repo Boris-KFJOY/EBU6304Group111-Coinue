@@ -36,6 +36,10 @@
                 <ImageView fx:id="avatarImage" fitHeight="40" fitWidth="40" preserveRatio="true" 
                           onMouseClicked="#handleChangeAvatar" 
                           style="-fx-cursor: hand;"/>
+                <Button text="+" 
+                        style="-fx-background-color: rgba(0,0,0,0.5); -fx-text-fill: white; 
+                               -fx-min-width: 20; -fx-min-height: 20; -fx-font-size: 10px;"
+                        StackPane.alignment="BOTTOM_RIGHT"/>
             </StackPane>
         </HBox>
 
