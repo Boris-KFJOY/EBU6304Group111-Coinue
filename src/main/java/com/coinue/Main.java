@@ -16,7 +16,7 @@ public class Main extends Application {
             PageManager.getInstance().initStage(primaryStage);
             
             // 切换到登录页面
-            PageManager.getInstance().switchToPage("/view/LoginPage.fxml");
+            PageManager.getInstance().switchToPage("/view/SignUp.fxml");
             
             // 设置标题并显示
             primaryStage.setTitle("Coinue - 个人财务管理系统");

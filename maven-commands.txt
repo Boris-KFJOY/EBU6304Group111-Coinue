@@ -1,0 +1,61 @@
+# Maven 常用命令
+
+# 编译项目
+mvn compile
+
+# 清理项目（删除target目录）
+mvn clean
+
+# 打包项目
+mvn package
+
+# 安装项目到本地仓库
+mvn install
+
+# 运行测试
+mvn test
+
+# 运行JavaFX应用
+mvn javafx:run
+
+# 跳过测试运行JavaFX应用（重要）
+mvn javafx:run -DskipTests
+
+# 跳过测试并编译、运行JavaFX应用
+mvn clean compile javafx:run -DskipTests
+
+# 使用特定配置文件运行
+mvn -P <profile-name> javafx:run
+
+# 创建可执行JAR文件
+mvn clean package
+
+# 显示项目依赖
+mvn dependency:tree
+
+# 生成项目站点文档
+mvn site
+
+# 验证项目（验证项目是否正确且所有必要信息是否可用）
+mvn validate
+
+# 使用jlink创建自定义运行时映像
+mvn javafx:jlink
+
+# 运行特定的测试类
+mvn test -Dtest=TestClassName
+
+# 显示项目的有效POM
+mvn help:effective-pom
+
+# 显示Maven的版本
+mvn --version
+
+# 跳过编译测试代码
+mvn install -Dmaven.test.skip=true
+
+# 离线模式运行Maven
+mvn -o javafx:run
+
+# 调试模式运行JavaFX应用
+mvn javafx:run -Djavafx.debug=true 

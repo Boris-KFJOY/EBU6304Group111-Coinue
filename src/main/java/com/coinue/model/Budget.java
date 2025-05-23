@@ -1,6 +1,7 @@
 package com.coinue.model;
 
 public class Budget {
+    private String id;
     private String category;
     private double amount;
     private String currency;
@@ -14,6 +15,14 @@ public class Budget {
     }
 
     // Getters
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -27,6 +36,11 @@ public class Budget {
     }
 
     public double getSpentAmount() {
+        return spentAmount;
+    }
+    
+    // 获取已使用金额，兼容方法
+    public double getSpent() {
         return spentAmount;
     }
 

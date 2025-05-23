@@ -7,6 +7,7 @@ import java.time.LocalDate;
  * 用于存储单条消费记录的详细信息
  */
 public class ExpenseRecord {
+    private String id;           // 唯一标识符
     private double amount;        // 金额
     private String category;      // 类别
     private String name;          // 名称
@@ -53,6 +54,14 @@ public class ExpenseRecord {
     }
 
     // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    
     public double getAmount() {
         return amount;
     }
@@ -111,7 +120,7 @@ public class ExpenseRecord {
 
     @Override
     public String toString() {
-        return String.format("ExpenseRecord{amount=%.2f, currency='%s', category='%s', name='%s', date=%s, description='%s', recordType='%s'}",
-                amount, currency, category, name, date, description, recordType);
+        return String.format("ExpenseRecord{id='%s', amount=%.2f, currency='%s', category='%s', name='%s', date=%s, description='%s', recordType='%s'}",
+                id, amount, currency, category, name, date, description, recordType);
     }
 }
