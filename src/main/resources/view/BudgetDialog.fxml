@@ -7,25 +7,52 @@
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.coinue.controller.BudgetDialogController"
-      spacing="10" style="-fx-padding: 10;">
+      spacing="10"
+      prefWidth="500"
+      prefHeight="400"
+      style="-fx-background-color: linear-gradient(to right, #ffffff,rgb(192, 213, 255) 75%, #ffffff);">
 
-    <GridPane vgap="10" hgap="10">
+    <!-- Top Navigation -->
+    <HBox alignment="CENTER" spacing="0" style="-fx-background-color: #B0E0FF;" VBox.vgrow="NEVER">
+        <Button text="💰 Budget Setting" style="-fx-background-color: transparent; -fx-min-width: 100%; -fx-font-weight: bold;" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <!-- Main Content -->
+    <VBox spacing="20.0" VBox.vgrow="ALWAYS">
         <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
+            <Insets top="20.0" left="20.0" right="20.0" bottom="20.0"/>
         </padding>
 
-        <Label text="类别：" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="categoryComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <!-- 主内容区域 -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            
+            <GridPane vgap="15" hgap="15">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
 
-        <Label text="金额：" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="amountField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="类别：" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <ComboBox fx:id="categoryComboBox" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="选择预算类别" maxWidth="Infinity"
+                         style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
 
-        <Label text="货币：" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <ComboBox fx:id="currencyComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-    </GridPane>
+                <Label text="金额：" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <TextField fx:id="amountField" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="输入预算金额"
+                          style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="确定" onAction="#handleOk"/>
-        <Button text="取消" onAction="#handleCancel"/>
-    </HBox>
+                <Label text="货币：" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+                <ComboBox fx:id="currencyComboBox" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="选择货币类型" maxWidth="Infinity"
+                         style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
+            </GridPane>
+        </VBox>
+
+        <!-- 底部按钮区域 -->
+        <HBox spacing="15.0" alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <Button text="✅ 确定" onAction="#handleOk"
+                   style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px;"
+                   prefWidth="120.0"/>
+            <Button text="❌ 取消" onAction="#handleCancel"
+                   style="-fx-background-color: #FF5722; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px;"
+                   prefWidth="120.0"/>
+        </HBox>
+    </VBox>
 </VBox>

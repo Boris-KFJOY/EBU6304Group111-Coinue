@@ -4,6 +4,7 @@ import com.coinue.model.Budget;
 import com.coinue.model.ExpenseRecord;
 import com.coinue.model.PaymentReminder;
 import com.coinue.util.DataManager;
+import com.coinue.util.PageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -529,18 +530,12 @@ public class MainPageController {
 
     /**
      * 处理主页导航按钮点击事件
-     * 切换到主页视图
+     * 由于用户已在主页，此操作无需跳转
      */
     @FXML
     private void handleHomeNav() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BillPaymentPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = budgetContainer.getScene();
-            scene.setRoot(root);
-        } catch (IOException e) {
-            showError("导航失败", "无法加载主页：" + e.getMessage());
-        }
+        // 用户已在主页，无需执行任何操作
+        // 可以选择添加一些视觉反馈，比如高亮当前按钮
     }
 
     /**
@@ -550,10 +545,8 @@ public class MainPageController {
     @FXML
     private void handleAnalysisNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AnalysisPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = budgetContainer.getScene();
-            scene.setRoot(root);
+            // Switch to analysis page using page manager
+            PageManager.getInstance().switchToPage("/view/AnalysisPage.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法加载分析页面：" + e.getMessage());
         }
@@ -566,10 +559,8 @@ public class MainPageController {
     @FXML
     private void handleUserNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = budgetContainer.getScene();
-            scene.setRoot(root);
+            // Switch to user page using page manager
+            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
             showError("导航失败", "无法加载用户页面：" + e.getMessage());
         }

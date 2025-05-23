@@ -23,8 +23,6 @@ import java.util.List;
 public class BillPaymentPageController {
 
     @FXML
-    private Label titleLabel;
-    @FXML
     private PieChart repaymentChart;
     @FXML
     private TextField creditLimitField; // 替换原来的Label
@@ -47,8 +45,6 @@ public class BillPaymentPageController {
 
     @FXML
     private void initialize() {
-        titleLabel.setText("Bill Payment Analysis");
-        
         // 初始化表格列
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));

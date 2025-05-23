@@ -45,22 +45,35 @@ public class PageManager {
         }
 
         // 保存当前窗口大小
+        double currentWidth = this.width;
+        double currentHeight = this.height;
         if (primaryStage.getScene() != null) {
-            double width = primaryStage.getWidth();
-            double height = primaryStage.getHeight();
+            currentWidth = primaryStage.getWidth();
+            currentHeight = primaryStage.getHeight();
         }
 
-        // 加载新页面
-        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
-        
-        // 设置场景并保持窗口大小
-        primaryStage.setScene(scene);
-        double width = primaryStage.getWidth();
-        primaryStage.setWidth(width);
-        double height = primaryStage.getHeight();
-        primaryStage.setHeight(height);
+        try {
+            // 加载新页面
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Scene scene = new Scene(root);
+            
+            // 尝试加载CSS，如果失败则继续而不是抛出异常
+            try {
+                scene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
+            } catch (Exception e) {
+                System.err.println("Warning: Could not load CSS file, continuing without it: " + e.getMessage());
+            }
+            
+            // 设置场景并保持窗口大小
+            primaryStage.setScene(scene);
+            primaryStage.setWidth(Math.max(currentWidth, minWidth));
+            primaryStage.setHeight(Math.max(currentHeight, minHeight));
+            
+        } catch (IOException e) {
+            throw new IOException("Failed to load FXML file: " + fxmlPath + ". Error: " + e.getMessage());
+        } catch (Exception e) {
+            throw new IOException("Unexpected error while loading page: " + fxmlPath + ". Error: " + e.getMessage());
+        }
     }
 
     public void switchToPage(String fxmlPath, ControllerInitializer controllerInitializer) throws IOException {

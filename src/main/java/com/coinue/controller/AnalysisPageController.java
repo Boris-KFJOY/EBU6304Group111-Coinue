@@ -2,6 +2,7 @@ package com.coinue.controller;
 
 import com.coinue.util.CSVHandler;
 import com.coinue.util.ChartGenerator;
+import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -126,10 +127,8 @@ public class AnalysisPageController {
     @FXML
     private void handleHomeNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = expensePieChart.getScene();
-            scene.setRoot(root);
+            // Switch to main page using page manager
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
             showError("Navigation failed", "Failed to load home page: " + e.getMessage());
         }
@@ -143,10 +142,8 @@ public class AnalysisPageController {
     @FXML
     private void handleUserNav() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/UserPage.fxml"));
-            Parent root = loader.load();
-            Scene scene = expensePieChart.getScene();
-            scene.setRoot(root);
+            // Switch to user page using page manager
+            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
             showError("Navigation failed", "Failed to load user page: " + e.getMessage());
         }
@@ -330,5 +327,21 @@ public class AnalysisPageController {
         
         card.getChildren().addAll(titleLabel, valueLabel);
         return card;
+    }
+
+    /**
+     * Handle Bill Payment Analysis button click event
+     * Navigate to Bill Payment Analysis page
+     */
+    @FXML
+    private void handleBillPaymentAnalysis() {
+        try {
+            // Switch to bill payment page using improved page manager
+            PageManager.getInstance().switchToPage("/view/BillPaymentPage.fxml");
+        } catch (IOException e) {
+            showError("Navigation Failed", "Failed to load Bill Payment Analysis page: " + e.getMessage());
+        } catch (Exception e) {
+            showError("Navigation Failed", "Unexpected error: " + e.getMessage());
+        }
     }
 }  // 这是类的结束大括号

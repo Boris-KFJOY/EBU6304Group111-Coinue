@@ -10,7 +10,7 @@ public class Main extends Application {
         try {
             // 将 initialize 改为 initStage
             PageManager.getInstance().initStage(primaryStage);
-            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
+            PageManager.getInstance().switchToPage("/view/MainPage.fxml");
             
             primaryStage.setTitle("Coinue");
             primaryStage.show();
