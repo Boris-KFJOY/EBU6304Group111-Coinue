@@ -4,28 +4,21 @@ import com.coinue.util.PageManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
- * 应用程序主入口类
- */
 public class Main extends Application {
-    
     @Override
     public void start(Stage primaryStage) {
         try {
-            // 初始化Stage
+            // 将 initialize 改为 initStage
             PageManager.getInstance().initStage(primaryStage);
+            PageManager.getInstance().switchToPage("/view/UserPage.fxml");
             
-            // 切换到登录页面
-            PageManager.getInstance().switchToPage("/view/SignUp.fxml");
-            
-            // 设置标题并显示
-            primaryStage.setTitle("Coinue - 个人财务管理系统");
+            primaryStage.setTitle("Coinue");
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }

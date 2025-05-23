@@ -1,16 +1,10 @@
 package com.coinue.controller;
 
-import com.coinue.service.AnalysisService;
-import com.coinue.service.ExportService;
-import com.coinue.service.impl.AnalysisServiceImpl;
-import com.coinue.service.impl.ExportServiceImpl;
 import com.coinue.util.CSVHandler;
 import com.coinue.util.ChartGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -43,8 +37,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Analysis Page Controller
@@ -67,38 +59,21 @@ public class AnalysisPageController {
     @FXML
     private HBox statsCardsContainer;  // 新增统计卡片容器
 
-    // 添加服务层依赖
-    private AnalysisService analysisService;
-    private ExportService exportService;
-
     private static final double DEFAULT_BUDGET = 10000.0; // Default budget amount
     private double currentBudget = DEFAULT_BUDGET;
     private double totalExpense = 0.0;
-
-    /**
-     * 初始化方法，在FXML加载后自动调用
-     */
-    @FXML
-    public void initialize() {
-        // 初始化服务
-        analysisService = new AnalysisServiceImpl();
-        exportService = new ExportServiceImpl();
-    }
 
     /**
      * Handle import analysis file button click event
      */
     @FXML
     public void handleImportAnalysisFile() throws IOException {
-        // 使用ExportService来显示文件选择器
-        File file = exportService.showFileChooser(
-            "Select CSV file", 
-            "CSV文件", 
-            new String[]{"csv"}, 
-            null, 
-            false
-        );
-        
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select CSV file");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV文件", "*.csv"));
+
+        File file = fileChooser.showOpenDialog(expensePieChart.getScene().getWindow());
         if (file != null) {
             handleImportAnalysisFile(file);
         }
@@ -110,8 +85,8 @@ public class AnalysisPageController {
      */
     public void handleImportAnalysisFile(File file) throws IOException {
         try {
-            // 使用分析服务读取并生成统计数据
-            Map<String, Double> categoryStatistics = analysisService.readCategoryStatistics(file);
+            // 读取CSV文件并生成统计数据
+            Map<String, Double> categoryStatistics = CSVHandler.readCategoryStatistics(file.getPath());
             
             // 更新文件名标签
             fileNameLabel.setText("Current file: " + file.getName());
@@ -127,21 +102,23 @@ public class AnalysisPageController {
             expenseBarChart.getData().clear();
             expenseBarChart.getData().add(series);
             
-            // 使用分析服务生成统计摘要
-            statisticsLabel.setText(analysisService.generateStatisticsSummary(categoryStatistics));
+            // 生成并显示统计摘要
+            statisticsLabel.setText(ChartGenerator.generateStatisticsSummary(categoryStatistics));
 
             // 计算总支出并更新进度条
             totalExpense = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
             updateBudgetProgress();
 
-            // 更新统计显示
+            // 替换原来的统计标签更新
             updateStatisticsDisplay(categoryStatistics);
+            // 已移除导入成功Notification窗口
         } catch (IOException e) {
             showError("导入失败", "无法读取CSV文件：" + e.getMessage());
         } catch (Exception e) {
             showError("分析失败", "数据分析错误：" + e.getMessage());
         }
-    }
+        }
+    
 
     /**
      * Handle navigation to home page
@@ -195,79 +172,10 @@ public class AnalysisPageController {
     }
 
     /**
-     * Handle export PDF button click event
-     */
-    @FXML
-    private void handleExportPdf() {
-        try {
-            // 使用ExportService来显示保存文件对话框
-            File file = exportService.showFileChooser(
-                "Save PDF file",
-                "PDF文件",
-                new String[]{"pdf"},
-                null,
-                true
-            );
-            
-            if (file != null) {
-                List<Node> chartNodes = new ArrayList<>();
-                chartNodes.add(expensePieChart);
-                chartNodes.add(expenseBarChart);
-                
-                // 获取当前显示的统计数据
-                Map<String, Double> statistics = ChartGenerator.extractDataFromPieChart(expensePieChart);
-                
-                // 使用导出服务生成分析报告
-                boolean success = exportService.generateAnalysisReport(
-                    chartNodes, 
-                    statistics, 
-                    file.getPath(),
-                    "Expense Analysis Report"
-                );
-                
-                if (success) {
-                    showInfo("导出成功", "分析报告已成功导出到：" + file.getPath());
-                } else {
-                    showError("导出失败", "无法导出分析报告");
-                }
-            }
-        } catch (IOException e) {
-            showError("导出失败", "生成PDF文件时发生错误：" + e.getMessage());
-        }
-    }
-
-    /**
-     * Handle set budget button click event
-     */
-    @FXML
-    private void handleSetBudget() {
-        TextInputDialog dialog = new TextInputDialog(String.valueOf(currentBudget));
-        dialog.setTitle("设置预算");
-        dialog.setHeaderText("请输入新的预算金额");
-        dialog.setContentText("预算金额：");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(budgetStr -> {
-            try {
-                double newBudget = Double.parseDouble(budgetStr);
-                if (newBudget > 0) {
-                    currentBudget = newBudget;
-                    updateBudgetProgress();
-                } else {
-                    showError("无效输入", "预算金额必须大于0");
-                }
-            } catch (NumberFormatException e) {
-                showError("无效输入", "请输入有效数字");
-            }
-        });
-    }
-
-    /**
      * Update budget progress bar
      */
     private void updateBudgetProgress() {
-        // 使用分析服务计算预算进度
-        double progress = analysisService.calculateBudgetProgress(totalExpense, currentBudget);
+        double progress = totalExpense / currentBudget;
         budgetProgressBar.setProgress(Math.min(progress, 1.0));
         
         // 根据支出比例设置进度条颜色
@@ -281,80 +189,144 @@ public class AnalysisPageController {
     }
 
     /**
-     * Update statistics display
-     * @param categoryStatistics 类别统计数据
+     * Handle export PDF button click event
      */
+    @FXML
+    private void handleExportPdf() {
+        try {
+            // 创建文件选择器
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save PDF file");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("PDF文件", "*.pdf"));
+            File file = fileChooser.showSaveDialog(expensePieChart.getScene().getWindow());
+            
+            if (file != null) {
+                // 创建PDF文档
+                PDDocument document = new PDDocument();
+                PDPage page = new PDPage(PDRectangle.A4);
+                document.addPage(page);
+                
+                // 获取图表截图
+                WritableImage pieChartImage = expensePieChart.snapshot(new SnapshotParameters(), null);
+                WritableImage barChartImage = expenseBarChart.snapshot(new SnapshotParameters(), null);
+                
+                // 将图表截图转换为PDF图片
+                BufferedImage pieChartBuffered = SwingFXUtils.fromFXImage(pieChartImage, null);
+                BufferedImage barChartBuffered = SwingFXUtils.fromFXImage(barChartImage, null);
+                
+                ByteArrayOutputStream pieChartBytes = new ByteArrayOutputStream();
+                ByteArrayOutputStream barChartBytes = new ByteArrayOutputStream();
+                
+                ImageIO.write(pieChartBuffered, "png", pieChartBytes);
+                ImageIO.write(barChartBuffered, "png", barChartBytes);
+                
+                PDImageXObject pieChartPdfImage = PDImageXObject.createFromByteArray(document, pieChartBytes.toByteArray(), "饼图");
+                PDImageXObject barChartPdfImage = PDImageXObject.createFromByteArray(document, barChartBytes.toByteArray(), "条形图");
+                
+                // 在PDF中绘制图表
+                PDPageContentStream contentStream = new PDPageContentStream(document, page);
+                
+                float pageWidth = page.getMediaBox().getWidth();
+                float pageHeight = page.getMediaBox().getHeight();
+                float imageWidth = pageWidth * 0.8f;
+                float imageHeight = imageWidth * 0.75f;
+                
+                // 绘制饼图
+                contentStream.drawImage(pieChartPdfImage, 
+                        pageWidth * 0.1f, 
+                        pageHeight * 0.6f, 
+                        imageWidth, 
+                        imageHeight);
+                
+                // 绘制条形图
+                contentStream.drawImage(barChartPdfImage, 
+                        pageWidth * 0.1f, 
+                        pageHeight * 0.1f, 
+                        imageWidth, 
+                        imageHeight);
+                
+                contentStream.close();
+                document.save(file);
+                document.close();
+                
+                showInfo("Export successful", "Successfully exported PDF file: " + file.getName());
+            }
+        } catch (IOException e) {
+            showError("Export failed", "Failed to export PDF file: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleSetBudget() {
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(currentBudget));
+        dialog.setTitle("Set Budget");
+        dialog.setHeaderText("Enter your monthly budget");
+        dialog.setContentText("Amount:");
+    
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(amount -> {
+            try {
+                currentBudget = Double.parseDouble(amount);
+                updateBudgetProgress();
+            } catch (NumberFormatException e) {
+                showError("Invalid Input", "Please enter a valid number");
+            }
+        });
+    }
+
     private void updateStatisticsDisplay(Map<String, Double> categoryStatistics) {
-        // 清空统计卡片容器
+        if (statsCardsContainer == null) {
+            System.err.println("Warning: statsCardsContainer is not initialized");
+            return;
+        }
+        
+        // 清空现有卡片
         statsCardsContainer.getChildren().clear();
         
-        // 计算总支出
-        double total = categoryStatistics.values().stream().mapToDouble(Double::doubleValue).sum();
+        // 创建滚动面板
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
         
-        // 添加总支出统计卡片
-        statsCardsContainer.getChildren().add(
-            createStatCard("总支出", String.format("¥%.2f", total), "#3498db")
-        );
+        // 创建内部容器
+        HBox cardsBox = new HBox(5);
+        cardsBox.setAlignment(Pos.CENTER_LEFT);
+        cardsBox.setStyle("-fx-padding: 5;");
         
-        // 使用分析服务获取按金额排序的前几个类别
-        Map<String, Double> topCategories = analysisService.analyzeTopSpendingCategories();
+        // 创建卡片（保持原有卡片创建逻辑）
+        VBox totalCard = createStatCard("总支出", 
+                String.format("¥%.2f", totalExpense), 
+                "#4CAF50");
+        cardsBox.getChildren().add(totalCard);
         
-        // 只取前3个类别显示
-        topCategories.entrySet().stream()
-            .limit(3)
-            .forEach(entry -> {
-                String category = entry.getKey();
-                double amount = entry.getValue();
-                double percentage = (amount / total) * 100;
-                
-                // 创建并添加类别统计卡片
-                statsCardsContainer.getChildren().add(
-                    createStatCard(
-                        category, 
-                        String.format("¥%.2f (%.1f%%)", amount, percentage), 
-                        getColorForCategory(category)
-                    )
-                );
-            });
+        // 创建预算卡片
+        VBox budgetCard = createStatCard("剩余预算", 
+                String.format("¥%.2f", currentBudget - totalExpense), 
+                "#2196F3");
+        cardsBox.getChildren().add(budgetCard);
+        
+        // 创建类别数卡片
+        VBox categoriesCard = createStatCard("消费类别", 
+                String.valueOf(categoryStatistics.size()), 
+                "#FF9800");
+        cardsBox.getChildren().add(categoriesCard);
+        
+        scrollPane.setContent(cardsBox);
+        statsCardsContainer.getChildren().add(scrollPane);
     }
 
-    /**
-     * 为类别选择颜色
-     * @param category 类别名称
-     * @return 对应的颜色代码
-     */
-    private String getColorForCategory(String category) {
-        // 简单的类别颜色映射
-        if (category.toLowerCase().contains("food")) return "#e74c3c";
-        if (category.toLowerCase().contains("transport")) return "#f39c12";
-        if (category.toLowerCase().contains("shopping")) return "#9b59b6";
-        if (category.toLowerCase().contains("entertainment")) return "#2ecc71";
-        if (category.toLowerCase().contains("bill")) return "#1abc9c";
-        if (category.toLowerCase().contains("health")) return "#e84393";
-        if (category.toLowerCase().contains("education")) return "#3498db";
-        return "#7f8c8d"; // 默认灰色
-    }
-
-    /**
-     * Create statistics card
-     * @param title 卡片标题
-     * @param value 卡片值
-     * @param color 卡片颜色
-     * @return 创建的卡片节点
-     */
     private VBox createStatCard(String title, String value, String color) {
-        VBox card = new VBox(5);
-        card.setAlignment(Pos.CENTER);
-        card.setPadding(new Insets(15));
-        card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);");
-        card.setMinWidth(150);
-        card.setMaxWidth(180);
+        VBox card = new VBox(3);  // 减少间距
+        card.setStyle("-fx-background-color: " + color + "; -fx-background-radius: 8; -fx-padding: 8;");
         
         Label titleLabel = new Label(title);
-        titleLabel.setStyle("-fx-text-fill: #7f8c8d; -fx-font-size: 14px;");
+        titleLabel.setStyle("-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12;");
         
         Label valueLabel = new Label(value);
-        valueLabel.setStyle("-fx-text-fill: " + color + "; -fx-font-weight: bold; -fx-font-size: 18px;");
+        valueLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;");
         
         card.getChildren().addAll(titleLabel, valueLabel);
         return card;

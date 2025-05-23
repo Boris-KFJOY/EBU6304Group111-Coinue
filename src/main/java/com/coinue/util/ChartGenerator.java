@@ -3,10 +3,7 @@ package com.coinue.util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 图表生成工具类
@@ -55,34 +52,5 @@ public class ChartGenerator {
                 });
 
         return summary.toString();
-    }
-    
-    /**
-     * 从饼图中提取数据
-     * @param pieChart 饼图对象
-     * @return 类别-金额映射
-     */
-    public static Map<String, Double> extractDataFromPieChart(PieChart pieChart) {
-        Map<String, Double> data = new HashMap<>();
-        
-        if (pieChart == null || pieChart.getData() == null || pieChart.getData().isEmpty()) {
-            return data;
-        }
-        
-        // 提取类别名称的正则表达式模式
-        Pattern pattern = Pattern.compile("^(.*?)\\s*\\(.*?\\)$");
-        
-        for (PieChart.Data pieData : pieChart.getData()) {
-            String label = pieData.getName();
-            double value = pieData.getPieValue();
-            
-            // 从标签中提取类别名称（去掉百分比部分）
-            Matcher matcher = pattern.matcher(label);
-            String category = matcher.matches() ? matcher.group(1).trim() : label;
-            
-            data.put(category, value);
-        }
-        
-        return data;
     }
 }

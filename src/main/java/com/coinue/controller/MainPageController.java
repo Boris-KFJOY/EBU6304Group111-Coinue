@@ -3,12 +3,6 @@ package com.coinue.controller;
 import com.coinue.model.Budget;
 import com.coinue.model.ExpenseRecord;
 import com.coinue.model.PaymentReminder;
-import com.coinue.service.BudgetService;
-import com.coinue.service.ExpenseService;
-import com.coinue.service.ReminderService;
-import com.coinue.service.impl.BudgetServiceImpl;
-import com.coinue.service.impl.ExpenseServiceImpl;
-import com.coinue.service.impl.ReminderServiceImpl;
 import com.coinue.util.DataManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,23 +88,7 @@ public class MainPageController {
     @FXML
     private TableColumn<ExpenseRecord, Void> deleteColumn;
 
-    // 替换原有的直接数据管理为服务层
-    /**
-     * 预算服务，处理预算相关业务逻辑
-     */
-    private BudgetService budgetService;
-    
-    /**
-     * 还款提醒服务，处理提醒相关业务逻辑
-     */
-    private ReminderService reminderService;
-    
-    /**
-     * 消费记录服务，处理消费记录相关业务逻辑
-     */
-    private ExpenseService expenseService;
-    
-    // 数据集合 - 仅用于UI绑定
+    // 数据集合
     /**
      * 预算数据集合
      */
@@ -132,15 +110,10 @@ public class MainPageController {
      */
     @FXML
     public void initialize() {
-        // 初始化服务
-        budgetService = new BudgetServiceImpl();
-        reminderService = new ReminderServiceImpl();
-        expenseService = new ExpenseServiceImpl();
-        
-        // 初始化数据 - 使用服务层获取数据
-        budgets = FXCollections.observableArrayList(budgetService.getAllBudgets());
-        reminders = FXCollections.observableArrayList(reminderService.getAllReminders());
-        expenseRecords = FXCollections.observableArrayList(expenseService.getAllExpenseRecords());
+        // 初始化数据
+        budgets = FXCollections.observableArrayList(DataManager.loadBudgets());
+        reminders = FXCollections.observableArrayList(DataManager.loadReminders());
+        expenseRecords = FXCollections.observableArrayList(DataManager.loadExpenseRecords());
 
         // 设置预算卡片式显示
         updateBudgetCards();
@@ -231,7 +204,9 @@ public class MainPageController {
                         
                         alert.showAndWait().ifPresent(response -> {
                             if (response == ButtonType.OK) {
-                                handleDeleteRecord(record);
+                                expenseRecords.remove(record);
+                                DataManager.saveExpenseRecords(List.copyOf(expenseRecords));
+                                refreshExpenseRecords();
                             }
                         });
                     });
@@ -278,70 +253,65 @@ public class MainPageController {
 
     /**
      * 处理添加预算按钮点击事件
+     * 打开添加预算的对话框
      */
     @FXML
     private void handleAddBudget() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BudgetDialog.fxml"));
             Parent root = loader.load();
-            
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("添加预算");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(budgetContainer.getScene().getWindow());
+            dialogStage.setScene(new Scene(root));
+
             BudgetDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
             controller.setMainPageController(this);
-            
-            Stage stage = new Stage();
-            stage.setTitle("添加预算");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+
+            dialogStage.showAndWait();
         } catch (IOException e) {
-            handleException(e);
+            e.printStackTrace(); // 添加这行来打印详细错误信息
+            showError("打开预算窗口失败", e.getMessage());
         }
     }
-    
+
     /**
      * 处理添加还款提醒按钮点击事件
+     * 打开添加还款提醒的对话框
      */
     @FXML
     private void handleAddReminder() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ReminderDialog.fxml"));
             Parent root = loader.load();
-            
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("添加还款提醒");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(reminderContainer.getScene().getWindow());
+            dialogStage.setScene(new Scene(root));
+
             ReminderDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
             controller.setMainPageController(this);
-            
-            Stage stage = new Stage();
-            stage.setTitle("添加还款提醒");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+
+            dialogStage.showAndWait();
         } catch (IOException e) {
-            handleException(e);
+            showError("打开提醒窗口失败", e.getMessage());
         }
     }
-    
+
     /**
-     * 添加预算
+     * 添加新的预算项目
      * @param budget 要添加的预算对象
      */
     public void addBudget(Budget budget) {
-        // 使用服务层添加预算
-        if (budgetService.addBudget(budget)) {
-            budgets.add(budget);
-            updateBudgetCards();
-        }
-    }
-    
-    /**
-     * 添加还款提醒
-     * @param reminder 要添加的还款提醒对象
-     */
-    public void addReminder(PaymentReminder reminder) {
-        // 使用服务层添加还款提醒
-        if (reminderService.addReminder(reminder)) {
-            reminders.add(reminder);
-            updateReminderCards();
-        }
+        budgets.add(budget);
+        DataManager.saveBudgets(List.copyOf(budgets));
+        updateBudgetCards(); // 更新预算卡片显示
     }
     
     /**
@@ -456,6 +426,16 @@ public class MainPageController {
         }
     }
 
+    /**
+     * 添加新的还款提醒
+     * @param reminder 要添加的还款提醒对象
+     */
+    public void addReminder(PaymentReminder reminder) {
+        reminders.add(reminder);
+        DataManager.saveReminders(List.copyOf(reminders));
+        updateReminderCards(); // 更新卡片显示
+    }
+    
     /**
      * 更新还款提醒卡片显示
      * 根据当前的提醒列表创建卡片式UI
@@ -646,7 +626,7 @@ public class MainPageController {
      */
     public void refreshExpenseRecords() {
         expenseRecords.clear();
-        expenseRecords.addAll(expenseService.getAllExpenseRecords());
+        expenseRecords.addAll(DataManager.loadExpenseRecords());
     }
     
     /**
@@ -654,31 +634,7 @@ public class MainPageController {
      * @param record 要添加的消费记录对象
      */
     public void addExpenseRecord(ExpenseRecord record) {
-        // 使用服务层添加消费记录
-        if (expenseService.addExpenseRecord(record)) {
-            expenseRecords.add(record);
-            expenseTableView.refresh();
-        }
-    }
-
-    /**
-     * 处理删除消费记录的操作
-     * @param record 要删除的消费记录
-     */
-    private void handleDeleteRecord(ExpenseRecord record) {
-        // 使用服务层删除消费记录
-        if (expenseService.deleteExpenseRecord(record.getId())) {
-            expenseRecords.remove(record);
-            expenseTableView.refresh();
-        }
-    }
-
-    /**
-     * 处理异常
-     * @param e 异常对象
-     */
-    private void handleException(Exception e) {
-        e.printStackTrace();
-        showError("操作失败", "发生错误: " + e.getMessage());
+        expenseRecords.add(record);
+        DataManager.saveExpenseRecords(List.copyOf(expenseRecords));
     }
 }
