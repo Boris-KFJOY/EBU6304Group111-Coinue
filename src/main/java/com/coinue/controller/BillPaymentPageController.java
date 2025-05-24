@@ -72,8 +72,8 @@ public class BillPaymentPageController {
             FXCollections.sort(tableView.getItems(), comparator);
             return true;
         });
-        // Initialize pie chart
-        updatePieChart(0.0);
+        // Initialize pie chart with default data
+        initializePieChart();
         
         // 设置信用额度输入框
         creditLimitField.setText(String.format("%.2f", creditLimit));
@@ -110,6 +110,17 @@ public class BillPaymentPageController {
             }
         }
         billTable.setItems(filteredList);
+    }
+
+    private void initializePieChart() {
+        // 初始化时显示完整的信用额度
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+            new PieChart.Data("Available Credit (100%)", creditLimit)
+        );
+        repaymentChart.setData(pieChartData);
+        repaymentChart.setTitle("Credit Usage: 0%");
+        repaymentChart.setLegendVisible(true);
+        repaymentChart.setLabelsVisible(true);
     }
 
     @FXML
@@ -173,12 +184,35 @@ public class BillPaymentPageController {
     }
 
     private void updatePieChart(double repaymentAmount) {
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-            new PieChart.Data("Used Credit", repaymentAmount),
-            new PieChart.Data("Remaining Credit", creditLimit - repaymentAmount)
-        );
+        // 确保数据有效性
+        if (repaymentAmount < 0) repaymentAmount = 0;
+        if (repaymentAmount > creditLimit) repaymentAmount = creditLimit;
+        
+        double remainingCredit = creditLimit - repaymentAmount;
+        double usagePercentage = (repaymentAmount / creditLimit) * 100;
+        
+        // 创建饼图数据，确保数据大于0才显示
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        
+        if (repaymentAmount > 0) {
+            pieChartData.add(new PieChart.Data(String.format("Used Credit (%.1f%%)", usagePercentage), repaymentAmount));
+        }
+        
+        if (remainingCredit > 0) {
+            pieChartData.add(new PieChart.Data(String.format("Remaining Credit (%.1f%%)", 100 - usagePercentage), remainingCredit));
+        }
+        
+        // 设置数据到饼图
         repaymentChart.setData(pieChartData);
-        repaymentChart.setTitle(String.format("%.0f%%", (repaymentAmount / creditLimit) * 100));
+        repaymentChart.setTitle(String.format("Credit Usage: %.0f%%", usagePercentage));
+        
+        // 强制刷新图表
+        repaymentChart.setAnimated(false);
+        repaymentChart.setAnimated(true);
+        
+        // 添加调试输出
+        System.out.println("DEBUG: Updating pie chart with repaymentAmount=" + repaymentAmount + 
+                         ", creditLimit=" + creditLimit + ", usage=" + usagePercentage + "%");
     }
 
     private void showError(String title, String content) {

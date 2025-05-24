@@ -60,22 +60,16 @@ public class RegisterController {
         String usernameOrEmail = usernameField.getText();
         String password = passwordField.getText();
         
-        // 验证输入
-        if (usernameOrEmail.isEmpty() || password.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "登录错误", "用户名/邮箱和密码不能为空");
-            return;
-        }
-        
-        // 验证用户登录
-        User user = com.coinue.util.UserDataManager.getInstance().validateLogin(usernameOrEmail, password);
+        // 使用User类的静态方法进行登录（包含输入验证和身份验证）
+        User user = User.login(usernameOrEmail, password);
         
         if (user == null) {
-            showAlert(Alert.AlertType.ERROR, "登录失败", "用户名/邮箱或密码不正确");
+            showAlert(Alert.AlertType.ERROR, "登录失败", "用户名/邮箱或密码不正确，请重试");
             return;
         }
         
-        // 登录成功
-        System.out.println("用户登录成功: " + usernameOrEmail);
+        // 登录成功，用户会话已由User.login()自动管理
+        System.out.println("用户登录成功: " + user.getUsername());
         
         // 登录成功后跳转到主页
         try {

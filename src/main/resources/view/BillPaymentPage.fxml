@@ -18,7 +18,7 @@
     <!-- Top Navigation -->
     <HBox alignment="CENTER" spacing="0" style="-fx-background-color: #B0E0FF;" VBox.vgrow="NEVER">
         <Button text="Homepage" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleHomeNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
-        <Button text="Analysis" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleAnalysisNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+        <Button text="Analysis" style="-fx-background-color: rgba(255,255,255,0.3); -fx-min-width: 33.33%; -fx-font-weight: bold;" onAction="#handleAnalysisNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
         <Button text="User" style="-fx-background-color: transparent; -fx-min-width: 33.33%;" onAction="#handleUserNav" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
     </HBox>
 
@@ -71,7 +71,13 @@
             <!-- 左侧饼图区域 -->
             <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 20px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);" HBox.hgrow="ALWAYS">
                 <Label text="Repayment Overview" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
-                <PieChart fx:id="repaymentChart" title="Repayment Ratio" legendVisible="true" VBox.vgrow="ALWAYS"/>
+                <PieChart fx:id="repaymentChart" title="Credit Usage" 
+                         legendVisible="true" 
+                         labelsVisible="true"
+                         animated="true"
+                         minHeight="200"
+                         prefHeight="300"
+                         VBox.vgrow="ALWAYS"/>
             </VBox>
             
             <!-- 右侧表格区域 -->

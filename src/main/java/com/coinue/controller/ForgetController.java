@@ -80,8 +80,8 @@ public class ForgetController {
     private void loadSecurityQuestion() {
         String usernameOrEmail = usernameOrEmailField.getText().trim();
         if (!usernameOrEmail.isEmpty()) {
-            // 通过用户名或邮箱查询用户
-            user = com.coinue.util.UserDataManager.getInstance().findUserByUsernameOrEmail(usernameOrEmail);
+            // 使用User类的静态方法查找用户
+            user = User.findByUsernameOrEmail(usernameOrEmail);
             if (user != null) {
                 // 显示用户的安全问题
                 securityQuestionLabel.setText(user.getSecurityQuestion());
@@ -104,16 +104,11 @@ public class ForgetController {
         String newPassword = newPasswordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
-        // 验证输入
-        if (usernameOrEmail.isEmpty() || birthday == null || securityAnswer.isEmpty() 
-                || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "输入错误", "所有字段都必须填写");
-            return;
-        }
-
-        // 验证两次密码输入是否一致
-        if (!newPassword.equals(confirmPassword)) {
-            showAlert(Alert.AlertType.ERROR, "密码错误", "两次输入的密码不一致");
+        // 使用User类的静态方法进行输入验证
+        String validationResult = User.validatePasswordResetData(usernameOrEmail, newPassword, 
+                                                                confirmPassword, securityAnswer, birthday);
+        if (validationResult != null) {
+            showAlert(Alert.AlertType.ERROR, "输入错误", validationResult);
             return;
         }
 
@@ -126,22 +121,21 @@ public class ForgetController {
             }
         }
 
-        // 验证生日
-        if (!user.getBirthday().equals(birthday)) {
-            showAlert(Alert.AlertType.ERROR, "验证失败", "生日信息不匹配");
+        // 使用User类的实例方法进行身份验证和密码重置
+        if (!user.validateIdentity(birthday, securityAnswer)) {
+            showAlert(Alert.AlertType.ERROR, "验证失败", "生日或安全问题答案不正确");
             return;
         }
 
-        // 重置密码
-        boolean success = com.coinue.util.UserDataManager.getInstance().resetPassword(
-                usernameOrEmail, securityAnswer, newPassword);
+        // 使用User类的实例方法重置密码
+        boolean success = user.resetPassword(newPassword);
 
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "密码重置成功", "您的密码已重置，请使用新密码登录");
             // 重置成功后返回登录页面
             handleBackToLogin(event);
         } else {
-            showAlert(Alert.AlertType.ERROR, "密码重置失败", "安全问题答案不正确");
+            showAlert(Alert.AlertType.ERROR, "密码重置失败", "密码重置过程中发生错误，请重试");
         }
     }
 

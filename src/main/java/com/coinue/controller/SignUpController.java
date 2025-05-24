@@ -260,16 +260,12 @@ public class SignUpController implements Initializable {
         String securityQuestion = securityQuestionComboBox.getValue();
         String securityAnswer = securityAnswerField.getText();
         
-        // 验证用户输入
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() ||
-            birthday == null || securityQuestion == null || securityQuestion.isEmpty() || securityAnswer.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "输入错误", "所有字段都必须填写");
-            return;
-        }
-        
-        // 验证密码匹配
-        if (!password.equals(confirmPassword)) {
-            showAlert(Alert.AlertType.ERROR, "密码错误", "两次输入的密码不匹配");
+        // 使用User类的静态方法进行数据验证
+        String validationResult = User.validateRegistrationData(username, email, password, 
+                                                               confirmPassword, securityQuestion, 
+                                                               securityAnswer, birthday);
+        if (validationResult != null) {
+            showAlert(Alert.AlertType.ERROR, "输入错误", validationResult);
             return;
         }
         
@@ -279,11 +275,9 @@ public class SignUpController implements Initializable {
             return;
         }
         
-        // 创建用户对象
+        // 创建用户对象并注册
         User user = new User(username, email, password, securityQuestion, securityAnswer, birthday);
-        
-        // 保存用户数据
-        boolean success = com.coinue.util.UserDataManager.getInstance().createUser(user);
+        boolean success = user.register(); // 使用User实例方法进行注册
         
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "注册成功", "账户创建成功，请登录");
