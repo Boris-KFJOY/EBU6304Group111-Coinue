@@ -31,6 +31,16 @@
             <Insets top="20.0" left="20.0" right="20.0" bottom="20.0"/>
         </padding>
         
+        <!-- 用户状态显示区域 -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 10px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+            <Label fx:id="userDataStatusLabel" text="状态: 未登录" style="-fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="clearDataButton" text="清除数据" onAction="#handleClearData"
+                   style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 15px;"/>
+            <Button text="刷新数据" onAction="#handleRefreshData"
+                   style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 5px 15px;"/>
+        </HBox>
+
         <!-- 操作按钮区域 -->
         <HBox spacing="20.0" alignment="CENTER_LEFT">
             <Button text="Import Analysis File" onAction="#handleImportAnalysisFile" 
@@ -39,6 +49,8 @@
                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px;"/>
             <Button text="Bill Payment Analysis" onAction="#handleBillPaymentAnalysis"
                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px;"/>
+            <Button text="Set Budget" onAction="#handleSetBudget"
+                   style="-fx-background-color: #607D8B; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px;"/>
             <Label fx:id="fileNameLabel" text="No file selected" />
         </HBox>
 
@@ -47,6 +59,12 @@
             <Label text="Budget Usage" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
             <ProgressBar fx:id="budgetProgressBar" progress="0.0" prefWidth="Infinity" style="-fx-pref-height: 20px;"/>
             <Label fx:id="budgetLabel" text="Current Expense: ¥0 / Budget: ¥0"/>
+        </VBox>
+
+        <!-- 统计卡片区域 -->
+        <VBox spacing="5.0" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+            <Label text="Statistics Overview" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+            <HBox fx:id="statsCardsContainer" spacing="10.0" alignment="CENTER_LEFT"/>
         </VBox>
 
         <!-- 图表展示区域 -->

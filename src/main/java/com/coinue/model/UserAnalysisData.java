@@ -1,5 +1,6 @@
 package com.coinue.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,6 +130,7 @@ public class UserAnalysisData {
      * 计算储蓄率
      * @return 储蓄率百分比
      */
+    @JsonIgnore
     public double getSavingsRate() {
         if (totalIncome <= 0) {
             return 0.0;
@@ -141,6 +143,7 @@ public class UserAnalysisData {
      * 获取最大支出分类
      * @return 最大支出分类名称
      */
+    @JsonIgnore
     public String getTopExpenseCategory() {
         return categoryExpenses.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
