@@ -89,6 +89,9 @@ public class MainPageController {
     @FXML
     private TableColumn<ExpenseRecord, Void> deleteColumn;
 
+    @FXML
+    private Button gptChatButton;
+
     // 数据集合
     /**
      * 预算数据集合
@@ -627,5 +630,32 @@ public class MainPageController {
     public void addExpenseRecord(ExpenseRecord record) {
         expenseRecords.add(record);
         DataManager.saveExpenseRecords(List.copyOf(expenseRecords));
+    }
+
+    /**
+     * 处理GPT对话按钮点击事件
+     * 打开GPT对话窗口
+     */
+    @FXML
+    private void handleGPTChat() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/GPTChatDialog.fxml"));
+            Parent root = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Chat with GPT");
+            dialogStage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+            dialogStage.initOwner(gptChatButton.getScene().getWindow());
+            
+            Scene scene = new Scene(root);
+            dialogStage.setScene(scene);
+            dialogStage.show();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to open GPT chat window: " + e.getMessage());
+            alert.showAndWait();
+        }
     }
 }

@@ -134,6 +134,17 @@
                     -fx-background-radius: 10px;
                 </style>
             </TableView>
+            
+            <!-- GPT Chat Button -->
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button fx:id="gptChatButton" text="💬 Ask GPT for Advice"
+                        onAction="#handleGPTChat"
+                        style="-fx-background-color: #4285f4; 
+                               -fx-text-fill: white;
+                               -fx-background-radius: 20;
+                               -fx-padding: 8 16;
+                               -fx-font-size: 14px;"/>
+            </HBox>
         </VBox>
     </VBox>
 </VBox>

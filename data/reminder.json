@@ -1,26 +1,8 @@
 [
   {
-    "platform": "card",
-    "amount": 1.0,
-    "dueDate": "2025-04-01",
-    "iconPath": "/images/icons/rent.png"
-  },
-  {
-    "platform": "shopping",
-    "amount": 1000.0,
-    "dueDate": "2025-04-26",
-    "iconPath": "/images/icons/shopping.png"
-  },
-  {
-    "platform": "京东",
-    "amount": 200.0,
-    "dueDate": "2025-05-03",
-    "iconPath": "/images/icons/express.png"
-  },
-  {
     "platform": "1",
     "amount": 1.0,
-    "dueDate": "2025-04-30",
+    "dueDate": "2025-05-24",
     "iconPath": "/images/icons/credit_card.png"
   }
 ]

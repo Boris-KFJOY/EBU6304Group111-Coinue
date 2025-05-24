@@ -1,25 +1,156 @@
 [
   {
-    "amount": 1.0,
+    "amount": 10.0,
     "category": "食品",
-    "name": "1",
+    "name": "早餐",
     "date": "2025-05-24",
+    "description": "鸡蛋牛奶面包",
     "recordType": "支出",
     "currency": "CNY"
   },
   {
-    "amount": 2.0,
+    "amount": 20.0,
     "category": "食品",
-    "name": "2",
+    "name": "早餐",
     "date": "2025-05-24",
+    "description": "鸡蛋",
     "recordType": "支出",
     "currency": "CNY"
   },
   {
-    "amount": 3.0,
-    "category": "食品",
-    "name": "3",
+    "amount": 100000.0,
+    "category": "医疗",
+    "name": "看病",
     "date": "2025-05-24",
+    "description": "11",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 50.0,
+    "category": "其他",
+    "name": "早餐",
+    "date": "2025-05-01",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 100.0,
+    "category": "其他",
+    "name": "午餐",
+    "date": "2025-05-01",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 150.0,
+    "category": "其他",
+    "name": "晚餐",
+    "date": "2025-05-01",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 20.0,
+    "category": "交通",
+    "name": "公交车",
+    "date": "2025-05-02",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 50.0,
+    "category": "交通",
+    "name": "出租车",
+    "date": "2025-05-02",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 200.0,
+    "category": "购物",
+    "name": "衣服",
+    "date": "2025-05-03",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 300.0,
+    "category": "购物",
+    "name": "鞋子",
+    "date": "2025-05-03",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 100.0,
+    "category": "娱乐",
+    "name": "电影",
+    "date": "2025-05-04",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 200.0,
+    "category": "娱乐",
+    "name": "KTV",
+    "date": "2025-05-04",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 500.0,
+    "category": "教育",
+    "name": "书籍",
+    "date": "2025-05-05",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 1000.0,
+    "category": "教育",
+    "name": "培训",
+    "date": "2025-05-05",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 300.0,
+    "category": "医疗",
+    "name": "药品",
+    "date": "2025-05-06",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 500.0,
+    "category": "医疗",
+    "name": "体检",
+    "date": "2025-05-06",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 1500.0,
+    "category": "住房",
+    "name": "房租",
+    "date": "2025-05-07",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 200.0,
+    "category": "住房",
+    "name": "水电费",
+    "date": "2025-05-07",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 100.0,
+    "category": "其他",
+    "name": "杂项",
+    "date": "2025-05-08",
     "recordType": "支出",
     "currency": "CNY"
   }

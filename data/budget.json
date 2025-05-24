@@ -1,25 +1,7 @@
 [
   {
     "category": "食品",
-    "amount": 11.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
     "amount": 100.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 100.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 111.0,
     "currency": "CNY",
     "spentAmount": 0.0
   },
