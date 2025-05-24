@@ -43,13 +43,6 @@
                          style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-padding: 8px;"/>
             </VBox>
             
-            <!-- 子类别列表 -->
-            <VBox spacing="5">
-                <Label text="Subcategory" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
-                <ListView fx:id="subCategoryListView" prefHeight="120.0" maxHeight="120.0"
-                         style="-fx-background-color: #F5F5F5; -fx-border-color: #E0E0E0; -fx-border-radius: 5px; -fx-background-radius: 5px;"/>
-            </VBox>
-            
             <!-- 名称输入 -->
             <VBox spacing="5">
                 <Label text="Name" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>

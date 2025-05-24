@@ -1,37 +1,26 @@
 [
   {
-    "amount": 1.0,
-    "category": "投资",
-    "name": "1",
-    "date": "2025-04-20",
-    "description": "1",
-    "recordType": "收入",
-    "currency": "CNY"
-  },
-  {
-    "amount": 1.0,
-    "category": "餐饮",
-    "name": "1",
-    "date": "2025-04-18",
-    "description": "1",
+    "amount": 10000.0,
+    "category": "购物",
+    "name": "施华洛世奇",
+    "date": "2025-05-24",
+    "description": "购买力下滑的原因",
     "recordType": "支出",
     "currency": "CNY"
   },
   {
-    "amount": 1000.0,
-    "category": "娱乐",
-    "name": "看话剧",
-    "date": "2025-04-22",
-    "description": "卡座",
+    "amount": 10.0,
+    "category": "食品",
+    "name": "早餐",
+    "date": "2025-05-24",
     "recordType": "支出",
     "currency": "CNY"
   },
   {
-    "amount": 2.0,
-    "category": "教育",
-    "name": "1",
-    "date": "2025-04-22",
-    "description": "1",
+    "amount": 1.0,
+    "category": "食品",
+    "name": "11",
+    "date": "2025-05-24",
     "recordType": "支出",
     "currency": "CNY"
   }

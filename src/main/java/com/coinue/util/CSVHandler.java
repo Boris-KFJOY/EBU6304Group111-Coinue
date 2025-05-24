@@ -18,6 +18,28 @@ public class CSVHandler {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     /**
+     * 统一类别名称
+     * @param category 原始类别名称
+     * @return 统一后的类别名称
+     */
+    private static String normalizeCategory(String category) {
+        switch (category) {
+            case "餐饮":
+                return "食品";
+            case "购物":
+            case "交通":
+            case "娱乐":
+            case "教育":
+            case "医疗":
+            case "住房":
+            case "其他":
+                return category;
+            default:
+                return "其他";
+        }
+    }
+
+    /**
      * 读取CSV文件并解析为消费记录列表
      * @param filePath CSV文件路径
      * @return 消费记录列表
@@ -32,10 +54,10 @@ public class CSVHandler {
                 String[] values = line.split(CSV_SEPARATOR);
                 if (values.length >= 4) {
                     ExpenseRecord record = new ExpenseRecord(
-                            Double.parseDouble(values[3].trim()),  // 金额
-                            values[2].trim(),                      // 类别
-                            values[1].trim(),                      // 名称
-                            LocalDate.parse(values[0].trim(), DATE_FORMATTER)  // 日期
+                            Double.parseDouble(values[1].trim()),  // 金额
+                            normalizeCategory(values[0].trim()),  // 类别
+                            values[3].trim(),                      // 名称
+                            LocalDate.parse(values[2].trim(), DATE_FORMATTER)  // 日期
                     );
                     records.add(record);
                 }
