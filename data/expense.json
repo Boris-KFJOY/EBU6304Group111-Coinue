@@ -1,25 +1,24 @@
 [
   {
-    "amount": 10000.0,
-    "category": "购物",
-    "name": "施华洛世奇",
-    "date": "2025-05-24",
-    "description": "购买力下滑的原因",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
-    "amount": 10.0,
-    "category": "食品",
-    "name": "早餐",
-    "date": "2025-05-24",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
     "amount": 1.0,
     "category": "食品",
-    "name": "11",
+    "name": "1",
+    "date": "2025-05-24",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 2.0,
+    "category": "食品",
+    "name": "2",
+    "date": "2025-05-24",
+    "recordType": "支出",
+    "currency": "CNY"
+  },
+  {
+    "amount": 3.0,
+    "category": "食品",
+    "name": "3",
     "date": "2025-05-24",
     "recordType": "支出",
     "currency": "CNY"
