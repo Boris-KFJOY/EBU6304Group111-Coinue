@@ -13,13 +13,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
 
 /**
  * 手动记账对话框控制器
@@ -55,15 +55,6 @@ public class ManualEntryDialogController {
      */
     @FXML
     private DatePicker datePicker;
-    
-    /**
-     * 子类别列表视图
-     * Subcategory list view
-     * 显示所选类别下的具体子类别选项
-     * Displays specific subcategory options under the selected category
-     */
-    @FXML
-    private ListView<String> subCategoryListView;
     
     /**
      * 备注输入区域
@@ -152,21 +143,14 @@ public class ManualEntryDialogController {
         currencyComboBox.setValue("CNY");
         
         // 初始化类别下拉框 - 默认为支出类别
-        // Initialize category combo box - default to expense category
-        updateCategoryComboBox(true);
+        // Initialize category combo box with updated categories
+        categoryComboBox.setItems(FXCollections.observableArrayList(
+            "食品", "购物", "交通", "娱乐", "教育", "医疗", "住房", "其他"
+        ));
         
         // 初始化日期选择器为当前日期
         // Initialize date picker to current date
         datePicker.setValue(LocalDate.now());
-        
-        // 设置类别选择监听器，更新子类别列表
-        // Set category selection listener to update subcategory list
-        categoryComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            updateSubCategories(newValue);
-        });
-
-        // 修改：使用ToggleGroup的selectedToggleProperty来监听单选按钮变化
-        // Modification: Use selectedToggleProperty of ToggleGroup to listen for radio button changes
         recordTypeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             handleRecordTypeChange();
         });
@@ -196,86 +180,11 @@ public class ManualEntryDialogController {
         if (isExpense) {
             // 支出类别
             // Expense categories
-            categoryComboBox.getItems().addAll("餐饮", "交通", "购物", "娱乐", "教育", "运动", "生活", "通讯", "医疗");
+            categoryComboBox.getItems().addAll("食品", "购物", "交通", "娱乐", "教育", "医疗", "住房", "其他");
         } else {
             // 收入类别
             // Income categories
             categoryComboBox.getItems().addAll("工资", "投资", "礼金", "奖金", "兼职", "其他");
-        }
-    }
-    
-    /**
-     * 更新子类别列表
-     * Update subcategory list
-     * @param category 选中的主类别
-     * @param category Selected main category
-     */
-    private void updateSubCategories(String category) {
-        if (subCategoryListView == null || category == null) return;
-        
-        subCategoryListView.getItems().clear();
-        
-        // 根据是支出还是收入以及选择的类别添加对应的子类别
-        // Add corresponding subcategories based on whether it is an expense or income and the selected category
-        if (expensesRadio.isSelected()) {
-            // 支出子类别
-            // Expense subcategories
-            switch (category) {
-                case "餐饮":
-                    subCategoryListView.getItems().addAll("早餐", "午餐", "晚餐", "外卖", "零食", "饮料", "下午茶", "宵夜");
-                    break;
-                case "交通":
-                    subCategoryListView.getItems().addAll("公交车", "地铁", "出租车", "共享单车", "火车", "飞机", "加油", "停车费", "高速费");
-                    break;
-                case "购物":
-                    subCategoryListView.getItems().addAll("服装", "电子产品", "日用品", "超市购物", "化妆品", "饰品", "鞋包", "家居用品");
-                    break;
-                case "娱乐":
-                    subCategoryListView.getItems().addAll("电影", "游戏", "KTV", "演唱会", "展览", "运动场馆", "旅游", "网络服务");
-                    break;
-                case "教育":
-                    subCategoryListView.getItems().addAll("学费", "书籍", "文具", "培训", "考试费", "网课", "辅导班", "留学");
-                    break;
-                case "运动":
-                    subCategoryListView.getItems().addAll("健身房", "运动装备", "球类运动", "游泳", "瑜伽", "户外运动", "体育赛事");
-                    break;
-                case "生活":
-                    subCategoryListView.getItems().addAll("房租", "水费", "电费", "燃气费", "物业费", "维修", "理发", "洗衣");
-                    break;
-                case "通讯":
-                    subCategoryListView.getItems().addAll("话费", "网费", "有线电视", "手机", "电脑", "配件", "软件服务");
-                    break;
-                case "医疗":
-                    subCategoryListView.getItems().addAll("挂号费", "药品", "检查费", "手术费", "保健品", "医疗保险", "牙科", "眼科");
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            // 收入子类别
-            // Income subcategories
-            switch (category) {
-                case "工资":
-                    subCategoryListView.getItems().addAll("月薪", "年终奖", "加班费", "绩效奖金", "项目奖励", "补贴", "提成");
-                    break;
-                case "投资":
-                    subCategoryListView.getItems().addAll("股票", "基金", "存款利息", "债券", "房产投资", "数字货币", "期货", "理财产品");
-                    break;
-                case "礼金":
-                    subCategoryListView.getItems().addAll("生日礼金", "节日礼金", "婚礼礼金", "红包", "祝寿礼金", "满月礼金");
-                    break;
-                case "奖金":
-                    subCategoryListView.getItems().addAll("竞赛奖金", "抽奖奖金", "创新奖励", "专利奖励", "优秀员工奖", "销售奖金");
-                    break;
-                case "兼职":
-                    subCategoryListView.getItems().addAll("家教", "翻译", "写作", "外包项目", "网络兼职", "临时工", "代驾", "外卖配送");
-                    break;
-                case "其他":
-                    subCategoryListView.getItems().addAll("二手交易", "租金收入", "版权收入", "广告收入", "退款", "赔偿金", "中奖", "继承");
-                    break;
-                default:
-                    break;
-            }
         }
     }
     
@@ -308,16 +217,6 @@ public class ManualEntryDialogController {
     @FXML
     private void handleSave() {
         if (isInputValid()) {
-            // 获取子类别作为消费名称，如果没有选择则使用nameField的值
-            // Get subcategory as expense name, use nameField value if none selected
-            String expenseName = nameField.getText();
-            if (subCategoryListView != null) {
-                String selectedSubCategory = subCategoryListView.getSelectionModel().getSelectedItem();
-                if (selectedSubCategory != null && !selectedSubCategory.isEmpty()) {
-                    expenseName = selectedSubCategory;
-                }
-            }
-            
             // 获取记录类型（支出或收入）
             // Get record type (expense or income)
             String recordType = expensesRadio.isSelected() ? "支出" : "收入";
@@ -329,7 +228,7 @@ public class ManualEntryDialogController {
             ExpenseRecord record = new ExpenseRecord(
                     Double.parseDouble(amountField.getText()),
                     categoryComboBox.getValue(),
-                    expenseName,
+                    nameField.getText(),
                     datePicker.getValue()
             );
             
@@ -403,16 +302,7 @@ public class ManualEntryDialogController {
         // 检查是否有输入名称
         // Check if a name is entered
         if (nameField.getText() == null || nameField.getText().trim().isEmpty()) {
-            // 检查是否有选择子类别
-            // Check if a subcategory is selected
-            boolean hasSelectedSubCategory = false;
-            if (subCategoryListView != null) {
-                hasSelectedSubCategory = subCategoryListView.getSelectionModel().getSelectedItem() != null;
-            }
-            
-            if (!hasSelectedSubCategory) {
-                errorMessage += expensesRadio.isSelected() ? "请输入支出名称或选择子类别！\n" : "请输入收入名称或选择子类别！\n";
-            }
+            errorMessage += expensesRadio.isSelected() ? "请输入支出名称！\n" : "请输入收入名称！\n";
         }
         
         if (errorMessage.isEmpty()) {
@@ -559,8 +449,7 @@ public class ManualEntryDialogController {
         // Validate if the category is in the predefined list
         String category = record.getCategory();
         if (record.getRecordType().equals("支出")) {
-            return java.util.Arrays.asList("餐饮", "交通", "购物", "娱乐", "教育",
-                               "运动", "生活", "通讯", "医疗").contains(category);
+            return java.util.Arrays.asList("食品", "购物", "交通", "娱乐", "教育", "医疗", "住房", "其他").contains(category);
         } else {
             return java.util.Arrays.asList("工资", "投资", "礼金", "奖金", 
                                "兼职", "其他").contains(category);

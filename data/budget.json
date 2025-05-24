@@ -2,78 +2,12 @@
   {
     "category": "购物",
     "amount": 100.0,
-    "currency": "USD",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "交通",
-    "amount": 100.0,
-    "currency": "EUR",
+    "currency": "CNY",
     "spentAmount": 0.0
   },
   {
     "category": "食品",
     "amount": 100.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "医疗",
-    "amount": 100.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "住房",
-    "amount": 100.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
-    "currency": "CNY",
-    "spentAmount": 0.0
-  },
-  {
-    "category": "食品",
-    "amount": 1000.0,
     "currency": "CNY",
     "spentAmount": 0.0
   },
