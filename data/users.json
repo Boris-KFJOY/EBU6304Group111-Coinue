@@ -1,7 +1,7 @@
 [ {
   "username" : "Test",
   "email" : "1@q.com",
-  "password" : "Test123",
+  "password" : "Test1234",
   "securityQuestion" : "Where was your mother born?",
   "securityAnswer" : "1",
   "birthday" : "2004-01-01"

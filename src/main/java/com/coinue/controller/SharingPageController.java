@@ -2,6 +2,7 @@ package com.coinue.controller;
 
 import java.io.IOException;
 
+import com.coinue.model.User;
 import com.coinue.util.PageManager;
 
 import javafx.fxml.FXML;
@@ -23,9 +24,15 @@ public class SharingPageController {
 
     @FXML
     public void initialize() {
-        // TODO: 从用户会话或数据库加载用户信息
-        usernameLabel.setText("测试用户");
-        emailLabel.setText("test@example.com");
+        // 从当前登录用户加载用户信息
+        User currentUser = User.getCurrentUser();
+        if (currentUser != null) {
+            usernameLabel.setText(currentUser.getUsername());
+            emailLabel.setText(currentUser.getEmail());
+        } else {
+            usernameLabel.setText("未登录用户");
+            emailLabel.setText("请先登录");
+        }
         
         // Ensure content area is visible
         if (contentArea != null) {

@@ -52,11 +52,20 @@
             </HBox>
         </VBox>
 
+        <!-- 用户状态显示区域 -->
+        <VBox spacing="5" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8px; -fx-padding: 12px;">
+            <Label text="用户数据状态:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #495057;"/>
+            <Label fx:id="userDataStatusLabel" text="正在加载..." style="-fx-font-size: 12px; -fx-text-fill: #6C757D;"/>
+        </VBox>
+
         <!-- 操作按钮区域 -->
         <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 10px; -fx-padding: 15px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
             <Label text="Actions:" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
             <Button text="📄 Import CSV" onAction="#handleImportCSV" 
                     style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px;"
+                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            <Button fx:id="clearDataButton" text="🗑️ Clear Data" 
+                    style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px;"
                     HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
             <Button text="💳 Pay Bills" 
                     style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px;"
