@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.coinue.controller.GPTChatDialogController"
+      spacing="10"
+      prefWidth="600"
+      prefHeight="500"
+      style="-fx-background-color: white;">
+    
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Chat History -->
+    <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" style="-fx-background: white; -fx-border-color: #e0e0e0;">
+        <VBox fx:id="chatHistoryBox" spacing="10" style="-fx-padding: 10;">
+        </VBox>
+    </ScrollPane>
+
+    <!-- Input Area -->
+    <HBox spacing="10" alignment="CENTER">
+        <TextArea fx:id="userInputArea" 
+                  promptText="Ask GPT about your expenses..."
+                  wrapText="true"
+                  prefRowCount="3"
+                  HBox.hgrow="ALWAYS"/>
+        <Button fx:id="sendButton" 
+                text="Send" 
+                onAction="#handleSend"
+                style="-fx-background-color: #4285f4;
+                       -fx-text-fill: white;
+                       -fx-background-radius: 5;
+                       -fx-padding: 8 16;"/>
+    </HBox>
+</VBox> 
