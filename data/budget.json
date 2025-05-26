@@ -6,7 +6,19 @@
     "spentAmount": 0.0
   },
   {
-    "category": "食品",
+    "category": "购物",
+    "amount": 100.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "娱乐",
+    "amount": 100.0,
+    "currency": "CNY",
+    "spentAmount": 0.0
+  },
+  {
+    "category": "医疗",
     "amount": 100.0,
     "currency": "CNY",
     "spentAmount": 0.0

@@ -1,5 +1,6 @@
 package com.coinue.controller;
 
+import com.coinue.util.PageManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,6 +39,7 @@ import javafx.scene.input.KeyCode;
 class MainPageTest {
 
     private MainPageController controller;
+    private Stage stage;
 
     /**
      * 初始化测试环境
@@ -47,8 +49,12 @@ class MainPageTest {
      */
     @Start
     void start(Stage stage) throws Exception {
+        this.stage = stage;
+        // 初始化PageManager
+        PageManager.getInstance().initStage(stage);
+        
         // 使用FXMLLoader加载主页面布局文件
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MainPage.fxml"));
         Parent root = loader.load();
         // 获取控制器实例
         controller = loader.getController();
@@ -84,6 +90,8 @@ class MainPageTest {
         verifyThat("#reminderContainer", isVisible());
         // 验证支出表格是否可见
         verifyThat("#expenseTableView", isVisible());
+        // 验证GPT聊天按钮是否可见
+        verifyThat("#gptChatButton", isVisible());
     }
 
     /**
@@ -98,14 +106,8 @@ class MainPageTest {
         WaitForAsyncUtils.waitForFxEvents();
         
         try {
-            // 查找Analysis按钮: 匹配类名为button、文本为"Analysis"的按钮
-            Button analysisButton = (Button) robot.lookup(".button").match(button -> 
-                button instanceof Button && 
-                ((Button) button).getText() != null &&
-                ((Button) button).getText().equals("Analysis")
-            ).query();
-            
-            // 模拟用户点击Analysis按钮
+            // 查找Analysis按钮
+            Button analysisButton = robot.lookup("Analysis").queryButton();
             robot.clickOn(analysisButton);
             // 等待500毫秒确保导航完成
             robot.sleep(500);
@@ -151,25 +153,19 @@ class MainPageTest {
         WaitForAsyncUtils.waitForFxEvents();
         
         try {
-            // 查找并点击"添加还款提醒"按钮
-            Button addButton = (Button) robot.lookup(".button").match(button -> 
-                button instanceof Button && 
-                ((Button) button).getText() != null &&
-                ((Button) button).getText().contains("添加还款提醒")
-            ).query();
-            
-            // 模拟用户点击添加提醒按钮
-            robot.clickOn(addButton);
+            // 查找并点击"Add Reminder"按钮
+            Button addReminderButton = robot.lookup("Add Reminder").queryButton();
+            robot.clickOn(addReminderButton);
             // 等待1秒确保对话框完全加载
             robot.sleep(1000);
             
             // 填写平台名称字段
-            TextField platformField = (TextField) robot.lookup("#platformField").query();
+            TextField platformField = robot.lookup("#platformField").queryAs(TextField.class);
             robot.clickOn(platformField);
             robot.write("信用卡");
             
             // 填写金额字段
-            TextField amountField = (TextField) robot.lookup("#amountField").query();
+            TextField amountField = robot.lookup("#amountField").queryAs(TextField.class);
             robot.clickOn(amountField);
             robot.write("1000");
             
@@ -190,19 +186,19 @@ class MainPageTest {
         // 等待1秒确保对话框完全显示
         robot.sleep(1000);
         try {
-            // 查找对话框上的关闭按钮(文本为"取消"或"确定")
-            Node closeButton = robot.lookup(".button").match(button -> 
-                button instanceof Button && 
-                ((Button) button).getText() != null &&
-                (((Button) button).getText().equals("取消") || 
-                 ((Button) button).getText().equals("确定"))
-            ).query();
-            // 点击关闭按钮
-            robot.clickOn(closeButton);
-            // 等待500毫秒确保对话框完全关闭
-            robot.sleep(500);
+            // 尝试查找并点击"确定"按钮
+            Button confirmButton = robot.lookup("Confirm").queryButton();
+            robot.clickOn(confirmButton);
         } catch (Exception e) {
-            System.out.println("关闭对话框失败: " + e.getMessage());
+            try {
+                // 如果找不到"确定"按钮，尝试查找并点击"取消"按钮
+                Button cancelButton = robot.lookup("Cancel").queryButton();
+                robot.clickOn(cancelButton);
+            } catch (Exception e2) {
+                System.out.println("关闭对话框失败: 无法找到确定或取消按钮");
+            }
         }
+        // 等待500毫秒确保对话框完全关闭
+        robot.sleep(500);
     }
 }
