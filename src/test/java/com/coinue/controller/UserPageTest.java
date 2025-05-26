@@ -5,19 +5,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.control.LabeledMatchers;
 
 import com.coinue.util.PageManager;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 
 /**
  * UserPageController的测试类
@@ -27,6 +27,7 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 @ExtendWith(ApplicationExtension.class)
 public class UserPageTest {
 
+    private Stage stage;
 
     /**
      * 初始化测试环境
@@ -35,6 +36,7 @@ public class UserPageTest {
      */
     @Start
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         // 初始化PageManager单例并设置舞台
         PageManager.getInstance().initStage(stage);
         
@@ -42,51 +44,62 @@ public class UserPageTest {
         Parent root = FXMLLoader.load(getClass().getResource("/view/UserPage.fxml"));
         
         // 设置场景并显示舞台
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
     }
 
     /**
      * 测试用户导航功能
-     * 验证点击Dashboard按钮后是否正确显示用户信息
+     * 验证用户页面的基本元素是否正确显示
      * @param robot TestFX提供的机器人对象，用于模拟用户操作
      */
     @Test
-    void testUserNavigation(FxRobot robot) {
-        // 模拟用户点击Dashboard按钮
-        robot.clickOn("Dashboard");
+    void testUserPageElements(FxRobot robot) {
+        // 验证导航按钮是否存在
+        verifyThat("Homepage", isVisible());
+        verifyThat("Analysis", isVisible());
+        verifyThat("User", isVisible());
         
         // 等待2秒确保UI完全加载
         robot.sleep(2000); 
         
-        // 验证用户名和邮箱标签是否可见
+        // 验证用户信息区域是否可见
         verifyThat("#usernameLabel", isVisible());
         verifyThat("#emailLabel", isVisible());
+        
+        // 验证功能按钮是否存在
+        verifyThat("Change Password", isVisible());
+        verifyThat("Bill Payment", isVisible());
+        verifyThat("Export Data", isVisible());
+        verifyThat("Logout", isVisible());
     }
     
     /**
      * 测试账单支付页面导航功能
-     * 验证从Dashboard进入账单支付页面的流程和UI元素
+     * 验证从用户页面到账单支付页面的导航
      * @param robot TestFX提供的机器人对象，用于模拟用户操作
      */
     @Test
     void testBillPaymentNavigation(FxRobot robot) {
-        // 首先进入用户Dashboard页面
-        robot.clickOn("Dashboard");
-        robot.sleep(3000); // 等待3秒确保页面加载完成
-        
-        // 从Dashboard导航到账单支付页面
+        // 点击账单支付按钮
         robot.clickOn("Bill Payment");
-        robot.sleep(3000); // 等待3秒确保页面切换完成
+        robot.sleep(2000); // 等待页面切换完成
         
-        // 验证账单支付页面的关键UI元素是否可见
-        verifyThat("#titleLabel", isVisible());    // 验证标题标签
-        verifyThat("#repaymentChart", isVisible()); // 验证还款图表
-        verifyThat("#billTable", isVisible());     // 验证账单表格
+        // 验证账单支付页面的标题是否正确显示
+        verifyThat("Bill Payment Management", isVisible());
         
-        // 查找并验证"Import CSV"按钮(该按钮在FXML中没有ID，使用文本查找)
-        Button importButton = robot.lookup("Import CSV").queryButton();
-        verifyThat(importButton, isVisible());
+        // 验证关键UI元素是否可见
+        verifyThat("#repaymentAmountLabel", isVisible());
+        verifyThat("#creditLimitField", isVisible());
+        verifyThat("#dateFilterPicker", isVisible());
+        verifyThat("#billTable", isVisible());
+        verifyThat("#repaymentChart", isVisible());
+        
+        // 验证操作按钮是否存在
+        verifyThat("📄 Import CSV", isVisible());
+        verifyThat("🗑️ Clear Data", isVisible());
+        verifyThat("💳 Pay Bills", isVisible());
+        verifyThat("📊 Generate Report", isVisible());
     }
-    
 }
