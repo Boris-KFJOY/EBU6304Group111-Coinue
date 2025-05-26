@@ -7,6 +7,7 @@ import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
 import com.coinue.controller.AnalysisPageController;
+import com.coinue.util.PageManager;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -28,6 +30,8 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 @ExtendWith(ApplicationExtension.class)
 public class AnalysisPageTest {
 
+    private Stage stage;
+
     /**
      * 初始化测试环境
      * @param stage JavaFX主舞台
@@ -35,10 +39,18 @@ public class AnalysisPageTest {
      */
     @Start
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
+        // 初始化PageManager
+        PageManager.getInstance().initStage(stage);
+        
         // 从资源文件加载MainPage.fxml界面
-        Parent root = FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"));
-        // 设置场景并显示舞台
-        stage.setScene(new Scene(root));
+        URL mainPageUrl = getClass().getResource("/view/MainPage.fxml");
+        if (mainPageUrl == null) {
+            throw new IOException("Cannot find MainPage.fxml");
+        }
+        
+        // 使用PageManager切换到主页面
+        PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         stage.show();
     }
 
@@ -49,10 +61,12 @@ public class AnalysisPageTest {
      */
     @Test
     void testAnalysisNavigation(FxRobot robot) {
+        // 等待主页面完全加载
+        robot.sleep(2000);
         // 模拟用户点击Analysis按钮
         robot.clickOn("Analysis");
-        // 等待1秒确保页面加载完成
-        robot.sleep(1000);
+        // 等待2秒确保页面加载完成
+        robot.sleep(2000);
         // 验证分析页面的预算进度条是否可见
         verifyThat("#budgetProgressBar", isVisible());
     }
@@ -66,14 +80,25 @@ public class AnalysisPageTest {
      */
     @Test
     void testChartAnalysis(FxRobot robot) throws IOException {
+        // 等待主页面完全加载
+        robot.sleep(2000);
         // 首先进入分析页面
         robot.clickOn("Analysis");
-        robot.sleep(1000); // 等待1秒确保页面加载完成
+        robot.sleep(2000); // 等待2秒确保页面加载完成
         
         // 获取测试数据文件路径
-        String testFilePath = getClass().getResource("/test_expense_records.csv").getFile();
+        URL testFileUrl = getClass().getResource("/test_expense_records.csv");
+        if (testFileUrl == null) {
+            fail("Cannot find test_expense_records.csv");
+        }
+        String testFilePath = testFileUrl.getFile();
+        
         // 加载AnalysisPage.fxml界面
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AnalysisPage.fxml"));
+        URL analysisPageUrl = getClass().getResource("/view/AnalysisPage.fxml");
+        if (analysisPageUrl == null) {
+            fail("Cannot find AnalysisPage.fxml");
+        }
+        FXMLLoader loader = new FXMLLoader(analysisPageUrl);
         Parent root = loader.load();
         AnalysisPageController controller = loader.getController();
         
@@ -90,8 +115,8 @@ public class AnalysisPageTest {
             }
         });
         
-        // 等待3秒确保数据加载和图表生成完成
-        robot.sleep(3000);
+        // 等待5秒确保数据加载和图表生成完成
+        robot.sleep(5000);
         
         // 验证饼图和柱状图是否可见
         verifyThat("#expensePieChart", isVisible());
