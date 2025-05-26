@@ -161,39 +161,84 @@ public class ManualEntryDialogControllerTest {
      */
     @Test
     void testExpenseRecordCreation(FxRobot robot) {
-        // 选择类别 - 查找类别下拉框并选择第一个选项(如果有)
-        ComboBox<String> categoryBox = robot.lookup("#categoryComboBox").queryAs(ComboBox.class);
-        robot.interact(() -> {
-            if (!categoryBox.getItems().isEmpty()) {
-                categoryBox.getSelectionModel().select(0); // 选择第一个类别
-            }
-        });
-        
-        // 输入金额 - 点击金额输入框并输入50.5
-        robot.clickOn("#amountField");
-        robot.write("50.5");
-        
-        // 输入备注 - 点击备注输入框并输入"测试备注"
-        robot.clickOn("#noteField");
-        robot.write("测试备注");
+        WaitForAsyncUtils.waitForFxEvents();
+        robot.sleep(1000); // Increased sleep for dialog to fully render initially
 
-        // 输入名称 - 点击名称输入框并输入"测试名称"
-        robot.clickOn("#nameField");
-        robot.write("测试名称");
+        try {
+            verifyThat("#categoryComboBox", isVisible());
+            ComboBox<String> categoryBox = robot.lookup("#categoryComboBox").queryAs(ComboBox.class);
+            robot.interact(() -> {
+                if (categoryBox.getItems().isEmpty()) {
+                    System.out.println("WARN: categoryComboBox is empty in testExpenseRecordCreation.");
+                } else {
+                    categoryBox.getSelectionModel().select(0);
+                }
+            });
+            System.out.println("DEBUG: categoryComboBox interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #categoryComboBox interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #categoryComboBox interaction", e);
+        }
         
-        // 确保所有必填字段都已填写
-        robot.interact(() -> {
-            // 检查日期选择器，如果未设置则设为当天
-            DatePicker datePicker = robot.lookup("#datePicker").queryAs(DatePicker.class);
-            if (datePicker.getValue() == null) {
-                datePicker.setValue(LocalDate.now());
-            }
-        });
+        try {
+            verifyThat("#amountField", isVisible());
+            robot.clickOn("#amountField");
+            robot.write("50.5");
+            System.out.println("DEBUG: amountField interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #amountField interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #amountField interaction", e);
+        }
         
-        // 点击保存按钮 - 通过按钮ID查找
-        robot.clickOn("#saveButton");
+        try {
+            verifyThat("#noteField", isVisible());
+            robot.clickOn("#noteField");
+            robot.write("测试备注");
+            System.out.println("DEBUG: noteField interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #noteField interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #noteField interaction", e);
+        }
+
+        try {
+            verifyThat("#nameField", isVisible());
+            robot.clickOn("#nameField");
+            robot.write("测试名称");
+            System.out.println("DEBUG: nameField interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #nameField interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #nameField interaction", e);
+        }
         
-        // 验证记录创建状态
+        try {
+            verifyThat("#datePicker", isVisible());
+            robot.interact(() -> {
+                DatePicker datePicker = robot.lookup("#datePicker").queryAs(DatePicker.class);
+                if (datePicker.getValue() == null) {
+                    datePicker.setValue(LocalDate.now());
+                }
+            });
+            System.out.println("DEBUG: datePicker interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #datePicker interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #datePicker interaction", e);
+        }
+        
+        try {
+            verifyThat("#saveButton", isVisible());
+            robot.clickOn("#saveButton");
+            System.out.println("DEBUG: saveButton interaction successful.");
+        } catch (Exception e) {
+            System.err.println("ERROR during #saveButton interaction: " + e.getMessage());
+            e.printStackTrace();
+            fail("Failed at #saveButton interaction", e);
+        }
+        
         assertTrue(controller.isConfirmed(), "记录应成功创建并确认");
     }
 

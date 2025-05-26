@@ -27,6 +27,20 @@
   "securityAnswer" : "My School",
   "birthday" : "2000-01-01"
 }, {
+  "username" : "testuser060507",
+  "email" : "testuser060507@example.com",
+  "password" : "password123",
+  "securityQuestion" : "What was the name of your elementary school?",
+  "securityAnswer" : "My School",
+  "birthday" : "2000-01-01"
+}, {
+  "username" : "testuser412747",
+  "email" : "testuser412747@example.com",
+  "password" : "password123",
+  "securityQuestion" : "What was the name of your elementary school?",
+  "securityAnswer" : "My School",
+  "birthday" : "2000-01-01"
+}, {
   "username" : "testuser695653",
   "email" : "testuser695653@example.com",
   "password" : "password123",
@@ -47,6 +61,13 @@
   "securityQuestion" : "Where was your mother born?",
   "securityAnswer" : "1",
   "birthday" : "2004-01-01"
+}, {
+  "username" : "testuser703037",
+  "email" : "testuser703037@example.com",
+  "password" : "password123",
+  "securityQuestion" : "What was the name of your elementary school?",
+  "securityAnswer" : "My School",
+  "birthday" : "2000-01-01"
 }, {
   "username" : "testuser120844",
   "email" : "testuser120844@example.com",

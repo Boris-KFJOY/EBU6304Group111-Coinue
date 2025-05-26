@@ -151,33 +151,39 @@ class MainPageTest {
     @Test
     @Order(4)
     void testAddReminder(FxRobot robot) {
-        // 等待所有JavaFX事件完成
         WaitForAsyncUtils.waitForFxEvents();
+        robot.sleep(500);
         
         try {
             // 查找并点击"Add Reminder"按钮
+            verifyThat("Add Reminder", Node::isVisible);
             Button addReminderButton = robot.lookup("Add Reminder").queryButton();
             robot.clickOn(addReminderButton);
-            // 等待1秒确保对话框完全加载
             robot.sleep(1000);
+            WaitForAsyncUtils.waitForFxEvents();
             
             // 填写平台名称字段
+            verifyThat("#platformField", isVisible());
             TextField platformField = robot.lookup("#platformField").queryAs(TextField.class);
             robot.clickOn(platformField);
             robot.write("信用卡");
             
             // 填写金额字段
+            verifyThat("#amountField", isVisible());
             TextField amountField = robot.lookup("#amountField").queryAs(TextField.class);
             robot.clickOn(amountField);
             robot.write("1000");
             
             // 直接点击 PaymentReminderDialog 上的 "❌ 取消" 按钮
+            verifyThat("❌ 取消", isVisible());
             robot.clickOn("❌ 取消"); // PaymentReminderDialog.fxml uses "❌ 取消"
             robot.sleep(500); // 等待对话框关闭
             
         } catch (Exception e) {
-            System.out.println("添加提醒测试失败: " + e.getMessage());
-            fail("添加提醒测试失败: " + e.getMessage());
+            String errorMessage = e.getMessage() == null ? e.getClass().getName() + " (message was null)" : e.getMessage();
+            e.printStackTrace();
+            System.out.println("添加提醒测试失败: " + errorMessage);
+            fail("添加提醒测试失败: " + errorMessage);
         }
     }
 
