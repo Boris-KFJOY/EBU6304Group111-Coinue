@@ -132,8 +132,19 @@ Before you begin, ensure you have the following installed:
         *   The `-DskipTests` flag is included to bypass the test execution phase. Running the complete test suite can take approximately one minute.
         *   **Initial Build**: The first time you run this command, Maven will download all necessary dependencies and build the project. This process might take a few minutes depending on your internet connection and system performance. Subsequent runs will be faster.
 
+### **Building the Project (without running)**
+
+If you only want to compile the project, run tests (if not skipped), and package it (e.g., into a JAR file), you can use:
+
+```bash
+# Clean, compile, test (unless skipped), and package
+mvn install -DskipTests
+```
+*   This command is useful for building the application for deployment or distribution.
+*   The `-DskipTests` flag can be used here as well if you wish to bypass tests during the build.
+
 ### **Important Notes**
-- The application will automatically log in with a test user (username: "Test", email: "1@q.com")
+- The application will automatically log in with a test user (username: "Test", email: "1@q.com"). To access the login/signup page, you can navigate to the User Page and click the "Logout" button.
 - User data is stored in the `data/users/` directory
 - Exported data files are saved in the `data/exports/` directory
 
