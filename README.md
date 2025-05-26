@@ -105,11 +105,30 @@ Before you begin, ensure you have the following installed:
 
 ### **Setting Up the Project**
 
-1.  **Download and Extract**:
-    *   Download the project ZIP file provided.
-    *   Extract the contents to a directory on your computer.
+There are two ways to get the project files:
 
-2.  **Open with an IDE (Recommended)**:
+**Option 1: Clone the Repository (Recommended for developers)**
+
+1.  Open your terminal or command prompt.
+2.  Run the following command to clone the repository:
+    ```bash
+    git clone https://github.com/Boris-KFJOY/EBU6304Group111-Coinue.git
+    ```
+3.  This will create a directory named `EBU6304Group111-Coinue`. Navigate into it:
+    ```bash
+    cd EBU6304Group111-Coinue
+    ```
+
+**Option 2: Download and Extract ZIP**
+
+1.  Go to the project's GitHub page: [https://github.com/Boris-KFJOY/EBU6304Group111-Coinue](https://github.com/Boris-KFJOY/EBU6304Group111-Coinue)
+2.  Click on the "Code" button, then click "Download ZIP".
+3.  Extract the contents of the downloaded ZIP file to a directory on your computer.
+4.  Navigate into the extracted project folder (e.g., `EBU6304Group111-Coinue-main`).
+
+**After obtaining the project files (using either option above):**
+
+*   **Open with an IDE (Recommended)**:
     *   We recommend using a modern IDE that supports Maven projects, such as:
         *   [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
         *   [Visual Studio Code](https://code.visualstudio.com/download) with Java and Maven extensions.
@@ -144,7 +163,7 @@ mvn install -DskipTests
 *   The `-DskipTests` flag can be used here as well if you wish to bypass tests during the build.
 
 ### **Important Notes**
-- The application will automatically log in with a test user (username: "Test", email: "1@q.com"). To access the login/signup page, you can navigate to the User Page and click the "Logout" button.
+- The application will automatically log in with a test user (username: "Test", email: "1@q.com", password: "Test1234"). To access the login/signup page, you can navigate to the User Page and click the "Logout" button.
 - User data is stored in the `data/users/` directory
 - Exported data files are saved in the `data/exports/` directory
 
