@@ -268,6 +268,8 @@ public class RegisterController {
             // 使用页面管理器切换到主页
             PageManager.getInstance().initStage(stage);
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
+            // 切换成功后设置标题
+            stage.setTitle("Coinue - 主页"); 
         } catch (IOException e) {
             System.err.println("无法加载主页面: " + e.getMessage());
             e.printStackTrace();

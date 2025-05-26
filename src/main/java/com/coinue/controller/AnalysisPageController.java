@@ -6,10 +6,7 @@ import com.coinue.util.CSVHandler;
 import com.coinue.util.ChartGenerator;
 import com.coinue.util.PageManager;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -17,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
+
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
@@ -52,6 +49,9 @@ import java.util.Optional;
  * Handles the logic of expense data analysis and chart display
  */
 public class AnalysisPageController {
+
+    // Flag to indicate if the controller is running in a test environment
+    public static boolean testModeActive = false;
 
     @FXML
     private PieChart expensePieChart;
@@ -115,17 +115,17 @@ public class AnalysisPageController {
             if (currentUserAnalysisData != null && !currentUserAnalysisData.getCategoryExpenses().isEmpty()) {
                 // 用户有历史数据，自动加载显示
                 loadUserAnalysisData();
-                fileNameLabel.setText("已加载用户历史数据 - " + currentUser.getUsername());
+                fileNameLabel.setText("Loaded user history - " + currentUser.getUsername());
             } else {
                 // 用户没有历史数据，创建新的数据对象
                 currentUserAnalysisData = new UserAnalysisData();
-                fileNameLabel.setText("欢迎 " + currentUser.getUsername() + "，请导入CSV文件开始分析");
+                fileNameLabel.setText("Welcome " + currentUser.getUsername() + ", please import CSV file to start analysis");
             }
             
         } catch (Exception e) {
-            System.err.println("加载用户分析数据失败: " + e.getMessage());
+            System.err.println("Failed to load user analysis data: " + e.getMessage());
             currentUserAnalysisData = new UserAnalysisData();
-            fileNameLabel.setText("欢迎 " + currentUser.getUsername() + "，数据加载失败，请重新导入");
+            fileNameLabel.setText("Welcome " + currentUser.getUsername() + ", data loading failed, please re-import");
         }
     }
 
@@ -133,8 +133,8 @@ public class AnalysisPageController {
      * 显示用户未登录状态
      */
     private void showUserNotLoggedInState() {
-        fileNameLabel.setText("请先登录以保存和加载个人分析数据");
-        statisticsLabel.setText("用户未登录 - 导入的数据将无法保存");
+        fileNameLabel.setText("Please log in to save and load personal analysis data");
+        statisticsLabel.setText("User not logged in - imported data will not be saved");
         
         // 清空图表
         expensePieChart.getData().clear();
@@ -198,10 +198,10 @@ public class AnalysisPageController {
         
         User currentUser = User.getCurrentUser();
         if (currentUser == null) {
-            userDataStatusLabel.setText("状态: 未登录");
+            userDataStatusLabel.setText("Status: Not Logged In");
             userDataStatusLabel.setStyle("-fx-text-fill: #ff6b6b;");
         } else {
-            userDataStatusLabel.setText("当前用户: " + currentUser.getUsername());
+            userDataStatusLabel.setText("Current User: " + currentUser.getUsername());
             userDataStatusLabel.setStyle("-fx-text-fill: #51cf66;");
         }
     }
@@ -214,7 +214,7 @@ public class AnalysisPageController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select CSV file");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("CSV文件", "*.csv"));
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 
         File file = fileChooser.showOpenDialog(expensePieChart.getScene().getWindow());
         if (file != null) {
@@ -239,9 +239,9 @@ public class AnalysisPageController {
             
             // 更新文件名标签
             if (currentUser != null) {
-                fileNameLabel.setText("已导入: " + file.getName() + " (用户: " + currentUser.getUsername() + ")");
+                fileNameLabel.setText("Imported: " + file.getName() + " (User: " + currentUser.getUsername() + ")");
             } else {
-                fileNameLabel.setText("已导入: " + file.getName() + " (未登录用户)");
+                fileNameLabel.setText("Imported: " + file.getName() + " (Not Logged In)");
             }
 
             // 生成并显示饼图
@@ -249,7 +249,7 @@ public class AnalysisPageController {
             
             // 生成并显示条形图
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Expense amount");
+            series.setName("Expense Amount");
             categoryStatistics.forEach((category, amount) ->
                 series.getData().add(new XYChart.Data<>(category, amount)));
             expenseBarChart.getData().clear();
@@ -268,15 +268,15 @@ public class AnalysisPageController {
             // 如果用户已登录，保存数据到用户目录
             if (currentUser != null) {
                 saveUserAnalysisData(categoryStatistics, file);
-                showInfo("导入成功", "CSV文件已导入并保存到您的个人数据中");
+                showInfo("Import Successful", "CSV file has been imported and saved to your personal data.");
             } else {
-                showInfo("导入成功", "CSV文件已导入，但未保存（请登录以保存数据）");
+                showInfo("Import Successful", "CSV file has been imported, but not saved (Please log in to save data).");
             }
             
         } catch (IOException e) {
-            showError("导入失败", "无法读取CSV文件：" + e.getMessage());
+            showError("Import Failed", "Could not read CSV file: " + e.getMessage());
         } catch (Exception e) {
-            showError("分析失败", "数据分析错误：" + e.getMessage());
+            showError("Analysis Failed", "Data analysis error: " + e.getMessage());
         }
     }
 
@@ -308,13 +308,13 @@ public class AnalysisPageController {
             if (saved) {
                 // 备份原始CSV文件到用户目录
                 backupCsvFileToUserDirectory(originalFile, currentUser);
-                System.out.println("用户分析数据已保存成功");
+                System.out.println("User analysis data saved successfully.");
             } else {
-                System.err.println("保存用户分析数据失败");
+                System.err.println("Failed to save user analysis data.");
             }
             
         } catch (Exception e) {
-            System.err.println("保存用户分析数据时发生错误: " + e.getMessage());
+            System.err.println("Error saving user analysis data: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -340,10 +340,10 @@ public class AnalysisPageController {
             // 复制文件
             Files.copy(csvFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             
-            System.out.println("CSV文件已备份到: " + backupFile.getAbsolutePath());
+            System.out.println("CSV file has been backed up to: " + backupFile.getAbsolutePath());
             
         } catch (Exception e) {
-            System.err.println("备份CSV文件失败: " + e.getMessage());
+            System.err.println("Failed to backup CSV file: " + e.getMessage());
         }
     }
     
@@ -358,7 +358,7 @@ public class AnalysisPageController {
             saveCurrentDataIfLoggedIn();
             PageManager.getInstance().switchToPage("/view/MainPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载主页面: " + e.getMessage());
+            showError("Navigation Failed", "Could not load main page: " + e.getMessage());
         }
     }
 
@@ -374,7 +374,7 @@ public class AnalysisPageController {
             saveCurrentDataIfLoggedIn();
             PageManager.getInstance().switchToPage("/view/UserPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载用户页面: " + e.getMessage());
+            showError("Navigation Failed", "Could not load user page: " + e.getMessage());
         }
     }
 
@@ -393,7 +393,7 @@ public class AnalysisPageController {
                     currentUser.saveAnalysisData(currentUserAnalysisData);
                 }
             } catch (Exception e) {
-                System.err.println("保存用户数据失败: " + e.getMessage());
+                System.err.println("Failed to save user data: " + e.getMessage());
             }
         }
     }
@@ -403,7 +403,11 @@ public class AnalysisPageController {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();
+        if (testModeActive) {
+            alert.show(); // Non-blocking for tests
+        } else {
+            alert.showAndWait(); // Blocking for normal operation
+        }
     }
 
     /**
@@ -414,7 +418,11 @@ public class AnalysisPageController {
         alert.setTitle("Notification");
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.showAndWait();
+        if (testModeActive) {
+            alert.show(); // Non-blocking for tests
+        } else {
+            alert.showAndWait(); // Blocking for normal operation
+        }
     }
 
     /**
@@ -444,7 +452,7 @@ public class AnalysisPageController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save PDF file");
             fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("PDF文件", "*.pdf"));
+                    new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
             File file = fileChooser.showSaveDialog(expensePieChart.getScene().getWindow());
             
             if (file != null) {
@@ -467,8 +475,8 @@ public class AnalysisPageController {
                 ImageIO.write(pieChartBuffered, "png", pieChartBytes);
                 ImageIO.write(barChartBuffered, "png", barChartBytes);
                 
-                PDImageXObject pieChartPdfImage = PDImageXObject.createFromByteArray(document, pieChartBytes.toByteArray(), "饼图");
-                PDImageXObject barChartPdfImage = PDImageXObject.createFromByteArray(document, barChartBytes.toByteArray(), "条形图");
+                PDImageXObject pieChartPdfImage = PDImageXObject.createFromByteArray(document, pieChartBytes.toByteArray(), "Pie Chart");
+                PDImageXObject barChartPdfImage = PDImageXObject.createFromByteArray(document, barChartBytes.toByteArray(), "Bar Chart");
                 
                 // 在PDF中绘制图表
                 PDPageContentStream contentStream = new PDPageContentStream(document, page);
@@ -496,26 +504,26 @@ public class AnalysisPageController {
                 document.save(file);
                 document.close();
                 
-                showInfo("Export successful", "Successfully exported PDF file: " + file.getName());
+                showInfo("Export Successful", "Successfully exported PDF file: " + file.getName());
             }
         } catch (IOException e) {
-            showError("Export failed", "Failed to export PDF file: " + e.getMessage());
+            showError("Export Failed", "Failed to export PDF file: " + e.getMessage());
         }
     }
 
     @FXML
     private void handleSetBudget() {
         TextInputDialog dialog = new TextInputDialog(String.valueOf(currentBudget));
-        dialog.setTitle("设置预算");
-        dialog.setHeaderText("输入您的月度预算");
-        dialog.setContentText("金额:");
+        dialog.setTitle("Set Budget");
+        dialog.setHeaderText("Enter your monthly budget");
+        dialog.setContentText("Amount:");
     
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(amount -> {
             try {
                 double newBudget = Double.parseDouble(amount);
                 if (newBudget < 0) {
-                    showError("输入错误", "预算金额不能为负数");
+                    showError("Input Error", "Budget amount cannot be negative.");
                     return;
                 }
                 
@@ -527,13 +535,13 @@ public class AnalysisPageController {
                 if (currentUser != null && currentUserAnalysisData != null) {
                     currentUserAnalysisData.updateBudgetUsage("总预算", currentBudget, totalExpense);
                     currentUser.saveAnalysisData(currentUserAnalysisData);
-                    showInfo("预算已设置", "预算金额已保存到您的个人数据中");
+                    showInfo("Budget Set", "Budget amount has been saved to your personal data.");
                 } else {
-                    showInfo("预算已设置", "预算已设置，但未保存（请登录以保存数据）");
+                    showInfo("Budget Set", "Budget has been set, but not saved (Please log in to save data).");
                 }
                 
             } catch (NumberFormatException e) {
-                showError("输入错误", "请输入有效的数字");
+                showError("Input Error", "Please enter a valid number.");
             }
         });
     }
@@ -548,19 +556,19 @@ public class AnalysisPageController {
         statsCardsContainer.getChildren().clear();
         
         // 创建统计卡片
-        VBox totalCard = createStatCard("总支出", 
+        VBox totalCard = createStatCard("Total Expense", 
                 String.format("¥%.2f", totalExpense), 
                 "#4CAF50");
         statsCardsContainer.getChildren().add(totalCard);
         
         // 创建预算卡片
-        VBox budgetCard = createStatCard("剩余预算", 
+        VBox budgetCard = createStatCard("Remaining Budget", 
                 String.format("¥%.2f", currentBudget - totalExpense), 
                 "#2196F3");
         statsCardsContainer.getChildren().add(budgetCard);
         
         // 创建类别数卡片
-        VBox categoriesCard = createStatCard("消费类别", 
+        VBox categoriesCard = createStatCard("Expense Categories", 
                 String.valueOf(categoryStatistics.size()), 
                 "#FF9800");
         statsCardsContainer.getChildren().add(categoriesCard);
@@ -570,9 +578,9 @@ public class AnalysisPageController {
             String topCategory = categoryStatistics.entrySet().stream()
                     .max(Map.Entry.comparingByValue())
                     .map(entry -> entry.getKey() + " (¥" + String.format("%.2f", entry.getValue()) + ")")
-                    .orElse("无数据");
+                    .orElse("No Data");
             
-            VBox topCategoryCard = createStatCard("最大支出类别", topCategory, "#E91E63");
+            VBox topCategoryCard = createStatCard("Top Spending Category", topCategory, "#E91E63");
             statsCardsContainer.getChildren().add(topCategoryCard);
         }
     }
@@ -599,15 +607,15 @@ public class AnalysisPageController {
         User currentUser = User.getCurrentUser();
         
         if (currentUser == null) {
-            showError("操作失败", "请先登录以管理个人数据");
+            showError("Operation Failed", "Please log in to manage personal data.");
             return;
         }
         
         // 确认对话框
         Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("确认清除");
-        confirmAlert.setHeaderText("清除所有分析数据");
-        confirmAlert.setContentText("此操作将清除您的所有分析数据，包括统计图表和历史记录。确定要继续吗？");
+        confirmAlert.setTitle("Confirm Clear");
+        confirmAlert.setHeaderText("Clear All Analysis Data");
+        confirmAlert.setContentText("This action will clear all your analysis data, including charts and history. Are you sure you want to continue?");
         
         Optional<javafx.scene.control.ButtonType> result = confirmAlert.showAndWait();
         if (result.isPresent() && result.get() == javafx.scene.control.ButtonType.OK) {
@@ -621,8 +629,8 @@ public class AnalysisPageController {
                 // 清除UI显示
                 expensePieChart.getData().clear();
                 expenseBarChart.getData().clear();
-                statisticsLabel.setText("暂无数据");
-                fileNameLabel.setText("欢迎 " + currentUser.getUsername() + "，请导入CSV文件开始分析");
+                statisticsLabel.setText("No data available");
+                fileNameLabel.setText("Welcome " + currentUser.getUsername() + ", please import CSV file to start analysis");
                 updateBudgetProgress();
                 if (statsCardsContainer != null) {
                     statsCardsContainer.getChildren().clear();
@@ -631,10 +639,10 @@ public class AnalysisPageController {
                 // 保存空的数据到用户目录（覆盖原有数据）
                 currentUser.saveAnalysisData(currentUserAnalysisData);
                 
-                showInfo("清除成功", "所有分析数据已清除");
+                showInfo("Clear Successful", "All analysis data has been cleared.");
                 
             } catch (Exception e) {
-                showError("清除失败", "清除数据时发生错误：" + e.getMessage());
+                showError("Clear Failed", "Error clearing data: " + e.getMessage());
             }
         }
     }
@@ -647,7 +655,7 @@ public class AnalysisPageController {
         User currentUser = User.getCurrentUser();
         
         if (currentUser == null) {
-            showError("操作失败", "请先登录以刷新个人数据");
+            showError("Operation Failed", "Please log in to refresh personal data.");
             return;
         }
         
@@ -656,10 +664,10 @@ public class AnalysisPageController {
             loadUserDataOnInitialize();
             updateUserDataStatusDisplay();
             
-            showInfo("刷新成功", "用户数据已重新加载");
+            showInfo("Refresh Successful", "User data has been reloaded.");
             
         } catch (Exception e) {
-            showError("刷新失败", "刷新数据时发生错误：" + e.getMessage());
+            showError("Refresh Failed", "Error refreshing data: " + e.getMessage());
         }
     }
 
@@ -674,9 +682,9 @@ public class AnalysisPageController {
             saveCurrentDataIfLoggedIn();
             PageManager.getInstance().switchToPage("/view/BillPaymentPage.fxml");
         } catch (IOException e) {
-            showError("导航失败", "无法加载账单支付分析页面: " + e.getMessage());
+            showError("Navigation Failed", "Could not load Bill Payment Analysis page: " + e.getMessage());
         } catch (Exception e) {
-            showError("导航失败", "发生意外错误: " + e.getMessage());
+            showError("Navigation Failed", "An unexpected error occurred: " + e.getMessage());
         }
     }
 }  // 这是类的结束大括号

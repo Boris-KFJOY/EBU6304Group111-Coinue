@@ -115,11 +115,11 @@ public class BillPaymentPageController {
                 setCreditLimit(newCreditLimit);
                 updatePieChart(calculateTotalRepayment()); // 更新图表
             } catch (NumberFormatException e) {
-                showError("Invalid Input", "Please enter a valid number");
+                showError("Invalid Input", "Please enter a valid number for the credit limit.");
                 creditLimitField.setText(String.format("%.2f", creditLimit));
             }
         });
-        repaymentAmountLabel.setText("Repayment Amount: 0.00");
+        repaymentAmountLabel.setText("Repayment Amount: ¥0.00");
         
         // Set repayment amount label style
         repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
@@ -177,7 +177,7 @@ public class BillPaymentPageController {
         // 检查用户登录状态
         User currentUser = User.getCurrentUser();
         if (currentUser == null) {
-            showError("用户未登录", "请先登录后再导入数据，以便保存到您的个人账户");
+            showError("User Not Logged In", "Please log in before importing data to save it to your personal account.");
             return;
         }
         
@@ -208,7 +208,7 @@ public class BillPaymentPageController {
             showError("Import Error", "Failed to import CSV file: " + e.getMessage());
             return;
         } catch (Exception e) {
-            showError("Data Error", "Please ensure the CSV file format is correct");
+            showError("Data Error", "Please ensure the CSV file format is correct (e.g., date,description,amount,status).");
             return;
         }
 
@@ -217,16 +217,16 @@ public class BillPaymentPageController {
         
         billTable.setItems(FXCollections.observableArrayList(records));
         updatePieChart(totalAmount);
-        repaymentAmountLabel.setText(String.format("Repayment Amount: %.2f", totalAmount));
+        repaymentAmountLabel.setText(String.format("Repayment Amount: ¥%.2f", totalAmount));
         updateRepaymentAmountColor(totalAmount);
         
         // 保存用户数据
         saveUserBillData(currentUser.getUsername());
         
         // 更新状态
-        String statusMessage = "已导入 " + records.size() + " 条记录";
+        String statusMessage = "Imported " + records.size() + " records";
         if (backupPath != null) {
-            statusMessage += " (已备份CSV文件)";
+            statusMessage += " (CSV file backed up)";
         }
         updateUserDataStatus(statusMessage + " - " + currentUser.getUsername());
     }
@@ -336,9 +336,9 @@ public class BillPaymentPageController {
         User currentUser = User.getCurrentUser();
         if (currentUser != null) {
             loadUserBillData(currentUser.getUsername());
-            updateUserDataStatus("已加载用户历史数据 - " + currentUser.getUsername());
+            updateUserDataStatus("Loaded user history data - " + currentUser.getUsername());
         } else {
-            updateUserDataStatus("未登录用户 - 数据不会保存");
+            updateUserDataStatus("User not logged in - data will not be saved.");
         }
     }
     
@@ -352,9 +352,9 @@ public class BillPaymentPageController {
             
             if (userBillData == null) {
                 userBillData = new UserBillData();
-                System.out.println("为用户 " + username + " 创建新的账单数据");
+                System.out.println("Created new bill data for user " + username);
             } else {
-                System.out.println("成功加载用户 " + username + " 的账单数据: " + userBillData.toString());
+                System.out.println("Successfully loaded bill data for user " + username + ": " + userBillData.toString());
                 
                 // 恢复信用额度设置
                 setCreditLimit(userBillData.getCreditLimit());
@@ -366,12 +366,12 @@ public class BillPaymentPageController {
                     
                     double totalAmount = userBillData.getTotalRepaymentAmount();
                     updatePieChart(totalAmount);
-                    repaymentAmountLabel.setText(String.format("Repayment Amount: %.2f", totalAmount));
+                    repaymentAmountLabel.setText(String.format("Repayment Amount: ¥%.2f", totalAmount));
                     updateRepaymentAmountColor(totalAmount);
                 }
             }
         } catch (Exception e) {
-            System.err.println("加载用户账单数据失败: " + e.getMessage());
+            System.err.println("Failed to load user bill data: " + e.getMessage());
             userBillData = new UserBillData();
         }
     }
@@ -397,9 +397,9 @@ public class BillPaymentPageController {
         
         boolean success = userDataService.saveData(username, "bill_data.json", userBillData);
         if (success) {
-            System.out.println("成功保存用户 " + username + " 的账单数据");
+            System.out.println("Successfully saved bill data for user " + username);
         } else {
-            System.err.println("保存用户 " + username + " 的账单数据失败");
+            System.err.println("Failed to save bill data for user " + username);
         }
     }
     
@@ -488,10 +488,10 @@ public class BillPaymentPageController {
                 userBillData.setLastImportedFile(backupFileName);
             }
             
-            System.out.println("CSV文件已备份到: " + backupPath.toString());
+            System.out.println("CSV file has been backed up to: " + backupPath.toString());
             return backupPath.toString();
         } catch (IOException e) {
-            System.err.println("备份CSV文件失败: " + e.getMessage());
+            System.err.println("Failed to backup CSV file: " + e.getMessage());
             return null;
         }
     }
@@ -536,9 +536,9 @@ public class BillPaymentPageController {
     @FXML
     private void handleClearData() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("确认清除");
-        alert.setHeaderText("清除所有账单数据");
-        alert.setContentText("这将清除当前页面的所有账单记录，但不会删除保存的历史数据。是否继续？");
+        alert.setTitle("Confirm Clear");
+        alert.setHeaderText("Clear All Bill Data");
+        alert.setContentText("This will clear all bill records on the current page but will not delete saved historical data. Continue?");
         
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -547,10 +547,10 @@ public class BillPaymentPageController {
                 
                 // 重置图表
                 initializePieChart();
-                repaymentAmountLabel.setText("Repayment Amount: 0.00");
+                repaymentAmountLabel.setText("Repayment Amount: ¥0.00");
                 repaymentAmountLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
                 
-                updateUserDataStatus("数据已清除 - 当前为空状态");
+                updateUserDataStatus("Data cleared - current state is empty.");
             }
         });
     }

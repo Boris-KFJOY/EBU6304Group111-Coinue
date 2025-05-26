@@ -1,5 +1,3 @@
-
-
 # EBU6304Group111-Coinue
 ## Team Members
 
@@ -94,30 +92,47 @@ The project uses the following main dependencies (defined in `pom.xml`):
 
 ## Installation and Execution
 
-### **Quick Start**
-```bash
-# Clone the repository
-git clone https://github.com/Boris-KFJOY/EBU6304Group111-Coinue.git
-cd EBU6304Group111-Coinue
+### **Prerequisites**
 
-# Run the application (skipping tests)
-mvn javafx:run -DskipTests
-```
+Before you begin, ensure you have the following installed:
 
-### **Alternative Commands**
-```bash
-# Clean and compile
-mvn clean compile -DskipTests
+-   **Java Development Kit (JDK)**: Version 21 or higher.
+    -   You can download it from [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) or [OpenJDK](https://openjdk.java.net/projects/jdk/21/).
+    -   Verify your installation by running `java -version` in your terminal.
+-   **Apache Maven**: Version 3.8.0 or higher.
+    -   You can download it from the [Apache Maven Project website](https://maven.apache.org/download.cgi).
+    -   Verify your installation by running `mvn -version` in your terminal.
 
-# Run with full Maven lifecycle
-mvn clean javafx:run -DskipTests
+### **Setting Up the Project**
 
-# Package the application
-mvn clean package -DskipTests
-```
+1.  **Download and Extract**:
+    *   Download the project ZIP file provided.
+    *   Extract the contents to a directory on your computer.
+
+2.  **Open with an IDE (Recommended)**:
+    *   We recommend using a modern IDE that supports Maven projects, such as:
+        *   [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
+        *   [Visual Studio Code](https://code.visualstudio.com/download) with Java and Maven extensions.
+    *   Open the extracted project folder in your IDE. The IDE should automatically detect it as a Maven project and set it up.
+
+### **Running the Application**
+
+1.  **Navigate to Project Directory**:
+    *   Open a terminal or command prompt.
+    *   Change to the root directory of the extracted project (the one containing `pom.xml`).
+
+2.  **Run the Application**:
+    Execute the following Maven command:
+    ```bash
+    mvn javafx:run -DskipTests
+    ```
+
+    *   **Explanation**:
+        *   This command compiles the project and starts the JavaFX application.
+        *   The `-DskipTests` flag is included to bypass the test execution phase. Running the complete test suite can take approximately one minute.
+        *   **Initial Build**: The first time you run this command, Maven will download all necessary dependencies and build the project. This process might take a few minutes depending on your internet connection and system performance. Subsequent runs will be faster.
 
 ### **Important Notes**
-- The `-DskipTests` flag is required to skip test execution during build
 - The application will automatically log in with a test user (username: "Test", email: "1@q.com")
 - User data is stored in the `data/users/` directory
 - Exported data files are saved in the `data/exports/` directory

@@ -1,0 +1,178 @@
+# Maven 测试命令 - 针对每个测试类别
+
+# ========================================
+# 运行所有测试
+# ========================================
+mvn test
+
+# ========================================
+# Controller 测试类命令
+# ========================================
+
+# 运行 SignUpController 测试
+mvn test -Dtest=SignUpControllerTest ☑️
+
+# 运行 UserPage 测试
+mvn test -Dtest=UserPageTest ☑️（怪）
+
+# 运行 AnalysisPage 测试
+mvn test -Dtest=AnalysisPageTest☑️（怪）
+
+# 运行 CSV导入 测试
+mvn test -Dtest=Importcsv_test☑️
+
+# 运行 MainPage 测试
+mvn test -Dtest=MainPageTest☑️
+
+# 运行 ManualEntryDialog 测试
+mvn test -Dtest=ManualEntryDialogControllerTest☑️
+
+# 运行 RegisterController 测试
+mvn test -Dtest=RegisterControllerTest☑️
+
+# 运行所有 Controller 测试
+mvn test -Dtest="**/com/coinue/controller/*Test.java"
+
+# ========================================
+# Util 测试类命令
+# ========================================
+
+# 运行 PageManager 测试
+mvn test -Dtest=PageManagerTest☑️
+
+# 运行 CSVHandler 测试
+mvn test -Dtest=CSVHandlerTest☑️
+
+# 运行 ChartGenerator 测试
+mvn test -Dtest=ChartGeneratorTest
+
+# 运行 DataManager 测试
+mvn test -Dtest=DataManagerTest
+
+# 运行 UserDataManager 测试
+mvn test -Dtest=UserDataManagerTest
+
+# 运行所有 Util 测试
+mvn test -Dtest=com.coinue.util.*Test
+
+# ========================================
+# Model 测试类命令
+# ========================================
+
+# 运行 Budget 测试
+mvn test -Dtest=BudgetTest
+
+# 运行 Category 测试
+mvn test -Dtest=CategoryTest
+
+# 运行 ExpenseRecord 测试
+mvn test -Dtest=ExpenseRecordTest
+
+# 运行 PaymentReminder 测试
+mvn test -Dtest=PaymentReminderTest
+
+# 运行 User 测试
+mvn test -Dtest=UserTest
+
+# 运行 UserAnalysisData 测试
+mvn test -Dtest=UserAnalysisDataTest
+
+# 运行 UserBillData 测试
+mvn test -Dtest=UserBillDataTest
+
+# 运行 UserDataService 测试
+mvn test -Dtest=UserDataServiceTest
+
+# 运行 UserDataExportService 测试
+mvn test -Dtest=UserDataExportServiceTest
+
+# 运行所有 Model 测试
+mvn test -Dtest="com/coinue/model/*Test.java"
+
+# ========================================
+# 按包分类运行测试
+# ========================================
+
+# 运行所有 com.coinue.controller 包下的测试
+mvn test -Dtest="**/com/coinue/controller/*Test.java"
+
+# 运行所有 com.coinue.util 包下的测试
+mvn test -Dtest=com.coinue.util.**
+
+# 运行所有 com.coinue.model 包下的测试
+mvn test -Dtest=com.coinue.model.**
+
+# ========================================
+# 测试调试和故障排除命令
+# ========================================
+
+# 运行测试并显示详细输出
+mvn test -X
+
+# 运行测试并跳过编译
+mvn surefire:test
+
+# 运行测试并生成报告
+mvn test site
+
+# 运行特定测试方法（示例）
+mvn test -Dtest=SignUpControllerTest#testSpecificMethod
+
+# 运行测试并显示堆栈跟踪
+mvn test -Dsurefire.printSummary=true
+
+# ========================================
+# 清理和重新测试命令
+# ========================================
+
+# 清理并运行所有测试
+mvn clean test
+
+# 清理、编译并运行特定测试
+mvn clean compile test -Dtest=SignUpControllerTest
+
+# ========================================
+# 并行测试执行（如果支持）
+# ========================================
+
+# 并行运行测试（谨慎使用）
+mvn test -Dparallel=methods -DthreadCount=4
+
+# ========================================
+# 测试覆盖率命令（如果配置了JaCoCo）
+# ========================================
+
+# 运行测试并生成覆盖率报告
+mvn clean test jacoco:report
+
+# ========================================
+# 故障排除提示
+# ========================================
+
+# 如果测试失败，可以使用以下命令获取更多信息：
+# 1. mvn test -X -Dtest=FailingTestClass
+# 2. mvn clean compile test -Dtest=FailingTestClass
+# 3. 检查 target/surefire-reports/ 目录下的测试报告
+
+# 测试类完整路径参考：
+# com.coinue.controller.SignUpControllerTest
+# com.coinue.controller.UserPageTest
+# com.coinue.controller.AnalysisPageTest
+# com.coinue.controller.Importcsv_test
+# com.coinue.controller.MainPageTest
+# com.coinue.controller.ManualEntryDialogControllerTest
+# com.coinue.controller.RegisterControllerTest
+# com.coinue.util.PageManagerTest
+# com.coinue.util.CSVHandlerTest
+# com.coinue.util.ChartGeneratorTest
+# com.coinue.util.DataManagerTest
+# com.coinue.util.UserDataManagerTest
+# com.coinue.model.BudgetTest
+# com.coinue.model.CategoryTest
+# com.coinue.model.ExpenseRecordTest
+# com.coinue.model.PaymentReminderTest
+# com.coinue.model.UserTest
+# com.coinue.model.UserAnalysisDataTest
+# com.coinue.model.UserBillDataTest
+# com.coinue.model.UserDataServiceTest
+# com.coinue.model.UserDataExportServiceTest 

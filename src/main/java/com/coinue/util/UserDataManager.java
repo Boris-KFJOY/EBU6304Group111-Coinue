@@ -236,44 +236,43 @@ public class UserDataManager {
 
     /**
      * 更新用户信息
-     * @param user 用户对象
+     * @param userWithChanges 用户对象
      * @return 是否成功更新
      */
-    public boolean updateUser(User user) {
-        // 验证用户数据
-        if (!validateUserData(user)) {
+    public boolean updateUser(User userWithChanges) {
+        if (!validateUserData(userWithChanges)) {
             return false;
         }
-        
-        // 检查用户是否存在
-        if (!userCache.containsKey(user.getUsername())) {
-            System.out.println("用户不存在: " + user.getUsername());
+
+        User currentUserInCache = userCache.get(userWithChanges.getUsername());
+        if (currentUserInCache == null) {
             return false;
         }
-        
-        // 获取旧用户数据
-        User oldUser = userCache.get(user.getUsername());
-        
-        // 如果邮箱发生变化，检查新邮箱是否已存在
-        boolean emailChanged = (oldUser.getEmail() == null && user.getEmail() != null) ||
-                          (oldUser.getEmail() != null && !oldUser.getEmail().equals(user.getEmail()));
-        if (emailChanged && user.getEmail() != null && emailCache.containsKey(user.getEmail())) {
-            System.out.println("邮箱已存在: " + user.getEmail());
-            return false;
+
+        String emailAsItWasInCache = currentUserInCache.getEmail();
+        String emailProposedInUpdate = userWithChanges.getEmail();
+
+        boolean isEmailActuallyChanging = !java.util.Objects.equals(emailAsItWasInCache, emailProposedInUpdate);
+
+        if (isEmailActuallyChanging && emailProposedInUpdate != null) {
+            User occupantOfProposedEmail = emailCache.get(emailProposedInUpdate);
+            if (occupantOfProposedEmail != null) {
+                if (!occupantOfProposedEmail.getUsername().equals(userWithChanges.getUsername())) {
+                    return false; // Conflict with another user
+                }
+            }
         }
-        
-        // 从邮箱缓存中移除旧邮箱
-        if (oldUser.getEmail() != null) {
-            emailCache.remove(oldUser.getEmail());
+
+        if (isEmailActuallyChanging && emailAsItWasInCache != null) {
+            emailCache.remove(emailAsItWasInCache);
         }
-        
-        // 更新缓存
-        userCache.put(user.getUsername(), user);
-        if (user.getEmail() != null) {
-            emailCache.put(user.getEmail(), user);
+
+        userCache.put(userWithChanges.getUsername(), userWithChanges);
+
+        if (emailProposedInUpdate != null) {
+            emailCache.put(emailProposedInUpdate, userWithChanges);
         }
-        
-        // 保存数据
+
         saveUsers();
         return true;
     }

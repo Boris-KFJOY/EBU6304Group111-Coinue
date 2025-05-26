@@ -1,13 +1,16 @@
 package com.coinue.controller;
 
 import com.coinue.model.ExpenseRecord;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -21,9 +24,15 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
+import org.testfx.util.WaitForAsyncUtils;
+import javafx.scene.Node;
 
 /**
  * ManualEntryDialogController的测试类
@@ -39,22 +48,74 @@ import static org.testfx.matcher.control.LabeledMatchers.hasText;
 public class ManualEntryDialogControllerTest {
 
     private ManualEntryDialogController controller;
-    private Stage stage;
+    private Stage dialogStage;
+
+    // Helper class for mocking MainPageController for this test
+    private static class MockMainPageController extends MainPageController {
+        private ObservableList<ExpenseRecord> mockExpenseRecords = FXCollections.observableArrayList();
+
+        @Override
+        public void addExpenseRecord(ExpenseRecord record) {
+            mockExpenseRecords.add(record);
+            System.out.println("MockMainPageController: addExpenseRecord called with: " + record);
+        }
+
+        @Override
+        public void initialize() {
+            // This method is called on the mock.
+            // It should NOT call super.initialize() if the superclass's initialize
+            // depends on @FXML injected fields, as they will be null when the
+            // MainPageController is instantiated directly without FXML loading.
+            // For the purpose of ManualEntryDialogControllerTest, this mock's
+            // initialize can be empty or set up mock-specific state.
+            // The key is that ManualEntryDialogController calls addExpenseRecord
+            // on this mock, and that method should not fail.
+            // expenseRecords in the *actual* MainPageController is initialized
+            // within its own @FXML initialize(). Our mock bypasses that.
+        }
+
+         @Override
+         public void refreshExpenseRecords() {
+             // Mocked or do nothing
+             System.out.println("MockMainPageController: refreshExpenseRecords called.");
+         }
+    }
 
     @Start
-    private void start(Stage stage) throws IOException {
-        this.stage = stage;
+    private void start(Stage primaryStage) throws IOException {
+        // 为对话框创建一个新的、独立的Stage
+        dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL); // 根据需要设置模态，通常对话框是模态的
+        // dialogStage.initOwner(primaryStage); // 如果需要，可以将主舞台设为所有者
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ManualEntryDialog.fxml"));
         Parent root = loader.load();
         controller = loader.getController();
         
-        // 模拟设置主控制器
-        MainPageController mainController = new MainPageController();
-        controller.setMainPageController(mainController);
-        controller.setDialogStage(stage);
+        // Use the mock/stub for MainPageController
+        MainPageController mockMainController = new MockMainPageController();
+        // We need to ensure the list MainPageController would use is initialized,
+        // even if we don't call mockMainController.initialize() which would fail.
+        // The MockMainPageController's own initialize or addExpenseRecord handles this.
+        // Or, if MainPageController had a public setter for its list:
+        // mockMainController.setExpenseRecords(FXCollections.observableArrayList()); 
+        // For now, relying on the overridden addExpenseRecord and initialize in MockMainPageController.
+        mockMainController.initialize(); // Call the MOCK's initialize
+
+        controller.setMainPageController(mockMainController);
+        controller.setDialogStage(dialogStage); // 将新的 dialogStage 传递给控制器
         
-        stage.setScene(new Scene(root));
-        stage.show();
+        dialogStage.setScene(new Scene(root));
+        dialogStage.show();
+    }
+
+    @AfterEach
+    void tearDown() {
+        // 在每个测试后关闭对话框舞台，确保清洁的环境
+        if (dialogStage != null && dialogStage.isShowing()) {
+            Platform.runLater(() -> dialogStage.close());
+            WaitForAsyncUtils.waitForFxEvents(); // 等待关闭操作完成
+        }
     }
 
     /**
@@ -91,8 +152,9 @@ public class ManualEntryDialogControllerTest {
      * 1. 选择第一个可用类别(如果有)
      * 2. 输入金额50.5
      * 3. 输入备注"测试备注"
-     * 4. 确保日期已设置(默认为当天)
-     * 5. 点击保存按钮
+     * 4. 输入名称"测试名称"
+     * 5. 确保日期已设置(默认为当天)
+     * 6. 点击保存按钮
      * 验证:
      * - 控制器确认状态(暂时用打印替代断言)
      * @param robot TestFX提供的机器人对象，用于模拟用户操作
@@ -114,6 +176,10 @@ public class ManualEntryDialogControllerTest {
         // 输入备注 - 点击备注输入框并输入"测试备注"
         robot.clickOn("#noteField");
         robot.write("测试备注");
+
+        // 输入名称 - 点击名称输入框并输入"测试名称"
+        robot.clickOn("#nameField");
+        robot.write("测试名称");
         
         // 确保所有必填字段都已填写
         robot.interact(() -> {
@@ -127,8 +193,8 @@ public class ManualEntryDialogControllerTest {
         // 点击保存按钮 - 通过按钮ID查找
         robot.clickOn("#saveButton");
         
-        // 打印记录创建状态(临时替代断言)
-        System.out.println("记录创建状态: " + controller.isConfirmed());
+        // 验证记录创建状态
+        assertTrue(controller.isConfirmed(), "记录应成功创建并确认");
     }
 
     /**
@@ -142,11 +208,20 @@ public class ManualEntryDialogControllerTest {
      */
     @Test
     void testInvalidInput(FxRobot robot) {
-        // 不填写任何必填字段，直接点击保存按钮(通过按钮文本查找)
-        robot.clickOn("Save");
+        // 不填写任何必填字段，直接点击保存按钮(通过按钮ID查找)
+        robot.clickOn("#saveButton");
+        WaitForAsyncUtils.waitForFxEvents(); // 等待Alert出现
         
         // 验证控制器返回未确认状态
         assertFalse(controller.isConfirmed(), "未填写必填字段时应返回未确认状态");
+
+        // 验证Alert对话框是否出现，并关闭它
+        verifyThat(robot.lookup(".dialog-pane").queryAs(Node.class), isVisible());
+        
+        // 查找并点击Alert上的按钮来关闭它
+        Node alertButton = robot.lookup(".dialog-pane .button").queryButton();
+        robot.clickOn(alertButton);
+        WaitForAsyncUtils.waitForFxEvents(); // 等待Alert关闭
     }
 
     /**

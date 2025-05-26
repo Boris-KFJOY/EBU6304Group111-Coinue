@@ -1,24 +1,28 @@
 {
   "lastAnalysisDate" : "2025-05-26",
-  "totalExpenses" : 1009.3000000000001,
+  "totalExpenses" : 1253.0,
   "totalIncome" : 0.0,
   "categoryExpenses" : {
-    "生活" : 235.70000000000002,
-    "娱乐" : 75.0,
-    "交通" : 135.5,
-    "餐饮" : 193.5,
-    "医疗" : 369.6
+    "生活" : 120.0,
+    "通讯" : 100.0,
+    "娱乐" : 50.0,
+    "教育" : 88.0,
+    "医疗" : 135.0,
+    "运动" : 200.0,
+    "交通" : 6.0,
+    "购物" : 449.0,
+    "餐饮" : 105.0
   },
   "monthlyTrends" : { },
   "expenseTags" : [ ],
   "budgetUsage" : {
     "总预算" : {
       "budgetLimit" : 10000.0,
-      "actualSpent" : 1009.3000000000001,
-      "remainingBudget" : 8990.7,
-      "usagePercentage" : 10.093
+      "actualSpent" : 1253.0,
+      "remainingBudget" : 8747.0,
+      "usagePercentage" : 12.53
     }
   },
-  "createdDate" : "2025-05-24",
+  "createdDate" : "2025-05-26",
   "updatedDate" : "2025-05-26"
 }

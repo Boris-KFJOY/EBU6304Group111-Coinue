@@ -99,7 +99,7 @@ public class SignUpControllerTest extends ApplicationTest {
      * 
      * 预期结果：
      * 1. 显示错误提示对话框
-     * 2. 错误消息为"所有字段都必须填写"
+     * 2. 错误消息为"用户名不能为空"
      */
     @Test
     public void testEmptyFormSubmission() {
@@ -109,7 +109,7 @@ public class SignUpControllerTest extends ApplicationTest {
 
         // 验证错误提示 Alert 是否显示
         verifyThat(lookup(".dialog-pane").queryAs(Node.class), isVisible());
-        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("所有字段都必须填写"));
+        verifyThat(lookup(".dialog-pane .content.label").queryAs(Label.class), hasText("用户名不能为空"));
         // Close the alert
         clickOn(lookup(".dialog-pane .button").queryButton());
     }
@@ -330,8 +330,8 @@ public class SignUpControllerTest extends ApplicationTest {
     public void testSuccessfulRegistration() {
         // 生成更随机的测试数据
         String timestamp = String.valueOf(System.currentTimeMillis());
-        String testEmail = "testuser" + timestamp + "@example.com";
-        String testUsername = "testuser" + timestamp;
+        String testEmail = "testuser" + timestamp.substring(timestamp.length() - 6) + "@example.com";
+        String testUsername = "testuser" + timestamp.substring(timestamp.length() - 6);
         
         try {
             // 填写表单

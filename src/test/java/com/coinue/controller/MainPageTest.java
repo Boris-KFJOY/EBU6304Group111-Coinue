@@ -134,10 +134,12 @@ class MainPageTest {
             // 等待1秒确保对话框完全加载
             robot.sleep(1000);
             
-            // 调用closeDialog方法关闭对话框
-            closeDialog(robot);
+            // 直接点击 ManualEntryDialog 上的 "❌ Cancel" 按钮
+            robot.clickOn("❌ Cancel"); // ManualEntryDialog.fxml uses "❌ Cancel"
+            robot.sleep(500); // 等待对话框关闭
         } catch (Exception e) {
             System.out.println("手动记账测试失败: " + e.getMessage());
+            fail("手动记账测试失败: " + e.getMessage());
         }
     }
 
@@ -169,16 +171,18 @@ class MainPageTest {
             robot.clickOn(amountField);
             robot.write("1000");
             
-            // 调用closeDialog方法关闭对话框
-            closeDialog(robot);
+            // 直接点击 PaymentReminderDialog 上的 "❌ 取消" 按钮
+            robot.clickOn("❌ 取消"); // PaymentReminderDialog.fxml uses "❌ 取消"
+            robot.sleep(500); // 等待对话框关闭
             
         } catch (Exception e) {
             System.out.println("添加提醒测试失败: " + e.getMessage());
+            fail("添加提醒测试失败: " + e.getMessage());
         }
     }
 
     /**
-     * 辅助方法：关闭对话框
+     * 辅助方法：关闭对话框 - 此方法不再被上述测试使用，可以考虑移除或保留用于其他潜在对话框
      * 查找并点击对话框上的"取消"或"确定"按钮
      * @param robot TestFX提供的机器人对象，用于模拟用户操作
      */

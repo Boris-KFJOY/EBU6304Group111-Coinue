@@ -54,8 +54,8 @@
 
         <!-- 用户状态显示区域 -->
         <VBox spacing="5" style="-fx-background-color: #F8F9FA; -fx-background-radius: 8px; -fx-padding: 12px;">
-            <Label text="用户数据状态:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #495057;"/>
-            <Label fx:id="userDataStatusLabel" text="正在加载..." style="-fx-font-size: 12px; -fx-text-fill: #6C757D;"/>
+            <Label text="User Data Status:" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #495057;"/>
+            <Label fx:id="userDataStatusLabel" text="Loading..." style="-fx-font-size: 12px; -fx-text-fill: #6C757D;"/>
         </VBox>
 
         <!-- 操作按钮区域 -->
