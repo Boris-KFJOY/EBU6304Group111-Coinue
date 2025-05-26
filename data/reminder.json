@@ -1,8 +1,20 @@
 [
   {
-    "platform": "1",
-    "amount": 1.0,
-    "dueDate": "2025-05-24",
+    "platform": "中国银行",
+    "amount": 100.0,
+    "dueDate": "2025-05-31",
     "iconPath": "/images/icons/credit_card.png"
+  },
+  {
+    "platform": "宜家",
+    "amount": 70000.0,
+    "dueDate": "2025-05-30",
+    "iconPath": "/images/icons/rent.png"
+  },
+  {
+    "platform": "京东",
+    "amount": 1000.0,
+    "dueDate": "2025-05-31",
+    "iconPath": "/images/icons/express.png"
   }
 ]

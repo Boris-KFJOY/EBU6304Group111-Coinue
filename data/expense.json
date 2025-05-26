@@ -1,32 +1,5 @@
 [
   {
-    "amount": 10.0,
-    "category": "食品",
-    "name": "早餐",
-    "date": "2025-05-24",
-    "description": "鸡蛋牛奶面包",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
-    "amount": 20.0,
-    "category": "食品",
-    "name": "早餐",
-    "date": "2025-05-24",
-    "description": "鸡蛋",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
-    "amount": 100000.0,
-    "category": "医疗",
-    "name": "看病",
-    "date": "2025-05-24",
-    "description": "11",
-    "recordType": "支出",
-    "currency": "CNY"
-  },
-  {
     "amount": 50.0,
     "category": "其他",
     "name": "早餐",
